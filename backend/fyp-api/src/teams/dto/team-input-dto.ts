@@ -1,24 +1,21 @@
 import { Field, InputType } from "@nestjs/graphql";
 
-
 @InputType()
-export class ProjectDto{
-
+export class TeamsDto {
     @Field()
     name: string;
 
     @Field()
-    cost: number;
+    location: string;
 
     @Field()
-    duration: string;
+    address: string;
 
     @Field()
-    status: string;
+    email: string;
 
     @Field()
-    funded: boolean;
+    password:string;
 
-  
 
 }

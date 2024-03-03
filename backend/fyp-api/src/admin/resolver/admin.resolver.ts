@@ -12,7 +12,7 @@ export class AdminResolver {
 
     //fetch all admin 
     @Query(() => [Admin])
-    async admins(): Promise<Admin[]> {
+    async findAlladmins(): Promise<Admin[]> {
         return this.adminService.findAll();
     }
 

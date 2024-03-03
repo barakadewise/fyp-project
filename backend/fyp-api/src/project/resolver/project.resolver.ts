@@ -16,7 +16,7 @@ export class ProjectResolver {
 
     //Query all opportunities
     @Query(_returns => [Project])
-    async findAll(): Promise<Project[]> {
+    async findAllProjects(): Promise<Project[]> {
         return await this.projectService.findAll()
     }
 
