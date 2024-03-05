@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="{%  static 'plugins/fontawesome-free-6/css/all.min.css' %}"
+    />
+    <!-- Ionicons -->
+    <link
+      rel="stylesheet"
+      href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+    />
+    <!-- DataTables -->
+    <link
+      rel="stylesheet"
+      href="{%  static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}" />
+    <!-- Google Font: Source Sans Pro -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% block content %}
+
+    {% endblock %}
+
+   
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'dist/js/demo.js' %}"></script>
+    <!-- page script -->
+    <script>
+      $(function () {
+        $("#example1").DataTable({
+          responsive: true,
+          autoWidth: false,
+        });
+        $("#example2").DataTable({
+          paging: true,
+          lengthChange: false,
+          searching: false,
+          ordering: true,
+          info: true,
+          autoWidth: false,
+          responsive: true,
+        });
+        $(".delete-btn").click(function () {
+          // Get the data from the row (you might need to adjust this based on your DataTable setup)
+          var rowData = $("#example1")
+            .DataTable()
+            .row($(this).closest("tr"))
+            .data();
+          var eventId = rowData[0]; // Assuming the first column contains the event ID
+
+          // Set the event ID in the modal for reference when confirming delete
+          $("#confirmDelete").data("event-id", eventId);
+        });
+
+        // Handle confirm delete button click
+        $("#confirmDelete").click(function () {
+          // Retrieve the event ID from the modal
+          var eventId = $(this).data("event-id");
+
+          // Perform your delete action here (you may want to make an AJAX request to the server)
+          console.log("Deleting event with ID: " + eventId);
+
+          // Close the modal
+          $("#deleteModal").modal("hide");
+        });
+      });
+    </script>
+  </body>
+</html>
