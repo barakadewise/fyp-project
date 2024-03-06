@@ -25,7 +25,7 @@ export class PartnersService {
     }
 
     //Query all partners
-    async findAll(): Promise<Partner[]> {
+    async findAllPartners(): Promise<Partner[]> {
         return await this.partnerRepository.find({ order: { 'createdAt': 'DESC' } })
     }
 }

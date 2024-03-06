@@ -6,6 +6,7 @@ type Admin {
   id: Float!
   name: String!
   email: String!
+  phone: String
   password: String!
   is_superAdmin: Boolean!
   createdAt: String!
@@ -37,6 +38,7 @@ type Partner {
   id: Float!
   name: String!
   location: String!
+  phone: String
   address: String!
   email: String!
   password: String!
@@ -46,6 +48,20 @@ type Partner {
 type Role {
   id: Float!
   name: String!
+}
+
+type Youth {
+  id: Float!
+  fname: String!
+  mname: String!
+  lname: String!
+  address: String
+  education: String!
+  skills: String!
+  location: String!
+  email: String!
+  password: String!
+  createdAt: DateTime!
 }
 
 type Teams {
@@ -66,6 +82,7 @@ type Query {
   findAlladmins: [Admin!]!
   findAllOpportunities: [Opportunity!]!
   findAllProjects: [Project!]!
+  findAllPartners: [Partner!]!
   findAllroles: [Role!]!
   findAllTeams: [Teams!]!
 }
@@ -76,6 +93,7 @@ type Mutation {
   createProject(createProjectInput: ProjectDto!): Project!
   createPartner(createPartnerInput: PartnerDto!): Partner!
   createRole(createRoleInput: RoleDto!): Role!
+  createYouth(createYoutDto: YouthDto!): Youth!
   createTeam(createTeamInput: TeamsDto!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
 }
@@ -83,6 +101,7 @@ type Mutation {
 input AdminInputDto {
   name: String!
   email: String!
+  phone: String!
   password: String!
   is_superAdmin: Boolean!
 }
@@ -103,6 +122,7 @@ input ProjectDto {
 input PartnerDto {
   name: String!
   location: String!
+  phone: String!
   address: String!
   email: String!
   password: String!
@@ -110,6 +130,18 @@ input PartnerDto {
 
 input RoleDto {
   name: String!
+}
+
+input YouthDto {
+  fname: String!
+  mname: String!
+  lname: String!
+  address: String
+  education: String!
+  skills: String!
+  location: String!
+  email: String
+  password: String!
 }
 
 input TeamsDto {

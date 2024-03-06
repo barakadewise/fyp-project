@@ -16,6 +16,10 @@ export class Admin {
     @Field()
     email: string;
 
+    @Column({nullable:true})
+    @Field({nullable:true})
+    phone: string;
+
     @Column()
     @Field()
     password: string;

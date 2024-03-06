@@ -16,6 +16,12 @@ export class Partner{
     @Column()
     location: string;
 
+    
+    @Field({nullable:true})
+    @Column({nullable:true})
+    phone: string;
+    
+
     @Field()
     @Column()
     address: string;

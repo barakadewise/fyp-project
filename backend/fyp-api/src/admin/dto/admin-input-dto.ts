@@ -8,6 +8,10 @@ export class AdminInputDto {
 
     @Field()
     email: string;
+    
+    
+    @Field()
+    phone: string;
 
     @Field()
     password: string;

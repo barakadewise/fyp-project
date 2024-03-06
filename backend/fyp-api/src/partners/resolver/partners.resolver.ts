@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PartnersService } from '../service/partners.service';
 import { PartnerDto } from '../dto/partner-input-dto';
 import { Partner } from '../entity/partner.entity';
@@ -13,5 +13,8 @@ export class PartnersResolver {
         return await this.partnerService.createPartner(createPartnerInput)
 
     }
-
+    @Query(_returns =>[Partner])
+    async findAllPartners():Promise<Partner[]>{
+        return this.partnerService.findAllPartners()
+    }
 }

@@ -18,6 +18,7 @@ export class AdminService {
     const newAdmin = this.adminRepository.create({
       name: createAdminInput.name,
       email: createAdminInput.email,
+      phone:createAdminInput.phone,
       password: hashedPassword,
       is_superAdmin: createAdminInput.is_superAdmin
     })

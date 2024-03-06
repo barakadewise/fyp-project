@@ -8,6 +8,10 @@ export class PartnerDto {
     @Field()
     location: string;
 
+ 
+    @Field()
+    phone: string;
+    
     @Field()
     address: string;
 
