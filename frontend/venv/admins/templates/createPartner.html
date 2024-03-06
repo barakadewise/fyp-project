@@ -1,0 +1,462 @@
+{% extends 'base.html' %} {% load static %}
+<title>{% block title %} Create | Partner {% endblock %}</title>
+
+{% block content %}
+
+<style>
+  #card {
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+  #card:hover {
+    box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
+    border-radius: 0.2rem;
+  }
+</style>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"
+            ><i class="fas fa-bars"></i
+          ></a>
+        </li>
+      </ul>
+
+      <!-- SEARCH FORM -->
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            data-widget="control-sidebar"
+            data-slide="true"
+            href="#"
+            role="button"
+          >
+            <i class="fa-brands fa-windows"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="{% url 'adminPanel' %}" class="brand-link">
+        <img
+          src="{% static 'dist/img/user2-160x160.jpg' %}"
+          class="brand-image img-circle elevation-3"
+          alt="User Image"
+          style="opacity: 0.8"
+        />
+        <span class="brand-text font-weight-light">Admin</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul
+            class="nav nav-pills nav-sidebar flex-column"
+            data-widget="treeview"
+            role="menu"
+            data-accordion="false"
+          >
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'adminPanel' %}" class="nav-link active">
+                    <i
+                      class="fa-regular fa-eye"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Overview</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'viewPartners' %}" class="nav-link">
+                    <i
+                      class="fa-solid fa-users"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Partners</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="createAdmin" class="nav-link">
+                    <i
+                      class="fa-solid fa-user-tie"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Admins</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../members/members.html" class="nav-link">
+                    <i
+                      class="fa-solid fa-restroom"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Youth</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../members/members.html" class="nav-link">
+                    <i
+                      class="fa-solid fa-diagram-project"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Projects</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../members/members.html" class="nav-link">
+                    <i
+                      class="fa-solid fa-seedling"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Opportunities</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="../members/members.html" class="nav-link">
+                    <i
+                      class="fa-brands fa-teamspeak"
+                      style="margin: 0 4px 0 0px"
+                    ></i>
+                    <p>Teams</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Add Partner</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Add partner</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header bg-info">
+                <h4>Partner details</h4>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card card-primary">
+                      <form role="form" method="POST" id="form">
+                        {% csrf_token %}
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label>Name</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa fa-user"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="name"
+                                  name="name"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="name"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Phone</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fas fa-phone"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="phone"
+                                  type="tel"
+                                  name="phone"
+                                  class="form-control"
+                                  placeholder="phone"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Email</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fas fa-envelope"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="email"
+                                  name="email"
+                                  type="email'"
+                                  class="form-control"
+                                  placeholder="email"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>P.O.BOX</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-envelope-open-text"></i>
+                                  </span>
+                                </div>
+                                <input
+                                  id="pobox"
+                                  name="pobox"
+                                  type="text'"
+                                  class="form-control"
+                                  placeholder="P.O.BOX"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Location</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-location-dot"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="location"
+                                  type="text'"
+                                  name="location"
+                                  class="form-control"
+                                  placeholder="lococation"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Password</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-lock"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="password"
+                                  type="password"
+                                  name="password"
+                                  class="form-control"
+                                  placeholder="password"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group" id="role">
+                                <label>Role</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                  id="role"
+                                  name="role"
+                                >
+                                  <option selected="selected">Role</option>
+                                  <option>admin</option>
+                                  <option>partner</option>
+                                  <option>team</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Status</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true",
+                                  id="Status",
+                                  name="Status"
+                                >
+                                  <option selected="selected">Status</option>
+                                  <option>Active</option>
+                                  <option>inactive</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                            </div>
+                          </div>
+                          <div class="col-">
+                            <button
+                              type="submit"
+                              class="btn btn-success btn-block"
+                            >
+                              Register
+                            </button>
+                          </div>
+                      </form>
+                     
+                      <!-- /.col -->
+                    </div>
+                    <div id="alertMessage" class="alert alert-danger mt-3 d-none">
+                        Please fill in all fields.
+                      </div>
+                   
+                  </div>
+                  <!-- /.col -->
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- Delete Modal -->
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this event?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-danger" id="confirmDelete">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block"><b>2023</b></div>
+      <strong>Copyright &copy; Dar es salaam regional commission.</strong>
+      All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+
+ 
+  <script>
+    document.getElementById("form").addEventListener("submit", function (event) {
+      // Get form inputs
+      var name = document.getElementById("name").value.trim();
+      var phone = document.getElementById("phone").value.trim();
+      var email = document.getElementById("email").value.trim();
+      var pobox = document.getElementById("pobox").value.trim();
+      var location = document.getElementById("location").value.trim();
+      var password = document.getElementById("password").value.trim();
+      var role = document.getElementById("role").value;
+  
+      // Get the alert element
+      var alertDiv = document.getElementById("alertMessage");
+  
+      // Check if any field is empty
+      if (
+        !name ||
+        !phone ||
+        !email ||
+        !pobox ||
+        !location ||
+        !password ||
+        role === "Role"
+      ) {
+        alertDiv.classList.remove("d-none"); // Show the alert
+        event.preventDefault(); // Prevent form submission
+        
+        // Hide the alert after half a second
+        setTimeout(function() {
+          alertDiv.classList.add("d-none");
+        }, 1500);
+      }else{
+        console.log(name,pobox)
+      }
+    });
+  </script>
+  
+  {% endblock %}
+</body>

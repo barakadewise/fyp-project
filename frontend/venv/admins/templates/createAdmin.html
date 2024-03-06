@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Administrative |Panel {% endblock %}</title>
+<title>{% block title %} Create | Admin {% endblock %}</title>
 
 {% block content %}
 
@@ -82,7 +82,7 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a
-                    href=""
+                    href="{% url 'adminPanel' %}"
                     class="nav-link active"
                   >
                     <i
@@ -102,7 +102,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'createAdmin' %}" class="nav-link">
+                  <a href="createAdmin" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
@@ -162,12 +162,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Overview</h1>
+              <h1>Add admin</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Overview</li>
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Add admin</li>
               </ol>
             </div>
           </div>
@@ -183,102 +183,128 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info elevation-1"
-                        ><i class="fa-solid fa-seedling"></i
-                      ></span>
+                  <div class="col-12">
+                    <div class="card card-primary">
+                      <form role="form">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label>Name</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa fa-user"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="name"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="name"
+                                />
+                              </div>
+                            </div>
 
-                      <div class="info-box-content">
-                        <span class="info-box-text">Opportunities</span>
-                        <span class="info-box-number"> 13 </span>
-                      </div>
-                      <!-- /.info-box-content -->
+                            <div class="col-md-6">
+                              <label>Phone</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fas fa-phone"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="phone"
+                                  type="tel"
+                                  class="form-control"
+                                  placeholder="phone"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Email</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fas fa-envelope"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="email"
+                                  type="email'"
+                                  class="form-control"
+                                  placeholder="email"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Password</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-lock"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="password"
+                                  type="password"
+                                  class="form-control"
+                                  placeholder="password"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Role</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                >
+                                  <option selected="selected">Role</option>
+                                  <option>admin</option>
+                                  <option>partner</option>
+                                  <option>team</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Status</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                >
+                                  <option selected="selected">Status</option>
+                                  <option>Active</option>
+                                  <option>inactive</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                            </div>
+                          </div>
+                          <div class="col-">
+                            <button
+                              type="submit"
+                              class="btn btn-success btn-block"
+                            >
+                              Submit
+                            </button>
+                          </div>
+                          <!-- /.col -->
+                        </div>
+                      </form>
                     </div>
-                    <!-- /.info-box -->
                   </div>
-                  <!-- /.col -->
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-danger elevation-1"
-                        ><i class="fa-brands fa-teamspeak"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Teams</span>
-                        <span class="info-box-number">41</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <!-- /.col -->
-
-                  <!-- fix for small devices only -->
-                  <div class="clearfix hidden-md-up"></div>
-
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-success elevation-1"
-                        ><i class="fa-solid fa-user-tie"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Admins</span>
-                        <span class="info-box-number">20</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-warning elevation-1"
-                        ><i class="fas fa-users"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Partners</span>
-                        <span class="info-box-number">100</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span
-                        class="info-box-icon elevation-1"
-                        style="background-color: rgb(42, 53, 43)"
-                        ><i class="fa-solid fa-restroom text-light"></i>
-                      </span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Youth</span>
-                        <span class="info-box-number">100</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span
-                        class="info-box-icon elevation-1"
-                        style="background-color: lightgray"
-                        ><i class="fa-solid fa-diagram-project"></i>
-                      </span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Projects</span>
-                        <span class="info-box-number">10</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-
                   <!-- /.col -->
                 </div>
               </div>

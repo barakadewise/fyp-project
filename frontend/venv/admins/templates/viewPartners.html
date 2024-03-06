@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Administrative |Panel {% endblock %}</title>
+<title>{% block title %} Create | Partner {% endblock %}</title>
 
 {% block content %}
 
@@ -49,7 +49,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../../index.html" class="brand-link">
+      <a href="{% url 'adminPanel' %}" class="brand-link">
         <img
           src="{% static 'dist/img/user2-160x160.jpg' %}"
           class="brand-image img-circle elevation-3"
@@ -81,10 +81,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a
-                    href=""
-                    class="nav-link active"
-                  >
+                  <a href="{% url 'adminPanel' %}" class="nav-link active">
                     <i
                       class="fa-regular fa-eye"
                       style="margin: 0 4px 0 0px"
@@ -93,7 +90,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewPartners' %}" class="nav-link">
+                  <a href="{% url 'createPartner' %}" class="nav-link">
                     <i
                       class="fa-solid fa-users"
                       style="margin: 0 4px 0 0px"
@@ -102,7 +99,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'createAdmin' %}" class="nav-link">
+                  <a href="createAdmin" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
@@ -162,12 +159,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Overview</h1>
+              <h1>Add Partner</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Overview</li>
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Add partner</li>
               </ol>
             </div>
           </div>
@@ -180,110 +177,63 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info elevation-1"
-                        ><i class="fa-solid fa-seedling"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Opportunities</span>
-                        <span class="info-box-number"> 13 </span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
+                <div class="card-header">
+                  <div class="float-right">
+                    <button
+                      type="button"
+                      class="btn btn-block btn-primary btn-md"
+                    >
+                    <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
+                      <a href="{% url 'createPartner' %}" class="text-white"
+                        > Add partner</a
+                      >
+                    </button>
                   </div>
-                  <!-- /.col -->
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-danger elevation-1"
-                        ><i class="fa-brands fa-teamspeak"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Teams</span>
-                        <span class="info-box-number">41</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <!-- /.col -->
-
-                  <!-- fix for small devices only -->
-                  <div class="clearfix hidden-md-up"></div>
-
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-success elevation-1"
-                        ><i class="fa-solid fa-user-tie"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Admins</span>
-                        <span class="info-box-number">20</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span class="info-box-icon bg-warning elevation-1"
-                        ><i class="fas fa-users"></i
-                      ></span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Partners</span>
-                        <span class="info-box-number">100</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span
-                        class="info-box-icon elevation-1"
-                        style="background-color: rgb(42, 53, 43)"
-                        ><i class="fa-solid fa-restroom text-light"></i>
-                      </span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Youth</span>
-                        <span class="info-box-number">100</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-                  <div class="col-12 col-sm-6 col-md-3" id="card">
-                    <div class="info-box mb-3">
-                      <span
-                        class="info-box-icon elevation-1"
-                        style="background-color: lightgray"
-                        ><i class="fa-solid fa-diagram-project"></i>
-                      </span>
-
-                      <div class="info-box-content">
-                        <span class="info-box-text">Projects</span>
-                        <span class="info-box-number">10</span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                  </div>
-
-                  <!-- /.col -->
                 </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description(s)</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>100</td>
+                        <td>Baltech campany</td>
+                        <td>Partner ineterested in fishing</td>
+                        <td>12/04/2024</td>
+                        <td>12/04/2024</td>
+  
+                        <td class="justify-content-center">
+                          <a
+                            href="components/edit_event.html"
+                            class="btn btn-success btn-sm edit-btn"
+                          >
+                            <i class="fas fa-pen"></i> Edit
+                          </a>
+                          <a
+                            href="#"
+                            class="btn btn-danger btn-sm delete-btn"
+                            data-toggle="modal"
+                            data-target="#deleteModal"
+                          >
+                            <i class="fas fa-trash"></i> Delete
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                  </table>
+                </div>
+                <!-- /.card-body -->
               </div>
-              <!-- /.card-body -->
-            </div>
             <!-- /.card -->
           </div>
           <!-- /.col -->
