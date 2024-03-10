@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Create | Partner {% endblock %}</title>
+<title>{% block title %} Create | Youth {% endblock %}</title>
 
 {% block content %}
 
@@ -99,7 +99,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="createAdmin" class="nav-link">
+                  <a href="{% url 'createAdmin' %}" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
@@ -108,7 +108,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href=" " class="nav-link">
+                  <a href="{% url 'createYouth' %}" class="nav-link">
                     <i
                       class="fa-solid fa-restroom"
                       style="margin: 0 4px 0 0px"
@@ -117,7 +117,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="" class="nav-link">
                     <i
                       class="fa-solid fa-diagram-project"
                       style="margin: 0 4px 0 0px"
@@ -159,12 +159,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Add Partner</h1>
+              <h1>Add Youth</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Add partner</li>
+                <li class="breadcrumb-item active">Add youth</li>
               </ol>
             </div>
           </div>
@@ -178,7 +178,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-info">
-                <h4>Partner details</h4>
+                <h4>Youth details</h4>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -190,7 +190,7 @@
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-6">
-                              <label>Name</label>
+                              <label>First Name</label>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"
@@ -198,15 +198,48 @@
                                   ></span>
                                 </div>
                                 <input
-                                  id="name"
-                                  name="name"
+                                  id="fname"
+                                  name="fname"
                                   type="text"
                                   class="form-control"
                                   placeholder="name"
                                 />
                               </div>
                             </div>
-
+                            <div class="col-md-6">
+                              <label>Midlle Name</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa fa-user"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="mname"
+                                  name="mname"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="middle name"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <label>Last Name</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa fa-user"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="lname"
+                                  name="lname"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="last name"
+                                />
+                              </div>
+                            </div>
                             <div class="col-md-6">
                               <label>Phone</label>
                               <div class="input-group mb-3">
@@ -224,6 +257,7 @@
                                 />
                               </div>
                             </div>
+                         
 
                             <div class="col-md-6">
                               <label>Email</label>
@@ -260,6 +294,23 @@
                                 />
                               </div>
                             </div>
+                            <div class="col-md-6">
+                              <label>Skills</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-lock"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="skills"
+                                  type="text"
+                                  name="skills"
+                                  class="form-control"
+                                  placeholder="Any skills"
+                                />
+                              </div>
+                            </div>
 
                             <div class="col-md-6">
                               <label>Location</label>
@@ -274,8 +325,27 @@
                                   type="text'"
                                   name="location"
                                   class="form-control"
-                                  placeholder="lococation"
+                                  placeholder="location"
                                 />
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group" id="role">
+                                <label>Education</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                  id="education"
+                                  name="education"
+                                >
+                                  <option selected="selected">Education</option>
+                                  <option>Primary</option>
+                                  <option>Secondary</option>
+                                  <option>University</option>
+                                </select>
                               </div>
                             </div>
 
@@ -296,46 +366,23 @@
                                 />
                               </div>
                             </div>
-
                             <div class="col-md-6">
-                              <div class="form-group" id="role">
-                                <label>Role</label>
-                                <select
-                                  class="form-control select2 select2-hidden-accessible"
-                                  style="width: 100%"
-                                  data-select2-id="1"
-                                  tabindex="-1"
-                                  aria-hidden="true"
-                                  id="role"
-                                  name="role"
-                                >
-                                  <option selected="selected">Role</option>
-                                  <option>admin</option>
-                                  <option>partner</option>
-                                  <option>team</option>
-                                </select>
+                              <label>Confirm Password</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-lock"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="password"
+                                  type="password"
+                                  name="password2"
+                                  class="form-control"
+                                  placeholder="confrim password"
+                                />
                               </div>
-                              <!-- /.form-group -->
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Status</label>
-                                <select
-                                  class="form-control select2 select2-hidden-accessible"
-                                  style="width: 100%"
-                                  data-select2-id="1"
-                                  tabindex="-1"
-                                  aria-hidden="true",
-                                  id="Status",
-                                  name="Status"
-                                >
-                                  <option selected="selected">Status</option>
-                                  <option>Active</option>
-                                  <option>inactive</option>
-                                </select>
-                              </div>
-                              <!-- /.form-group -->
-                            </div>
+                            </div> 
                           </div>
                           <div class="col-">
                             <button
@@ -345,7 +392,8 @@
                               Register
                             </button>
                           </div>
-                      </form>
+                        </form>
+                      
                      
                       <!-- /.col -->
                     </div>

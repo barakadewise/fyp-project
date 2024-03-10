@@ -5,5 +5,6 @@ urlpatterns=[
     path('',views.getAdminPanel,name='adminPanel'),
     path('createAdmin',views.createAdmin,name='createAdmin'),
     path('createPartner',views.createPartner,name='createPartner'),
-    path('viewPartners',views.viewPartners,name='viewPartners')
+    path('viewPartners',views.viewPartners,name='viewPartners'),
+    path('createYouth',views.createYouth,name='createYouth')
 ]
