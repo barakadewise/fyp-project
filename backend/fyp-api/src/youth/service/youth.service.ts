@@ -16,6 +16,7 @@ export class YouthService {
             fname: createYouth.fname,
             mname: createYouth.mname,
             lname: createYouth.lname,
+            phone:createYouth.phone,
             address: createYouth.address,
             education: createYouth.education,
             skills: createYouth.skills,

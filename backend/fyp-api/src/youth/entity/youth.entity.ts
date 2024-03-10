@@ -21,6 +21,10 @@ export class Youth{
     lname: string;
 
     @Field({nullable:true})
+    @Column({nullable:true})
+    phone?: string;
+
+    @Field({nullable:true})
     @Column()
     address?: string;
 

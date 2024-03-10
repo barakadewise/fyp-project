@@ -55,6 +55,7 @@ type Youth {
   fname: String!
   mname: String!
   lname: String!
+  phone: String
   address: String
   education: String!
   skills: String!
@@ -136,6 +137,7 @@ input YouthDto {
   fname: String!
   mname: String!
   lname: String!
+  phone: String
   address: String
   education: String!
   skills: String!

@@ -12,7 +12,11 @@ export class YouthDto {
     lname: string;
 
     @Field({nullable:true})
+    phone: string;
+
+    @Field({nullable:true})
     address?: string;
+
 
     @Field()
     education: string;
