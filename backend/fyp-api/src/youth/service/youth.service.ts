@@ -16,7 +16,7 @@ export class YouthService {
             fname: createYouth.fname,
             mname: createYouth.mname,
             lname: createYouth.lname,
-            phone:createYouth.phone,
+            phone: createYouth.phone,
             address: createYouth.address,
             education: createYouth.education,
             skills: createYouth.skills,
@@ -25,5 +25,11 @@ export class YouthService {
             password: hashedPassword
         });
         return await this.youthRepository.save(newYouth)
+    }
+
+
+    //function to fetch all  youth
+    async findAllYouth(): Promise<Youth[]> {
+        return this.youthRepository.find({ order: { createdAt: 'DESC' } })
     }
 }

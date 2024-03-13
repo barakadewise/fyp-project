@@ -85,6 +85,7 @@ type Query {
   findAllProjects: [Project!]!
   findAllPartners: [Partner!]!
   findAllroles: [Role!]!
+  findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!
 }
 
