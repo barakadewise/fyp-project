@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
-from django.middleware.csrf import get_token
+
 
 from Api.api import ApiService
 
@@ -18,6 +18,29 @@ def getAdminPanel(request):
 #function to create admin
 def createAdmin(request):
     return render(request,'createAdmin.html')
+
+#function to view all admins available
+def viewAdmin(request):
+    csrf_token = api_service.getCsrfToken(request)
+    context ={}
+    #Graphql query 
+    query ='''query{
+           findAlladmins{
+           id
+           email,
+           phone,
+           name,
+           is_superAdmin
+              }
+            }'''
+    
+    try:
+      response_data =api_service.performQuery(query,csrf_token)
+      context={'admins':response_data['data']['findAlladmins']}
+      print(context)
+      return render(request,'viewAdmins.html',context=context)
+    except Exception as e:
+        return HttpResponse('erro:{}'.format(e))
 
 #function to create partners
 def createPartner(request):
@@ -72,9 +95,8 @@ def createPartner(request):
 #function to display all list of partners 
 
 def viewPartners(request):
-        
         #get the crsf token from the request 
-        csrf_token = get_token(request)
+        csrf_token = api_service.getCsrfToken(request)
         context ={}
 
         try:
@@ -92,8 +114,6 @@ def viewPartners(request):
                 }
              }
             '''
- 
-          
            response_data = api_service.performQuery(query,csrf_token)
            
            #Pass the data to the dictionary 
@@ -149,3 +169,17 @@ def createYouth(request):
         resposnse_data= api_service.performMuttion(mutation,variables=variable)
         print(resposnse_data)
     return render(request,'createYouth.html')
+
+
+#function to fetch all youth 
+def viewYouth(request):
+    
+    #tokens
+    csrfToken = api_service.getCsrfToken(request)
+    try:
+        response_data= api_service.performQuery()
+        pass
+    except Exception as e:
+        print(e)
+
+    return render(request,'viewYouth.html')

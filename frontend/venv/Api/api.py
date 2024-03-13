@@ -1,4 +1,5 @@
 import requests
+from django.middleware.csrf import get_token
 
 class ApiService:
     
@@ -29,4 +30,6 @@ class ApiService:
             print("Response content:", response.content)
             raise Exception('failed to pull data')
             
-         
+     #function to return csrf token from the request       
+    def getCsrfToken(self,request):
+        return get_token(request)
