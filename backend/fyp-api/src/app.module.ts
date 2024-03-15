@@ -10,11 +10,11 @@ import { AdminModule } from './admin/admin.module';
 import { OpportunityModule } from './opportunity/opportunity.module';
 import { ProjectModule } from './project/project.module';
 import { PartnersModule } from './partners/partners.module';
-import { RoleModule } from './role/role.module';
 import { YouthModule } from './youth/youth.module';
 import { TeamsModule } from './teams/teams.module';
 import { typeormConfigAsyc } from './config/typeorm.config';
 import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationlevel.module';
+import { UserModule } from './user/user.module';
 
 
 
@@ -33,10 +33,10 @@ import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationleve
     OpportunityModule,
     ProjectModule,
     PartnersModule,
-    RoleModule,
     YouthModule,
     TeamsModule,
     AdminstrationlevelModule,
+    UserModule,
 
 
   ],

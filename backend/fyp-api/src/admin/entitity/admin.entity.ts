@@ -28,7 +28,7 @@ export class Admin {
     @Field()
     is_superAdmin: boolean
 
-    @Column({default:'admin'})
+    @Column()
     @Field({nullable:true})
     role:string;
 

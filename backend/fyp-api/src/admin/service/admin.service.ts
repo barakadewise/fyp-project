@@ -4,6 +4,7 @@ import { Repository } from 'typeorm/repository/Repository';
 import { Admin } from '../entitity/admin.entity';
 import { AdminInputDto } from '../dto/admin-input-dto';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'utils/roles-enums';
 
 
 @Injectable()
@@ -21,6 +22,7 @@ export class AdminService {
       email: createAdminInput.email,
       phone: createAdminInput.phone,
       password: hashedPassword,
+      role:Role.admin,
       is_superAdmin: createAdminInput.is_superAdmin
     })
     console.log(newAdmin)

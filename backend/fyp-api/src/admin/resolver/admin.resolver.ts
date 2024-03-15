@@ -13,7 +13,7 @@ export class AdminResolver {
     
 
     //fetch all admin 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Query(() => [Admin])
     async findAlladmins(): Promise<Admin[]> {
         return this.adminService.findAll();
@@ -25,10 +25,6 @@ export class AdminResolver {
         return  await this.adminService.createAdmin(createAminInput)
 
     }
-    // @UseGuards(GqlAuthGuard)
-    // @Query(() => [Admin])
-    // async getAllAdmin(): Promise<Admin[]> {
-    //     return await this.adminService.findAll()
-    // }
+   
 
 }

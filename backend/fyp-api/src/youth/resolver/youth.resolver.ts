@@ -9,8 +9,8 @@ export class YouthResolver {
 
     //create youth mutation
     @Mutation(_returns => Youth)
-    async createYouth(@Args('createYoutDto') createYoutDto: YouthDto): Promise<Youth> {
-        return await this.youthServce.createYouth(createYoutDto)
+    async createYouthProfile(@Args('createYoutDto') createYoutDto: YouthDto): Promise<Youth> {
+        return await this.youthServce.createYouthProfile(createYoutDto)
     }
 
     //resolver to query forall youth
