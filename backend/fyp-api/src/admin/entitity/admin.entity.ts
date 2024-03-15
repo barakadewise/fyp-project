@@ -28,6 +28,10 @@ export class Admin {
     @Field()
     is_superAdmin: boolean
 
+    @Column({default:'admin'})
+    @Field({nullable:true})
+    role:string;
+
     @CreateDateColumn()
     @Field()
     createdAt: string;

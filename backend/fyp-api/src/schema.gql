@@ -9,7 +9,15 @@ type Admin {
   phone: String
   password: String!
   is_superAdmin: Boolean!
+  role: String
   createdAt: String!
+}
+
+type AuthResults {
+  message: String
+  id: Float
+  user: String
+  access_token: String
 }
 
 type Opportunity {
@@ -90,6 +98,7 @@ type Query {
 }
 
 type Mutation {
+  login(loginUserDto: LoginUserDto!): AuthResults!
   createAdmin(createAdminInput: AdminInputDto!): Admin!
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   createProject(createProjectInput: ProjectDto!): Project!
@@ -98,6 +107,11 @@ type Mutation {
   createYouth(createYoutDto: YouthDto!): Youth!
   createTeam(createTeamInput: TeamsDto!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
+}
+
+input LoginUserDto {
+  email: String!
+  password: String!
 }
 
 input AdminInputDto {

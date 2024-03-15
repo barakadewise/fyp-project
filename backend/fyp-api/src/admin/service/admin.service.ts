@@ -5,6 +5,7 @@ import { Admin } from '../entitity/admin.entity';
 import { AdminInputDto } from '../dto/admin-input-dto';
 import * as bcrypt from 'bcrypt';
 
+
 @Injectable()
 export class AdminService {
   constructor(
@@ -18,7 +19,7 @@ export class AdminService {
     const newAdmin = this.adminRepository.create({
       name: createAdminInput.name,
       email: createAdminInput.email,
-      phone:createAdminInput.phone,
+      phone: createAdminInput.phone,
       password: hashedPassword,
       is_superAdmin: createAdminInput.is_superAdmin
     })
@@ -30,6 +31,9 @@ export class AdminService {
   async findAll(): Promise<Admin[]> {
     return this.adminRepository.find();
   }
-
+  //find admin by username 
+  async findOne(username: string): Promise<any> {
+    return await this.adminRepository.findOne({ where: { email: username } })
+  }
 
 }
