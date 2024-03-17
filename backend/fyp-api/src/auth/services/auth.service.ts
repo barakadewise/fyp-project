@@ -4,16 +4,25 @@ import { LoginUserDto } from '../dto/login-user-dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { AuthResults } from '../response/auth-results';
+import { PartnersService } from 'src/partners/service/partners.service';
+import { use } from 'passport';
 
 
 
 @Injectable()
 export class AuthService {
     constructor(private readonly adminService: AdminService,
+        private readonly partnerService: PartnersService,
         private jwtService: JwtService) {
     }
     //funcrion to validate user
     async validateUser(loginUserDto: LoginUserDto): Promise<any> {
+        if (loginUserDto.role==='Partner'){
+            const user = await this.partnerService.findOne(loginUserDto.email)
+            return {
+                message:user.email
+            }
+        } 
         const user = await this.adminService.findOne(loginUserDto.email)
         if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
             return this.login(loginUserDto)

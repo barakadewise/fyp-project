@@ -14,7 +14,7 @@ import { YouthModule } from './youth/youth.module';
 import { TeamsModule } from './teams/teams.module';
 import { typeormConfigAsyc } from './config/typeorm.config';
 import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationlevel.module';
-import { UserModule } from './user/user.module';
+
 
 
 
@@ -24,7 +24,7 @@ import { UserModule } from './user/user.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context:({req})=>({Headers:req.Headers})
+      context: ({ req }) => ({ Headers: req.Headers })
 
     }),
     TypeOrmModule.forRootAsync(typeormConfigAsyc),
@@ -36,8 +36,6 @@ import { UserModule } from './user/user.module';
     YouthModule,
     TeamsModule,
     AdminstrationlevelModule,
-    UserModule,
-
 
   ],
   controllers: [AppController],

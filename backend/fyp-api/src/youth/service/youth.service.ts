@@ -10,7 +10,7 @@ export class YouthService {
     constructor(@InjectRepository(Youth) private readonly youthRepository: Repository<Youth>) { }
 
     //async create user 
-    async createYouthProfile(createYouth: YouthDto): Promise<Youth> {
+    async createYouth(createYouth: YouthDto): Promise<Youth> {
         const hashedPassword = await bcrypt.hash(createYouth.password, 10);
         const newYouth = this.youthRepository.create({
             fname: createYouth.fname,
@@ -22,7 +22,9 @@ export class YouthService {
             skills: createYouth.skills,
             location: createYouth.location,
             email: createYouth.email,
-            password: hashedPassword
+            password:hashedPassword,
+            role:createYouth.role
+       
         });
         return await this.youthRepository.save(newYouth)
     }

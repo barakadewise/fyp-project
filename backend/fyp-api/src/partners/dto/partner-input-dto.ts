@@ -20,6 +20,7 @@ export class PartnerDto {
 
     @Field()
     password:string;
+   
 
 
 }

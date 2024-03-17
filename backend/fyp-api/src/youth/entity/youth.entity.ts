@@ -1,12 +1,12 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('youth')
 @ObjectType()
-export class Youth{
+export class Youth {
     @PrimaryGeneratedColumn()
     @Field()
-    id:number
+    id: number
 
     @Field()
     @Column()
@@ -20,11 +20,11 @@ export class Youth{
     @Column()
     lname: string;
 
-    @Field({nullable:true})
-    @Column({nullable:true})
+    @Field({ nullable: true })
+    @Column({ nullable: true })
     phone?: string;
 
-    @Field({nullable:true})
+    @Field({ nullable: true })
     @Column()
     address?: string;
 
@@ -40,15 +40,16 @@ export class Youth{
     location: string;
 
     @Field()
-    @Column({unique:true,nullable:true})
+    @Column({ unique: true, nullable: true })
     email: string;
 
+    @Column()
     @Field()
-    @Column({nullable:false})
-    password:string
+    password: string;
+    role: string;
 
     @Field()
     @CreateDateColumn()
-    createdAt:Date;
-    
+    createdAt: Date;
+
 }

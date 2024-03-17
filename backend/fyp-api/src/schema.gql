@@ -7,11 +7,28 @@ type Admin {
   name: String!
   email: String!
   phone: String
-  password: String!
   is_superAdmin: Boolean!
+  password: String!
   role: String
   createdAt: String!
 }
+
+type Partner {
+  id: Float!
+  name: String!
+  location: String!
+  phone: String
+  address: String!
+  email: String!
+  password: String!
+  role: String!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type AuthResults {
   message: String
@@ -27,11 +44,6 @@ type Opportunity {
   creatdAt: DateTime!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Project {
   id: Float!
   name: String!
@@ -39,17 +51,6 @@ type Project {
   duration: String!
   status: String!
   funded: Boolean!
-  createdAt: DateTime!
-}
-
-type Partner {
-  id: Float!
-  name: String!
-  location: String!
-  phone: String
-  address: String!
-  email: String!
-  password: String!
   createdAt: DateTime!
 }
 
@@ -75,6 +76,7 @@ type Teams {
   address: String!
   email: String!
   password: String!
+  role: String!
 }
 
 type AdministrationLevel {
@@ -82,19 +84,11 @@ type AdministrationLevel {
   name: String!
 }
 
-type User {
-  id: Float!
-  username: String!
-  password: String!
-  role: String!
-  createdAt: DateTime!
-}
-
 type Query {
   findAlladmins: [Admin!]!
+  findAllPartners: [Partner!]!
   findAllOpportunities: [Opportunity!]!
   findAllProjects: [Project!]!
-  findAllPartners: [Partner!]!
   findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!
 }
@@ -102,18 +96,18 @@ type Query {
 type Mutation {
   login(loginUserDto: LoginUserDto!): AuthResults!
   createAdmin(createAdminInput: AdminInputDto!): Admin!
+  createPartner(createPartnerInput: PartnerDto!): Partner!
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   createProject(createProjectInput: ProjectDto!): Project!
-  createPartner(createUserInput: CreateUserInput!): User!
-  createYouthProfile(createYoutDto: YouthDto!): Youth!
-  createTeam(createUserInput: CreateUserInput!): User!
+  createYouth(createYoutDto: YouthDto!): Youth!
+  createTeam(createTeamInput: TeamsDto!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
-  createYouth(createUserInput: CreateUserInput!): User!
 }
 
 input LoginUserDto {
   email: String!
   password: String!
+  role: String!
 }
 
 input AdminInputDto {
@@ -122,6 +116,15 @@ input AdminInputDto {
   phone: String!
   password: String!
   is_superAdmin: Boolean!
+}
+
+input PartnerDto {
+  name: String!
+  location: String!
+  phone: String!
+  address: String!
+  email: String!
+  password: String!
 }
 
 input OpportunityDto {
@@ -137,11 +140,6 @@ input ProjectDto {
   funded: Boolean!
 }
 
-input CreateUserInput {
-  username: String!
-  password: String!
-}
-
 input YouthDto {
   fname: String!
   mname: String!
@@ -153,6 +151,16 @@ input YouthDto {
   location: String!
   email: String
   password: String!
+  role: String!
+}
+
+input TeamsDto {
+  name: String!
+  location: String!
+  address: String!
+  email: String!
+  password: String!
+  role: String!
 }
 
 input AdminStrationLevelDto {

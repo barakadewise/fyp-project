@@ -21,9 +21,10 @@ export class AdminService {
       name: createAdminInput.name,
       email: createAdminInput.email,
       phone: createAdminInput.phone,
-      password: hashedPassword,
+      is_superAdmin: createAdminInput.is_superAdmin,
       role:Role.admin,
-      is_superAdmin: createAdminInput.is_superAdmin
+      password:hashedPassword
+      
     })
     console.log(newAdmin)
     return await this.adminRepository.save(newAdmin)

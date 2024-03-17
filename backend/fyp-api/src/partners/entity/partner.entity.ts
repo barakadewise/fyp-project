@@ -1,9 +1,9 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('partners')
 @ObjectType()
-export class Partner{
+export class Partner {
     @PrimaryGeneratedColumn()
     @Field()
     id: number;
@@ -16,11 +16,9 @@ export class Partner{
     @Column()
     location: string;
 
-    
-    @Field({nullable:true})
-    @Column({nullable:true})
+    @Field({ nullable: true })
+    @Column({ nullable: true })
     phone: string;
-    
 
     @Field()
     @Column()
@@ -29,11 +27,13 @@ export class Partner{
     @Field()
     @Column()
     email: string;
-
-
+    
     @Field()
     @Column()
-    password: string;
+    password:string;
+    @Field()
+    @Column()
+    role:string;
 
     @Field()
     @CreateDateColumn()

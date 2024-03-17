@@ -32,6 +32,8 @@ export class YouthDto {
 
     @Field({nullable:false})
     password:string
+    @Field()
+    role:string;
     
     
 

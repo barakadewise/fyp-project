@@ -1,7 +1,7 @@
- export enum Role{
-    admin='Admin',
-    partner='Partner',
-    youth='Youth',
-    team='Team'
+export enum Role {
+    admin = 'Admin',
+    partner = 'Partner',
+    youth = 'Youth',
+    team = 'Team'
 
 }

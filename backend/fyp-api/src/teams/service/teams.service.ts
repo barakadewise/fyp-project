@@ -16,8 +16,9 @@ export class TeamsService {
             name: createTeamInput.name,
             location: createTeamInput.location,
             address: createTeamInput.address,
-            email:createTeamInput.email,
-            password: hashedPssword
+            email: createTeamInput.email,
+            role:createTeamInput.role,
+            password:createTeamInput.password
         })
         console.log(newTeam)
         return await this.teamsRepository.save(newTeam);

@@ -6,9 +6,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstant } from 'constants/secret.';
 import { JwtStrategy } from './strategy/jwt-strategy';
+import { PartnersModule } from 'src/partners/partners.module';
 
 @Module({
-  imports: [AdminModule, PassportModule,
+  imports: [AdminModule,PartnersModule,
+     PassportModule,
     JwtModule.register(
       {
         global: true,

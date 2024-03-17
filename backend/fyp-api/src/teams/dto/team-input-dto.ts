@@ -16,6 +16,9 @@ export class TeamsDto {
 
     @Field()
     password:string;
+    
+    @Field()
+    role:string
 
 
 }
