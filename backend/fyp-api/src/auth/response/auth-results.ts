@@ -11,7 +11,7 @@ export class AuthResults {
     id:number;
 
     @Field({nullable:true})
-    user:string;
+    username:string ;
 
     @Field({nullable:true})
     access_token: string;

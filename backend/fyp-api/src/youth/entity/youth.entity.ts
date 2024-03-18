@@ -25,7 +25,7 @@ export class Youth {
     phone?: string;
 
     @Field({ nullable: true })
-    @Column()
+    @Column({nullable:true})
     address?: string;
 
     @Field()
@@ -36,7 +36,8 @@ export class Youth {
     @Column()
     skills: string;
 
-    @Field()
+    @Field({nullable:true})
+    @Column({nullable:true})
     location: string;
 
     @Field()

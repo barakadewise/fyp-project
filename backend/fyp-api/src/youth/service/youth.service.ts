@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Youth } from '../entity/youth.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { YouthDto } from '../dto/youth-input-dto';
 import * as bcrypt from 'bcrypt'
+import { Role } from 'utils/roles-enums';
+import { OperationDto } from 'dto/operation-dto';
 
 @Injectable()
 export class YouthService {
@@ -23,7 +25,7 @@ export class YouthService {
             location: createYouth.location,
             email: createYouth.email,
             password: hashedPassword,
-            role: createYouth.role
+            role: Role.youth
 
         });
         return await this.youthRepository.save(newYouth)
@@ -39,4 +41,17 @@ export class YouthService {
     async findAllYouth(): Promise<Youth[]> {
         return this.youthRepository.find({ order: { createdAt: 'DESC' } })
     }
+
+    //delete one user by id 
+    async deleteYouthById(id: number): Promise<OperationDto> {
+        const user = await this.youthRepository.findOne({ where: { id: id } })
+        if (!user) {
+            throw new BadRequestException('Invalid operation');
+        }
+        await this.youthRepository.remove(user)
+        return {
+            message: 'Successfully deleted'
+        }
+    }
+
 }

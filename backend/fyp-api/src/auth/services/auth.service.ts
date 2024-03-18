@@ -16,7 +16,7 @@ export class AuthService {
     constructor(private readonly adminService: AdminService,
         private readonly partnerService: PartnersService,
         private readonly youthService: YouthService,
-        private readonly teamService:TeamsService,
+        private readonly teamService: TeamsService,
         private jwtService: JwtService) {
     }
 
@@ -30,7 +30,7 @@ export class AuthService {
                     return this.login(user);
 
                 }
-              throw new UnauthorizedException('Inavalid credentials')
+                throw new UnauthorizedException('Inavalid credentials')
             }
             case "Youth": {
                 const user = await this.youthService.findOneByEmailOrPhone(loginUserDto.username);
@@ -39,7 +39,7 @@ export class AuthService {
                 }
                 throw new UnauthorizedException('Invalid Credentials');
             }
-            case "Team":{
+            case "Team": {
                 const user = await this.teamService.findOneByEmailOrPhone(loginUserDto.username);
                 if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
                     return this.login(user);
@@ -47,22 +47,29 @@ export class AuthService {
                 throw new UnauthorizedException('Invalid Credentials');
 
             }
+            default:{
+                const user = await this.adminService.findOne(loginUserDto.username);
+                if(!user){
+                    throw new UnauthorizedException('invalid')
+                }
+                return user
+            }
         }
 
     }
 
+    //login user and resturn asign token
     async login(user: any): Promise<AuthResults> {
         const { password, ...results } = user
         const payload = {
             id: results.id,
-            name: results.name,
             email: results.email
 
         }
         return {
             message: "Successfuly loggedin",
             id: results.id,
-            user: results.name,
+            username: results.email,
             access_token: await this.jwtService.signAsync(payload),
 
 

@@ -39,17 +39,31 @@ type Youth {
   address: String
   education: String!
   skills: String!
-  location: String!
+  location: String
   email: String!
   password: String!
   createdAt: DateTime!
 }
 
+type Teams {
+  id: Float!
+  name: String!
+  location: String!
+  address: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
 type AuthResults {
   message: String
   id: Float
-  user: String
+  username: String
   access_token: String
+}
+
+type OperationDto {
+  message: String!
 }
 
 type Opportunity {
@@ -69,16 +83,6 @@ type Project {
   createdAt: DateTime!
 }
 
-type Teams {
-  id: Float!
-  name: String!
-  location: String!
-  address: String!
-  email: String!
-  password: String!
-  role: String!
-}
-
 type AdministrationLevel {
   id: Float!
   name: String!
@@ -88,9 +92,9 @@ type Query {
   findAlladmins: [Admin!]!
   findAllPartners: [Partner!]!
   findAllYouth: [Youth!]!
+  findAllTeams: [Teams!]!
   findAllOpportunities: [Opportunity!]!
   findAllProjects: [Project!]!
-  findAllTeams: [Teams!]!
 }
 
 type Mutation {
@@ -98,16 +102,17 @@ type Mutation {
   createAdmin(createAdminInput: AdminInputDto!): Admin!
   createPartner(createPartnerInput: PartnerDto!): Partner!
   createYouth(createYoutDto: YouthDto!): Youth!
+  deleteYouthById(id: Float!): OperationDto!
+  createTeam(createTeamInput: TeamsDto!): Teams!
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   createProject(createProjectInput: ProjectDto!): Project!
-  createTeam(createTeamInput: TeamsDto!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
 }
 
 input LoginUserDto {
   username: String!
   password: String!
-  role: String!
+  role: String
 }
 
 input AdminInputDto {
@@ -138,6 +143,14 @@ input YouthDto {
   location: String!
   email: String
   password: String!
+}
+
+input TeamsDto {
+  name: String!
+  location: String!
+  address: String!
+  email: String!
+  password: String!
   role: String!
 }
 
@@ -152,15 +165,6 @@ input ProjectDto {
   duration: String!
   status: String!
   funded: Boolean!
-}
-
-input TeamsDto {
-  name: String!
-  location: String!
-  address: String!
-  email: String!
-  password: String!
-  role: String!
 }
 
 input AdminStrationLevelDto {

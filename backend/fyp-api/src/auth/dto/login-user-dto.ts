@@ -8,6 +8,6 @@ export class LoginUserDto {
     @Field()
     password: string;
     
-    @Field()
-    role: string;
+    @Field({nullable:true})
+    role?: string;
 }
