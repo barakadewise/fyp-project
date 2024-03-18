@@ -122,7 +122,7 @@ def viewPartners(request):
         
         except Exception as e:
             print('Error: {}'.format(e)) 
-            return HttpResponse('Error: {}'.format(str(e)))
+            return render(request,'viewPartners.html',{'error':'Failed to fetch '})
         
            
         
@@ -173,13 +173,39 @@ def createYouth(request):
 
 #function to fetch all youth 
 def viewYouth(request):
-    
     #tokens
     csrfToken = api_service.getCsrfToken(request)
-    try:
-        response_data= api_service.performQuery()
-        pass
-    except Exception as e:
-        print(e)
+    context ={}
 
-    return render(request,'viewYouth.html')
+   #graphql query 
+    query ='''
+        query {
+      findAllYouth {
+      id
+      fname
+      mname
+      lname
+      phone
+      location
+      address
+      email
+      skills
+     }
+    }
+       '''
+    try:
+    
+        response_data= api_service.performQuery(query,csrfToken)
+        context ={'youths':response_data['data']['findAllYouth']}
+        return render(request,'viewYouth.html',context=context)
+    except Exception as e:
+        print(response_data)
+        return HttpResponse('failed to query')
+
+
+#delete youth by id
+def deleteYouthById(request):
+    userId = request.POST.get('userId')
+    print(userId)
+    print('user successfully deleted!')
+    return HttpResponse('ok')

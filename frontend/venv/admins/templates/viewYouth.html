@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %}
+{% load static %}
 <title>{% block title %} View| Youth {% endblock %}</title>
 
 {% block content %}
@@ -197,22 +198,30 @@
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Description(s)</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
+                        <th>Fname</th>
+                        <th>Mname</th>
+                        <th>Lname</th>
+                        <th>phone</th>
+                        <th>Location</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>skill</th>
                         <th>Action</th>
                       </tr>
                     </thead>
-                    {% for partner in partners %}
+                    {% for youth in youths %}
                     <tbody>
                       <tr>
-                        <td>{{ partner.id }}</td>
-                        <td>{{ partner.name }}</td>
-                        <td>Partner ineterested in fishing</td>
-                        <td>12/04/2024</td>
-                        <td>12/04/2024</td>
-  
+                        <td>{{ youth.id }}</td>
+                        <td>{{  youth.fname }}</td>
+                        <td> {{ youth.mname }}</td>
+                        <td> {{ youth.lname  }}</td>
+                        <td> {{ youth.phone }}</td>
+                        <td> {{ youth.location }}</td>
+                        <td> {{ youth.address }}</td>
+                        <td> {{ youth.email }}</td>
+                        <td> {{ youth.skills }}</td>
+                    
                         <td class="justify-content-center">
                           <a
                             href="components/edit_event.html"
@@ -220,14 +229,14 @@
                           >
                             <i class="fas fa-pen"></i> Edit
                           </a>
-                          <a
-                            href="#"
-                            class="btn btn-danger btn-sm delete-btn"
-                            data-toggle="modal"
-                            data-target="#deleteModal"
-                          >
+                          <a href="#" class="btn btn-danger btn-sm delete-btn" 
+                          data-toggle="modal"
+                           data-target="#deleteModal"
+                           data-userid="{{ youth.id }}"
+                           data-username="{{ youth.email }}">
                             <i class="fas fa-trash"></i> Delete
-                          </a>
+                        </a>
+                        
                         </td>
                       </tr>
                     </tbody>
@@ -246,6 +255,8 @@
       </section>
       <!-- /.content -->
     </div>
+    <!-- /.content-wrapper -->
+
     <!-- Delete Modal -->
     <div
       class="modal fade"
@@ -286,6 +297,8 @@
         </div>
       </div>
     </div>
+    <!-- /.modal -->
+
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block"><b>2023</b></div>
       <strong>Copyright &copy; Dar es salaam regional commission.</strong>
@@ -300,4 +313,26 @@
   </div>
 
   {% endblock %}
+
+  <!-- <script>
+    $(document).ready(function () {
+        var userIdToDelete; // Variable to store the ID of the user to delete
+        var userNameToDelete; // Variable to store the name of the user to delete
+
+        // Capture click event on delete button to set the user ID and name
+        $('.delete-btn').click(function () {
+            userIdToDelete = $(this).data('userid');
+            userNameToDelete = $(this).data('username');
+        });
+
+        // Capture click event on the delete confirmation button
+        $('#confirmDelete').click(function () {
+            console.log('Deleting user:', userNameToDelete, 'with ID:', userIdToDelete);
+            
+            // Once deletion is done, you can close the modal if needed
+            $('#deleteModal').modal('hide');
+        });
+    });
+</script> -->
+
 </body>

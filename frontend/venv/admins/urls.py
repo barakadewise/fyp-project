@@ -9,5 +9,6 @@ urlpatterns=[
     path('viewPartners',views.viewPartners,name='viewPartners'),
     path('createYouth',views.createYouth,name='createYouth'),
     path('viewYouth',views.viewYouth,name='viewYouth'),
+    path('deleteYouthById',views.deleteYouthById,name='deleteYouthById')
     
 ]
