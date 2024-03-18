@@ -17,8 +17,8 @@ export class TeamsService {
             location: createTeamInput.location,
             address: createTeamInput.address,
             email: createTeamInput.email,
-            role:createTeamInput.role,
-            password:createTeamInput.password
+            role: createTeamInput.role,
+            password: createTeamInput.password
         })
         console.log(newTeam)
         return await this.teamsRepository.save(newTeam);
@@ -28,4 +28,10 @@ export class TeamsService {
     async findAll(): Promise<Teams[]> {
         return await this.teamsRepository.find({ order: { 'createdAt': 'DESC' } })
     }
+
+    //functio to find the teams by email or phone
+    async findOneByEmailOrPhone(identifier: string): Promise<any> {
+        return await this.teamsRepository.createQueryBuilder('youth').where('youth.email=:identifier OR youth.phone=:identifier', { identifier }).getOne()
+    }
+
 }

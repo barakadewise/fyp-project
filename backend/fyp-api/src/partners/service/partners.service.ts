@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { PartnerDto } from '../dto/partner-input-dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'utils/roles-enums';
-import { throwError } from 'rxjs';
 
 
 @Injectable()
@@ -18,10 +17,10 @@ export class PartnersService {
         const newPartner = this.partnerRepository.create({
             name: createPartnerInput.name,
             location: createPartnerInput.location,
-            phone:createPartnerInput.phone,
+            phone: createPartnerInput.phone,
             email: createPartnerInput.email,
             address: createPartnerInput.address,
-            password:hashedPassword,
+            password: hashedPassword,
             role: Role.partner
 
         });
@@ -29,20 +28,26 @@ export class PartnersService {
 
     }
 
-    async findOne(email:string):Promise<any>{
-        try{
-            const user =await this.partnerRepository.findOne({where:{email:email}})
-            if(!user){
-                throw new BadRequestException('User not found')
-            }
-            return user
-
-        }catch(err){
-           throw err
-        }
+    //function to find partner by email
+    async findOne(email: string): Promise<any> {
+        return await this.partnerRepository.findOne({ where: { email: email } })
     }
+
     //Query all partners
     async findAllPartners(): Promise<Partner[]> {
         return await this.partnerRepository.find({ order: { 'createdAt': 'DESC' } })
+
+    }
+
+    //function to find the partner by email or phone
+    async findOneByEmailOrPhone(identifier: string): Promise<any> {
+        return await this.partnerRepository.createQueryBuilder('partners').where('partners.email=:identifier OR partners.phone=:identifier', { identifier }).getOne()
+    }
+
+
+
+    //function to find the partner by ID
+    async findById(id: number): Promise<Partner> {
+        return await this.partnerRepository.findOne({ where: { id: id } })
     }
 }

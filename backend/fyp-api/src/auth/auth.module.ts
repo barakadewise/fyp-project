@@ -7,10 +7,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstant } from 'constants/secret.';
 import { JwtStrategy } from './strategy/jwt-strategy';
 import { PartnersModule } from 'src/partners/partners.module';
+import { YouthModule } from 'src/youth/youth.module';
+import { TeamsModule } from 'src/teams/teams.module';
 
 @Module({
-  imports: [AdminModule,PartnersModule,
-     PassportModule,
+  imports: [AdminModule,
+    PartnersModule,
+    YouthModule,
+    PassportModule,
+   TeamsModule,
     JwtModule.register(
       {
         global: true,

@@ -22,13 +22,18 @@ export class YouthService {
             skills: createYouth.skills,
             location: createYouth.location,
             email: createYouth.email,
-            password:hashedPassword,
-            role:createYouth.role
-       
+            password: hashedPassword,
+            role: createYouth.role
+
         });
         return await this.youthRepository.save(newYouth)
     }
 
+    //function to find  youth by email or phone number
+    async findOneByEmailOrPhone(identifier: string): Promise<any> {
+        // return await this.youthRepository.findOne({ where: { phone: email } })
+        return await this.youthRepository.createQueryBuilder('youth').where('youth.email=:identifier OR youth.phone=:identifier', { identifier }).getOne()
+    }
 
     //function to fetch all  youth
     async findAllYouth(): Promise<Youth[]> {

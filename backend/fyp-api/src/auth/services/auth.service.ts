@@ -5,7 +5,9 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { AuthResults } from '../response/auth-results';
 import { PartnersService } from 'src/partners/service/partners.service';
-import { use } from 'passport';
+import { YouthService } from 'src/youth/service/youth.service';
+import { TeamsService } from 'src/teams/service/teams.service';
+
 
 
 
@@ -13,27 +15,43 @@ import { use } from 'passport';
 export class AuthService {
     constructor(private readonly adminService: AdminService,
         private readonly partnerService: PartnersService,
+        private readonly youthService: YouthService,
+        private readonly teamService:TeamsService,
         private jwtService: JwtService) {
     }
-    //funcrion to validate user
-    async validateUser(loginUserDto: LoginUserDto): Promise<any> {
-        if (loginUserDto.role==='Partner'){
-            const user = await this.partnerService.findOne(loginUserDto.email)
-            return {
-                message:user.email
-            }
-        } 
-        const user = await this.adminService.findOne(loginUserDto.email)
-        if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
-            return this.login(loginUserDto)
 
+    //function to validate user based on the roles
+    async validateUser(loginUserDto: LoginUserDto): Promise<any> {
+        const role: string = loginUserDto.role
+        switch (role) {
+            case "Partner": {
+                const user = await this.partnerService.findOneByEmailOrPhone(loginUserDto.username);
+                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
+                    return this.login(user);
+
+                }
+              throw new UnauthorizedException('Inavalid credentials')
+            }
+            case "Youth": {
+                const user = await this.youthService.findOneByEmailOrPhone(loginUserDto.username);
+                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
+                    return this.login(user);
+                }
+                throw new UnauthorizedException('Invalid Credentials');
+            }
+            case "Team":{
+                const user = await this.teamService.findOneByEmailOrPhone(loginUserDto.username);
+                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
+                    return this.login(user);
+                }
+                throw new UnauthorizedException('Invalid Credentials');
+
+            }
         }
-        throw new UnauthorizedException('Invalid credentials');
 
     }
 
-    async login(loginUserDto: LoginUserDto): Promise<AuthResults> {
-        const user = await this.adminService.findOne(loginUserDto.email)
+    async login(user: any): Promise<AuthResults> {
         const { password, ...results } = user
         const payload = {
             id: results.id,

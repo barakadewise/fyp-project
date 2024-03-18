@@ -30,6 +30,21 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Youth {
+  id: Float!
+  fname: String!
+  mname: String!
+  lname: String!
+  phone: String
+  address: String
+  education: String!
+  skills: String!
+  location: String!
+  email: String!
+  password: String!
+  createdAt: DateTime!
+}
+
 type AuthResults {
   message: String
   id: Float
@@ -54,21 +69,6 @@ type Project {
   createdAt: DateTime!
 }
 
-type Youth {
-  id: Float!
-  fname: String!
-  mname: String!
-  lname: String!
-  phone: String
-  address: String
-  education: String!
-  skills: String!
-  location: String!
-  email: String!
-  password: String!
-  createdAt: DateTime!
-}
-
 type Teams {
   id: Float!
   name: String!
@@ -87,9 +87,9 @@ type AdministrationLevel {
 type Query {
   findAlladmins: [Admin!]!
   findAllPartners: [Partner!]!
+  findAllYouth: [Youth!]!
   findAllOpportunities: [Opportunity!]!
   findAllProjects: [Project!]!
-  findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!
 }
 
@@ -97,15 +97,15 @@ type Mutation {
   login(loginUserDto: LoginUserDto!): AuthResults!
   createAdmin(createAdminInput: AdminInputDto!): Admin!
   createPartner(createPartnerInput: PartnerDto!): Partner!
+  createYouth(createYoutDto: YouthDto!): Youth!
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   createProject(createProjectInput: ProjectDto!): Project!
-  createYouth(createYoutDto: YouthDto!): Youth!
   createTeam(createTeamInput: TeamsDto!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
 }
 
 input LoginUserDto {
-  email: String!
+  username: String!
   password: String!
   role: String!
 }
@@ -127,19 +127,6 @@ input PartnerDto {
   password: String!
 }
 
-input OpportunityDto {
-  name: String!
-  location: String!
-}
-
-input ProjectDto {
-  name: String!
-  cost: Float!
-  duration: String!
-  status: String!
-  funded: Boolean!
-}
-
 input YouthDto {
   fname: String!
   mname: String!
@@ -152,6 +139,19 @@ input YouthDto {
   email: String
   password: String!
   role: String!
+}
+
+input OpportunityDto {
+  name: String!
+  location: String!
+}
+
+input ProjectDto {
+  name: String!
+  cost: Float!
+  duration: String!
+  status: String!
+  funded: Boolean!
 }
 
 input TeamsDto {

@@ -6,6 +6,7 @@ import { Youth } from './entity/youth.entity';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Youth])],
-  providers: [YouthResolver, YouthService]
+  providers: [YouthResolver, YouthService],
+  exports:[YouthService]
 })
 export class YouthModule {}
