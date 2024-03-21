@@ -17,7 +17,7 @@ export class TeamsResolver {
     //query for all teams 
     @Query(_returns => [Teams])
     async findAllTeams(): Promise<Teams[]> {
-        return await this.teamsService.findAll()
+        return await this.teamsService.findAllTeams()
     }
 
 }

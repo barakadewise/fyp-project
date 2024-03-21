@@ -25,7 +25,7 @@ export class TeamsService {
     }
 
     //function to query for all teams 
-    async findAll(): Promise<Teams[]> {
+    async findAllTeams(): Promise<Teams[]> {
         return await this.teamsRepository.find({ order: { 'createdAt': 'DESC' } })
     }
 

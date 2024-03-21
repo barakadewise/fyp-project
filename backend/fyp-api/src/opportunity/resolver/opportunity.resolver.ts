@@ -17,7 +17,7 @@ export class OpportunityResolver {
     //Query all opportunities
     @Query(_returns => [Opportunity])
     async findAllOpportunities(): Promise<Opportunity[]> {
-        return await this.opprtunityService.findAll()
+        return await this.opprtunityService.findAllOpportunities()
     }
 
 }

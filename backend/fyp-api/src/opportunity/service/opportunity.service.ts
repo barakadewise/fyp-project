@@ -16,7 +16,7 @@ export class OpportunityService {
     }
 
     //Query all opportunities
-    async findAll(): Promise<Opportunity[]> {
+    async findAllOpportunities(): Promise<Opportunity[]> {
         return await this.opportunityRepository.find({ order: { 'creatdAt': 'DESC' } })
     }
 }

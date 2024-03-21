@@ -16,6 +16,10 @@ export class Opportunity {
     @Column()
     location: string;
 
+    @Field()
+    @Column()
+    duration: string;
+
     @CreateDateColumn()
     @Field()
     creatdAt: Date

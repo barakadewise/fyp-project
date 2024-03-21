@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Youth } from '../entity/youth.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
 import { YouthDto } from '../dto/youth-input-dto';
 import * as bcrypt from 'bcrypt'
 import { Role } from 'utils/roles-enums';
