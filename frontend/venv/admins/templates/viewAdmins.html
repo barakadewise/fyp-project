@@ -204,8 +204,9 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                      {% for admin in admins %}
+                     
                     <tbody>
+                      {% for admin in admins %}
                       <tr>
                         <td>{{ admin.id }}</td>
                         <td>{{ admin.name }}</td>
@@ -230,8 +231,9 @@
                           </a>
                         </td>
                       </tr>
+                      {% endfor %}
                     </tbody>
-                    {% endfor %}
+              
                
                     <tfoot></tfoot>
                   </table>

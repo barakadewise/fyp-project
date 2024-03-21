@@ -213,8 +213,27 @@ def deleteYouthById(request):
 
 #function  to  view the projects
 def viewProjects(request):
-    print('projects')
-    return render(request,'viewProjects.html')
+    csrf_token =api_service.getCsrfToken(request)
+    context ={}
+    
+    #graphql query
+    query='''
+        query {
+     findAllProjects {
+    id
+    name
+    status
+    funded
+    discription
+    cost
+    duration
+     }
+     }
+       '''
+    response =api_service.performQuery(query,csrf_token)
+    context ={'projects':response['data']['findAllProjects']}
+    print(context)
+    return render(request,'viewProjects.html',context=context)
 
 def createProject(request):
     if request.method =="POST":
@@ -254,7 +273,6 @@ def createProject(request):
        }
          '''
         response=api_service.performMuttion(mutation,variables=variables)
-        print(response)
         if response:
             print('Record created successfuly')
             return render(request,'createProject.html')

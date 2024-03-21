@@ -204,8 +204,9 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    {% for partner in partners %}
+                  
                     <tbody>
+                      {% for partner in partners %}
                       <tr>
                         <td>{{ partner.id }}</td>
                         <td>{{ partner.name }}</td>
@@ -230,8 +231,9 @@
                           </a>
                         </td>
                       </tr>
+                      {% endfor %}
                     </tbody>
-                    {% endfor %}
+                
                     <tfoot></tfoot>
                   </table>
                   

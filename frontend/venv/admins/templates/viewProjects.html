@@ -90,12 +90,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="{% url 'viewPartners' %}" class="nav-link">
                     <i
                       class="fa-solid fa-users"
                       style="margin: 0 4px 0 0px"
                     ></i>
-                    <p>Projects</p>
+                    <p>Partners</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -208,14 +208,15 @@
                     </thead>
                    
                     <tbody>
+                        {% for project in projects %}
                       <tr>
-                        <td>1</td>
-                        <td>Uvuvi</td>
-                        <td>5,000,000</td>
-                        <td>6 months</td>
-                        <td>Mradi  wa kimakakti wa kiunua uchumi</td>
-                        <td>started</td>
-                        <td>true</td>
+                        <td>{{ project.id }}</td>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.cost }}</td>
+                        <td>{{ project.duration  }}</td>
+                        <td>{{ project.discription }}</td>
+                        <td>{{ project.status }}</td>
+                        <td>{{ project.funded }}</td>
                         <td class="justify-content-center">
                           <a
                             href="components/edit_event.html"
@@ -233,6 +234,7 @@
                           </a>
                         </td>
                       </tr>
+                      {% endfor %}
                     </tbody>
                     
                     <tfoot></tfoot>

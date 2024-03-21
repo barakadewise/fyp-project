@@ -209,8 +209,9 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    {% for youth in youths %}
+                   
                     <tbody>
+                      {% for youth in youths %}
                       <tr>
                         <td>{{ youth.id }}</td>
                         <td>{{  youth.fname }}</td>
@@ -239,8 +240,9 @@
                         
                         </td>
                       </tr>
+                      {% endfor %}
                     </tbody>
-                    {% endfor %}
+                  
                     <tfoot></tfoot>
                   </table>
                   
