@@ -22,44 +22,51 @@ export class AuthService {
 
     //function to validate user based on the roles
     async validateUser(loginUserDto: LoginUserDto): Promise<any> {
-        const role: string = loginUserDto.role
+        const role = loginUserDto.role
         switch (role) {
-            case "Partner": {
-                const user = await this.partnerService.findOneByEmailOrPhone(loginUserDto.username);
-                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
-                    return this.login(user);
-
-                }
-                throw new UnauthorizedException('Inavalid credentials')
-            }
-            case "Youth": {
+            case 'Youth': {
                 const user = await this.youthService.findOneByEmailOrPhone(loginUserDto.username);
                 if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
-                    return this.login(user);
+                    return user;
                 }
-                throw new UnauthorizedException('Invalid Credentials');
-            }
-            case "Team": {
-                const user = await this.teamService.findOneByEmailOrPhone(loginUserDto.username);
-                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
-                    return this.login(user);
-                }
-                throw new UnauthorizedException('Invalid Credentials');
+                return null;
 
             }
-            default:{
-                const user = await this.adminService.findOne(loginUserDto.username);
-                if(!user){
-                    throw new UnauthorizedException('invalid')
+            case 'Partner': {
+                const user = await this.partnerService.findOneByEmailOrPhone(loginUserDto.username);
+                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
+                    return user;
                 }
-                return user
+                return null;
+
+            }
+            case 'Team': {
+                const user = await this.teamService.findOneByEmailOrPhone(loginUserDto.username);
+                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
+                    return user;
+                }
+                return null;
+            }
+            default: {
+                const user = await this.adminService.findOne(loginUserDto.username);
+                if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
+                    return user;
+                }
+                return null;
             }
         }
 
     }
 
+
+
+
     //login user and resturn asign token
-    async login(user: any): Promise<AuthResults> {
+    async login(loginDto: LoginUserDto): Promise<AuthResults> {
+        const user = await this.validateUser(loginDto);
+        if (!user) {
+            throw new UnauthorizedException('Invalid credentials')
+        }
         const { password, ...results } = user
         const payload = {
             id: results.id,
@@ -71,9 +78,6 @@ export class AuthService {
             id: results.id,
             username: results.email,
             access_token: await this.jwtService.signAsync(payload),
-
-
-        };
-
+        }
     }
 }

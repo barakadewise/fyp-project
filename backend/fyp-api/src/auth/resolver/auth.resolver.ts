@@ -14,7 +14,7 @@ export class AuthResolver {
     //function to loginUser 
     @Mutation(() => AuthResults)
     async login(@Args('loginUserDto') loginUserDto: LoginUserDto): Promise<any> {
-        return await this.authService.validateUser(loginUserDto)
+        return await this.authService.login(loginUserDto)
 
     }
 
