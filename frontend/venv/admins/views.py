@@ -217,4 +217,50 @@ def viewProjects(request):
     return render(request,'viewProjects.html')
 
 def createProject(request):
+    if request.method =="POST":
+        name=request.POST.get('name')
+        cost=float(request.POST.get('cost'))
+        duration=request.POST.get('duration')
+        discription=request.POST.get('discription')
+        status=request.POST.get('status')
+        funded=bool(request.POST.get('funded'))
+
+       #variables
+        variables={
+            "name":name,
+            "cost":cost,
+            "duration":duration,
+            "discription":discription,
+            "status":status,
+            "funded":funded
+
+        }
+        #graphql mutation
+        mutation='''
+        mutation(
+        $name: String!
+        $cost: Float!
+        $duration: String!
+        $discription: String!
+        $status: String!
+        $funded: Boolean!
+       ) {
+       createProject(
+       createProjectInput: {name: $name,cost: $cost,duration: $duration,discription: $discription,status: $status,funded: $funded}
+       )  {
+      id
+      name
+       }
+       }
+         '''
+        response=api_service.performMuttion(mutation,variables=variables)
+        print(response)
+        if response:
+            print('Record created successfuly')
+            return render(request,'createProject.html')
+
+        else:
+            print('failed to create record') 
     return render(request,'createProject.html')
+
+

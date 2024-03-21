@@ -108,7 +108,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="{% url 'createYouth' %}" class="nav-link">
                     <i
                       class="fa-solid fa-restroom"
                       style="margin: 0 4px 0 0px"
@@ -220,6 +220,7 @@
                                   name="cost"
                                   class="form-control"
                                   placeholder="cost"
+                                  min="10000"
                                 />
                               </div>
                             </div>
@@ -249,41 +250,34 @@
                                   <span class="input-group-text"
                                     ><i class="fa-solid fa-file-lines"></i></span>
                                 </div>
-                                <input
-                                  id="discription"
-                                  type="text'"
-                                  name="discription"
-                                  class="form-control"
-                                  placeholder="Discription"
-                                />
+                                <textarea name="discription" id="discription" cols="30" rows="1" class="form-control" placeholder="Discription"></textarea>
                               </div>
                             </div>
 
                             <div class="col-md-6">
-                              <label>Status</label>
-                              <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i class="fa-solid fa-repeat"></i></span>
+                                <label for="funded">Status</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa-solid fa-repeat"></i><span>
+                                    </div>
+                                    <select id="status" name="status" class="form-control">
+                                        <option value="started">started</option>
+                                        <option value="complete">Complete</option>
+                                        <option value="paused">Paused</option>
+                                        <option value="ongoin">Ongoing</option>
+                                       
+                                    </select>
                                 </div>
-                                <input
-                                  id="status"
-                                  type="status"
-                                  name="status"
-                                  class="form-control"
-                                  placeholder="status"
-                                />
-                              </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="category">Funde</label>
+                                <label for="funded">Funded</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa-solid fa-check"></i></span>
                                     </div>
                                     <select id="funded" name="funded" class="form-control">
-                                        <option value="food">True</option>
-                                        <option value="agriculture">False</option>
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
                                        
                                     </select>
                                 </div>
@@ -378,12 +372,12 @@
     document.getElementById("form").addEventListener("submit", function (event) {
       // Get form inputs
       var name = document.getElementById("name").value.trim();
-      var phone = document.getElementById("phone").value.trim();
-      var email = document.getElementById("email").value.trim();
-      var pobox = document.getElementById("pobox").value.trim();
-      var location = document.getElementById("location").value.trim();
-      var password = document.getElementById("password").value.trim();
-      var role = document.getElementById("role").value;
+      var cost= document.getElementById("cost").value.trim();
+      var duration = document.getElementById("duration").value.trim();
+      var discription= document.getElementById("discription").value.trim();
+      var status = document.getElementById("status").value.trim();
+      var funded= document.getElementById("funded").value.trim();
+   
   
       // Get the alert element
       var alertDiv = document.getElementById("alertMessage");
@@ -391,12 +385,11 @@
       // Check if any field is empty
       if (
         !name ||
-        !phone ||
-        !email ||
-        !pobox ||
-        !location ||
-        !password ||
-        role === "Role"
+        !cost ||
+        !duration ||
+        !discription||
+        !status ||!funded
+       
       ) {
         alertDiv.classList.remove("d-none"); // Show the alert
         event.preventDefault(); // Prevent form submission
