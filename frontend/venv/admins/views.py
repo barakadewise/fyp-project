@@ -92,8 +92,8 @@ def createPartner(request):
     # If request method is not POST, render the form
     return render(request, 'createPartner.html')
 
-#function to display all list of partners 
 
+#function to display all list of partners 
 def viewPartners(request):
         #get the crsf token from the request 
         csrf_token = api_service.getCsrfToken(request)
@@ -209,3 +209,12 @@ def deleteYouthById(request):
     print(userId)
     print('user successfully deleted!')
     return HttpResponse('ok')
+
+
+#function  to  view the projects
+def viewProjects(request):
+    print('projects')
+    return render(request,'viewProjects.html')
+
+def createProject(request):
+    return render(request,'createProject.html')

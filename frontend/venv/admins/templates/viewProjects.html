@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} View  | Admins {% endblock %}</title>
+<title>{% block title %} Create | Partner {% endblock %}</title>
 
 {% block content %}
 
@@ -90,16 +90,16 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewPartners' %}" class="nav-link">
+                  <a href="" class="nav-link">
                     <i
                       class="fa-solid fa-users"
                       style="margin: 0 4px 0 0px"
                     ></i>
-                    <p>Partners</p>
+                    <p>Projects</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="createAdmin" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
@@ -108,7 +108,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'createYouth' %}" class="nav-link">
+                  <a href="{% url 'viewYouth' %}" class="nav-link">
                     <i
                       class="fa-solid fa-restroom"
                       style="margin: 0 4px 0 0px"
@@ -159,12 +159,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Admins</h1>
+              <h1>Projects</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Add Admin</li>
+                <li class="breadcrumb-item active">Add project</li>
               </ol>
             </div>
           </div>
@@ -184,8 +184,8 @@
                       class="btn btn-block btn-primary btn-md"
                     >
                     <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
-                      <a href="{% url 'createAdmin' %}" class="text-white"
-                        > Add Admin</a
+                      <a href="{% url 'createProject' %}" class="text-white"
+                        > Add project</a
                       >
                     </button>
                   </div>
@@ -198,21 +198,24 @@
                       <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Super admin</th>
-                        <th>Email</th>
-                        <th>Phone</th>
+                        <th>Cost</th>
+                        <th>Duration</th>
+                        <th>Description(s)</th>
+                        <th>Status</th>
+                        <th>funded</th>
                         <th>Action</th>
                       </tr>
                     </thead>
-                      {% for admin in admins %}
+                   
                     <tbody>
                       <tr>
-                        <td>{{ admin.id }}</td>
-                        <td>{{ admin.name }}</td>
-                        <td>{{ admin.is_superAdmin }}</td>
-                        <td>{{ admin.email }}</td>
-                        <td>{{ admin.phone }}</td>
-  
+                        <td>1</td>
+                        <td>Uvuvi</td>
+                        <td>5,000,000</td>
+                        <td>6 months</td>
+                        <td>Mradi  wa kimakakti wa kiunua uchumi</td>
+                        <td>started</td>
+                        <td>true</td>
                         <td class="justify-content-center">
                           <a
                             href="components/edit_event.html"
@@ -231,8 +234,7 @@
                         </td>
                       </tr>
                     </tbody>
-                    {% endfor %}
-               
+                    
                     <tfoot></tfoot>
                   </table>
                   

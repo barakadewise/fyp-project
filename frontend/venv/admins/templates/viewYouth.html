@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-<title>{% block title %} View| Youth {% endblock %}</title>
+<title>{% block title %} View| Projects {% endblock %}</title>
 
 {% block content %}
 
@@ -118,7 +118,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="{% url 'viewProjects' %}" class="nav-link">
                     <i
                       class="fa-solid fa-diagram-project"
                       style="margin: 0 4px 0 0px"

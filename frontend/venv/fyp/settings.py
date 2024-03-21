@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'teams',
     'youth',
     'opportunity',
+    'projects',
 ]
 
 MIDDLEWARE = [

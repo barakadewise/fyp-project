@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Create | Partner {% endblock %}</title>
+<title>{% block title %} Create | Project {% endblock %}</title>
 
 {% block content %}
 
@@ -159,12 +159,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Add Partner</h1>
+              <h1>Add project</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Add partner</li>
+                <li class="breadcrumb-item active">Add project</li>
               </ol>
             </div>
           </div>
@@ -178,7 +178,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-info">
-                <h4>Partner details</h4>
+                <h4>Project details</h4>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -195,8 +195,7 @@
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"
-                                    ><i class="fa fa-user"></i
-                                  ></span>
+                                    ><i class="fa-solid fa-circle-question"></i></span>
                                 </div>
                                 <input
                                   id="name"
@@ -209,134 +208,87 @@
                             </div>
 
                             <div class="col-md-6">
-                              <label>Phone</label>
+                              <label>Cost</label>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"
-                                    ><i class="fas fa-phone"></i
-                                  ></span>
+                                    ><i class="fa-solid fa-coins"></i></span>
                                 </div>
                                 <input
-                                  id="phone"
-                                  type="tel"
-                                  name="phone"
+                                  id="cost"
+                                  type="number"
+                                  name="cost"
                                   class="form-control"
-                                  placeholder="phone"
+                                  placeholder="cost"
                                 />
                               </div>
                             </div>
 
                             <div class="col-md-6">
-                              <label>Email</label>
+                              <label>Duration</label>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"
-                                    ><i class="fas fa-envelope"></i
-                                  ></span>
-                                </div>
-                                <input
-                                  id="email"
-                                  name="email"
-                                  type="email'"
-                                  class="form-control"
-                                  placeholder="email"
-                                />
-                              </div>
-                            </div>
-
-                            <div class="col-md-6">
-                              <label>P.O.BOX</label>
-                              <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i class="fa-solid fa-envelope-open-text"></i>
+                                    ><i class="fa-regular fa-calendar"></i>
                                   </span>
                                 </div>
                                 <input
-                                  id="pobox"
-                                  name="pobox"
+                                  id="duration"
+                                  name="duration"
                                   type="text'"
                                   class="form-control"
-                                  placeholder="P.O.BOX"
+                                  placeholder="Duration"
                                 />
                               </div>
                             </div>
 
                             <div class="col-md-6">
-                              <label>Location</label>
+                              <label>Discription</label>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"
-                                    ><i class="fa-solid fa-location-dot"></i
-                                  ></span>
+                                    ><i class="fa-solid fa-file-lines"></i></span>
                                 </div>
                                 <input
-                                  id="location"
+                                  id="discription"
                                   type="text'"
-                                  name="location"
+                                  name="discription"
                                   class="form-control"
-                                  placeholder="lococation"
+                                  placeholder="Discription"
                                 />
                               </div>
                             </div>
 
                             <div class="col-md-6">
-                              <label>Password</label>
+                              <label>Status</label>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"
-                                    ><i class="fa-solid fa-lock"></i
-                                  ></span>
+                                    ><i class="fa-solid fa-repeat"></i></span>
                                 </div>
                                 <input
-                                  id="password"
-                                  type="password"
-                                  name="password"
+                                  id="status"
+                                  type="status"
+                                  name="status"
                                   class="form-control"
-                                  placeholder="password"
+                                  placeholder="status"
                                 />
                               </div>
                             </div>
-
                             <div class="col-md-6">
-                              <div class="form-group" id="role">
-                                <label>Role</label>
-                                <select
-                                  class="form-control select2 select2-hidden-accessible"
-                                  style="width: 100%"
-                                  data-select2-id="1"
-                                  tabindex="-1"
-                                  aria-hidden="true"
-                                  id="role"
-                                  name="role"
-                                >
-                                  <option selected="selected">Role</option>
-                                  <option>admin</option>
-                                  <option>partner</option>
-                                  <option>team</option>
-                                </select>
-                              </div>
-                              <!-- /.form-group -->
+                                <label for="category">Funde</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa-solid fa-check"></i></span>
+                                    </div>
+                                    <select id="funded" name="funded" class="form-control">
+                                        <option value="food">True</option>
+                                        <option value="agriculture">False</option>
+                                       
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Status</label>
-                                <select
-                                  class="form-control select2 select2-hidden-accessible"
-                                  style="width: 100%"
-                                  data-select2-id="1"
-                                  tabindex="-1"
-                                  aria-hidden="true",
-                                  id="Status",
-                                  name="Status"
-                                >
-                                  <option selected="selected">Status</option>
-                                  <option>Active</option>
-                                  <option>inactive</option>
-                                </select>
-                              </div>
-                              <!-- /.form-group -->
-                            </div>
+                            
                           </div>
                           <div class="col-">
                             <button
