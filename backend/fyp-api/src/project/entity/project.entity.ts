@@ -19,6 +19,10 @@ export class Project {
     @Field()
     @Column()
     duration: string;
+    
+    @Field()
+    @Column()
+    discription: string;
 
     @Field()
     @Column()

@@ -14,6 +14,9 @@ export class ProjectDto{
     duration: string;
 
     @Field()
+    discription: string;
+
+    @Field()
     status: string;
 
     @Field()

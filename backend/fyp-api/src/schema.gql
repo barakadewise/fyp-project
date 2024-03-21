@@ -70,6 +70,7 @@ type Opportunity {
   id: Float!
   name: String!
   location: String!
+  duration: String!
   creatdAt: DateTime!
 }
 
@@ -78,6 +79,7 @@ type Project {
   name: String!
   cost: Float!
   duration: String!
+  discription: String!
   status: String!
   funded: Boolean!
   createdAt: DateTime!
@@ -163,6 +165,7 @@ input ProjectDto {
   name: String!
   cost: Float!
   duration: String!
+  discription: String!
   status: String!
   funded: Boolean!
 }
