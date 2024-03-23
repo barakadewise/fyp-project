@@ -283,4 +283,11 @@ def createProject(request):
             print('failed to create record') 
     return render(request,'createProject.html')
 
+#function to view all availble ooprtunities
+def viewOpportunities(request):
+    return render(request,'viewOpportunities.html')
 
+
+#fuction to add new opportunities
+def createOpportunity(request):
+    return render(request,'createOpportunity.html')

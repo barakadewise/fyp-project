@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Create | Partner {% endblock %}</title>
+<title>{% block title %} View | Opportunities {% endblock %}</title>
 
 {% block content %}
 
@@ -117,7 +117,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewProjects' %}" class="nav-link active">
+                  <a href="{% url 'viewProjects' %}" class="nav-link">
                     <i
                       class="fa-solid fa-diagram-project"
                       style="margin: 0 4px 0 0px"
@@ -126,7 +126,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewOpportunities' %}" class="nav-link">
+                  <a href="" class="nav-link active">
                     <i
                       class="fa-solid fa-seedling"
                       style="margin: 0 4px 0 0px"
@@ -159,12 +159,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Projects</h1>
+              <h1>Opportunities</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Add project</li>
+                <li class="breadcrumb-item active">Opportunity</li>
               </ol>
             </div>
           </div>
@@ -184,8 +184,8 @@
                       class="btn btn-block btn-primary btn-md"
                     >
                     <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
-                      <a href="{% url 'createProject' %}" class="text-white"
-                        > Add project</a
+                      <a href="{% url 'createOpportunity' %}" class="text-white"
+                        > Add  new</a
                       >
                     </button>
                   </div>
@@ -198,25 +198,20 @@
                       <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Cost</th>
+                        <th>location</th>
                         <th>Duration</th>
-                        <th>Description(s)</th>
-                        <th>Status</th>
-                        <th>funded</th>
-                        <th>Action</th>
+                       
                       </tr>
                     </thead>
                    
                     <tbody>
-                        {% for project in projects %}
+                     
                       <tr>
-                        <td>{{ project.id }}</td>
-                        <td>{{ project.name }}</td>
-                        <td>{{ project.cost }}</td>
-                        <td>{{ project.duration  }}</td>
-                        <td>{{ project.discription }}</td>
-                        <td>{{ project.status }}</td>
-                        <td>{{ project.funded }}</td>
+                        <td>1</td>
+                        <td>Ufundi</td>
+                        <td>Ilala</td>
+                        
+                        
                         <td class="justify-content-center">
                           <a
                             href="components/edit_event.html"
@@ -234,7 +229,7 @@
                           </a>
                         </td>
                       </tr>
-                      {% endfor %}
+                  
                     </tbody>
                     
                     <tfoot></tfoot>

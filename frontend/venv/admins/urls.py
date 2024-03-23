@@ -11,6 +11,8 @@ urlpatterns=[
     path('viewYouth',views.viewYouth,name='viewYouth'),
     path('deleteYouthById',views.deleteYouthById,name='deleteYouthById'),
     path('viewProjects',views.viewProjects,name='viewProjects'),
-    path('createProject',views.createProject,name='createProject')
+    path('createProject',views.createProject,name='createProject'),
+    path('viewOpportunities',views.viewOpportunities,name='viewOpportunities'),
+    path('createOpportunity',views.createOpportunity,name='createOpportunity')
     
 ]
