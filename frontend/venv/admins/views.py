@@ -2,8 +2,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
-
-
 from Api.api import ApiService
 
 
@@ -40,12 +38,13 @@ def viewAdmin(request):
       print(context)
       return render(request,'viewAdmins.html',context=context)
     except Exception as e:
-        return HttpResponse('erro:{}'.format(e))
+        message ='Oooops network issues try again!'
+        print(message)
+        return  render(request,'viewAdmins.html',{message:message})
 
 #function to create partners
 def createPartner(request):
     
-    # Check if the form is submitted
     if request.method == 'POST':
         # Get form data
         name = request.POST.get('name')
@@ -64,8 +63,7 @@ def createPartner(request):
             "email": email,
             "password": password
         }
-        print(variables)
-        # GraphQL mutation
+
         mutation = '''
             mutation($name: String!, $location: String!, $address: String!, $phone: String!, $email: String!, $password: String!) {
                 createPartner(createPartnerInput: {name: $name, location: $location, address: $address, phone: $phone, email: $email, password: $password}) {
@@ -78,18 +76,17 @@ def createPartner(request):
             }
         '''
         
-        # Send GraphQL mutation to the endpoint
-        response_data =api_service.performMuttion(mutation,variables)
-        print(response_data['data']['createPartner'])
-        if 'error' not in response_data:
-            print('successfully!')
-            return HttpResponse('Successfully response:{}'.format(response_data))
-        else:
-            print("Got errors. error:{}".format(response_data))
-            return HttpResponse("Got errors. error:{}".format(response_data))  
+        try:
 
-    
-    # If request method is not POST, render the form
+           response_data =api_service.performMuttion(mutation,variables)
+           return  render(request, 'createPartner.html')  
+
+        except Exception as e:
+            message ='Network issues try again!'
+            print(message)
+            return render(request, 'createPartner.html',{message:message})
+           
+        
     return render(request, 'createPartner.html')
 
 
@@ -197,10 +194,12 @@ def viewYouth(request):
     
         response_data= api_service.performQuery(query,csrfToken)
         context ={'youths':response_data['data']['findAllYouth']}
+        if 'error' in response_data:
+            print('data error ')
         return render(request,'viewYouth.html',context=context)
     except Exception as e:
-        print(response_data)
-        return HttpResponse('failed to query')
+        print('Failed to query ')
+        return  render(request,'viewYouth.html')
 
 
 #delete youth by id
@@ -230,10 +229,13 @@ def viewProjects(request):
      }
      }
        '''
-    response =api_service.performQuery(query,csrf_token)
-    context ={'projects':response['data']['findAllProjects']}
-    print(context)
-    return render(request,'viewProjects.html',context=context)
+    try:
+        response =api_service.performQuery(query,csrf_token)
+        context ={'projects':response['data']['findAllProjects']}
+    except Exception as e:
+        print('failed to fetch data',e)
+        return render(request,'viewProjects.html',{'message':'Network issues'})
+    return render(request,'viewProjects.html',context)
 
 def createProject(request):
     if request.method =="POST":

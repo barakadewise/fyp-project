@@ -12,7 +12,6 @@ class ApiService:
         if response.status_code==200:
             return response.json()
         else:
-            print(response.text)
             raise Exception('failed to perform mutation ')
     
 
@@ -27,7 +26,7 @@ class ApiService:
             return response.json()
         else:
             print("Request failed with status code:", response.status_code)
-            print("Response content:", response.content)
+
             raise Exception('failed to pull data')
             
      #function to return csrf token from the request       
