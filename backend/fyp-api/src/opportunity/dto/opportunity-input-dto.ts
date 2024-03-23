@@ -8,5 +8,8 @@ export class OpportunityDto{
     @Field()
     location:string;
     
+    @Field()
+    duration:string;
+    
 
 }

@@ -10,7 +10,9 @@ export class OpportunityService {
 
     //function to create opportunity
     async createOpportunity(createOpportunityInput: OpportunityDto): Promise<Opportunity> {
-        const newOpportunity = this.opportunityRepository.create(createOpportunityInput);
+        const newOpportunity = this.opportunityRepository.create({
+            ...createOpportunityInput
+        });
         return await this.opportunityRepository.save(newOpportunity)
 
     }

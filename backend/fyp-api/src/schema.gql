@@ -159,6 +159,7 @@ input TeamsDto {
 input OpportunityDto {
   name: String!
   location: String!
+  duration: String!
 }
 
 input ProjectDto {

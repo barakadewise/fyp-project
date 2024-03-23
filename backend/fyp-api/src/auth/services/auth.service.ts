@@ -47,6 +47,8 @@ export class AuthService {
                 }
                 return null;
             }
+
+            //default return admin service
             default: {
                 const user = await this.adminService.findOne(loginUserDto.username);
                 if (user && await bcrypt.compare(loginUserDto.password, user.password)) {
@@ -57,9 +59,6 @@ export class AuthService {
         }
 
     }
-
-
-
 
     //login user and resturn asign token
     async login(loginDto: LoginUserDto): Promise<AuthResults> {
