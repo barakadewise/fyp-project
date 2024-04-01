@@ -26,7 +26,6 @@ class ApiService:
             return response.json()
         else:
             print("Request failed with status code:", response.status_code)
-
             raise Exception('failed to pull data')
             
      #function to return csrf token from the request       

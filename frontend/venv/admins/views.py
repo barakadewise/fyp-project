@@ -138,7 +138,7 @@ def createYouth(request):
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
         
-        variable={
+        variables={
             "fname":fname,
             "mname":mname,
             "lname":lname,
@@ -163,7 +163,7 @@ def createYouth(request):
                 }
             }
         '''
-        resposnse_data= api_service.performMuttion(mutation,variables=variable)
+        resposnse_data= api_service.performMuttion(mutation,variables)
         print(resposnse_data)
     return render(request,'createYouth.html')
 
@@ -274,7 +274,7 @@ def createProject(request):
        }
        }
          '''
-        response=api_service.performMuttion(mutation,variables=variables)
+        response=api_service.performMuttion(mutation,variables)
         if response:
             print('Record created successfuly')
             return render(request,'createProject.html')
@@ -290,4 +290,39 @@ def viewOpportunities(request):
 
 #fuction to add new opportunities
 def createOpportunity(request):
+    if request.method =='POST':
+        name =request.POST.get('name')
+        location =request.POST.get('location')
+        duration =request.POST.get('duration')
+
+        
+        mutation='''
+        mutation($name: String!, $location: String!, $duration: String!) {
+        createOpportunity(
+        createOpportunityInput: {name: $name,location: $location,duration: $duration}) {
+        name
+        location
+        duration
+               }
+             }
+           '''
+        
+        variables={
+            'name':name,
+            'location':location,
+            'duration':duration
+
+        }
+        print(variables)
+        try:
+           reponse = api_service.performMuttion(mutation,variables)
+           if reponse:
+               print (True)
+               
+           else:
+               print(False) 
+        except Exception as e:
+          print(e)
+
+    
     return render(request,'createOpportunity.html')
