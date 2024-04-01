@@ -1,8 +1,9 @@
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import json
 from Api.api import ApiService
+from django.contrib import messages
 
 
 #an aoi instance service class
@@ -285,6 +286,24 @@ def createProject(request):
 
 #function to view all availble ooprtunities
 def viewOpportunities(request):
+    csrf_token =api_service.getCsrfToken(request)
+
+    query ='''  
+          query {
+         findAllOpportunities {
+         id
+        name
+        duration
+        location
+        }
+        }
+
+      '''
+    try:
+        response =api_service.performQuery(query,csrf_token)
+        return render(request,'viewOpportunities.html',{'opportunities':response['data']['findAllOpportunities']})
+    except Exception as e:
+        print(e)
     return render(request,'viewOpportunities.html')
 
 
@@ -313,14 +332,14 @@ def createOpportunity(request):
             'duration':duration
 
         }
-        print(variables)
         try:
            reponse = api_service.performMuttion(mutation,variables)
            if reponse:
-               print (True)
+               messages.success(request,'Successfully created')
+               return redirect('createOpportunity')
                
            else:
-               print(False) 
+               messages.error(request,'Failed to create record!')
         except Exception as e:
           print(e)
 

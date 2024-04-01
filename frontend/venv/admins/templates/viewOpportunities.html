@@ -1,5 +1,6 @@
-{% extends 'base.html' %} {% load static %}
-<title>{% block title %} View | Opportunities {% endblock %}</title>
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} View| Opportunity {% endblock %}</title>
 
 {% block content %}
 
@@ -99,7 +100,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="createAdmin" class="nav-link">
+                  <a href="{% url 'viewAdmins' %}" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
@@ -108,7 +109,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewYouth' %}" class="nav-link">
+                  <a href="{% url 'viewYouth' %}" class="nav-link ">
                     <i
                       class="fa-solid fa-restroom"
                       style="margin: 0 4px 0 0px"
@@ -126,7 +127,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="" class="nav-link active">
+                  <a href="{% url 'viewOpportunities' %}" class="nav-link active">
                     <i
                       class="fa-solid fa-seedling"
                       style="margin: 0 4px 0 0px"
@@ -135,7 +136,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="../members/members.html" class="nav-link ">
                     <i
                       class="fa-brands fa-teamspeak"
                       style="margin: 0 4px 0 0px"
@@ -159,12 +160,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Opportunities</h1>
+              <h1>Youth</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Opportunity</li>
+                <li class="breadcrumb-item active">Add Opportunity</li>
               </ol>
             </div>
           </div>
@@ -185,7 +186,7 @@
                     >
                     <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
                       <a href="{% url 'createOpportunity' %}" class="text-white"
-                        > Add  new</a
+                        > Add Youth </a
                       >
                     </button>
                   </div>
@@ -200,18 +201,20 @@
                         <th>Name</th>
                         <th>location</th>
                         <th>Duration</th>
-                       
+                        <th>Action</th>
+
                       </tr>
                     </thead>
                    
                     <tbody>
-                     
+                      {% for opportunity in opportunities %}
                       <tr>
-                        <td>1</td>
-                        <td>Ufundi</td>
-                        <td>Ilala</td>
-                        
-                        
+                        <td>{{ opportunity.id }}</td>
+                        <td>{{ opportunity.name }}</td>
+                        <td>{{ opportunity.location }}</td>
+                        <td>{{ opportunity.duration }}</td>
+                   
+
                         <td class="justify-content-center">
                           <a
                             href="components/edit_event.html"
@@ -219,19 +222,19 @@
                           >
                             <i class="fas fa-pen"></i> Edit
                           </a>
-                          <a
-                            href="#"
-                            class="btn btn-danger btn-sm delete-btn"
-                            data-toggle="modal"
-                            data-target="#deleteModal"
-                          >
+                          <a href="#" class="btn btn-danger btn-sm delete-btn" 
+                          data-toggle="modal"
+                           data-target="#deleteModal"
+                           data-userid="{{ youth.id }}"
+                           data-username="{{ youth.email }}">
                             <i class="fas fa-trash"></i> Delete
-                          </a>
+                        </a>
+                        
                         </td>
                       </tr>
-                  
+                      {% endfor %}
                     </tbody>
-                    
+                  
                     <tfoot></tfoot>
                   </table>
                   
@@ -246,6 +249,8 @@
       </section>
       <!-- /.content -->
     </div>
+    <!-- /.content-wrapper -->
+
     <!-- Delete Modal -->
     <div
       class="modal fade"
@@ -286,6 +291,8 @@
         </div>
       </div>
     </div>
+    <!-- /.modal -->
+
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block"><b>2023</b></div>
       <strong>Copyright &copy; Dar es salaam regional commission.</strong>
@@ -300,4 +307,6 @@
   </div>
 
   {% endblock %}
+
+
 </body>

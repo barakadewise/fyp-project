@@ -34,9 +34,25 @@
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
       rel="stylesheet"
     />
+    <!-- tost links -->
+    <link rel="stylesheet" href="{% static 'dist/css/toast/tostr.min.css' %}">
+
   </head>
   <body>
-    {% block content %} {% endblock %}
+    {% block content %} 
+    {% for message in messages %}
+       {% if message.tags == 'success' %}
+       <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+      {% elif message.tags == 'error' %}
+    <div class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
+
+        {% endif %}  
+    {% endfor %}
+    {% endblock %}
 
     <!-- ./wrapper -->
     <!-- jQuery -->
@@ -50,6 +66,11 @@
     <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
     <!-- AdminLTE App -->
     <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+    <!-- toast -->
+    <script src="{% static 'dist/css/toast/tostr.js' %}"></script>
+   
+
 
     <!-- page script -->
     <script>
