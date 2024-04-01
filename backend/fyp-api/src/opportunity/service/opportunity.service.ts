@@ -27,7 +27,7 @@ export class OpportunityService {
     async deleteOpportunityById(id: number): Promise<OperationDto | any> {
         const opportunity = await this.opportunityRepository.findOne({ where: { id: id } })
         if (!opportunity) {
-            throw new BadRequestException('Failed to delete! Not found!')
+            throw new BadRequestException("Failde! Not found")
         }
         this.opportunityRepository.remove(opportunity)
         return {
