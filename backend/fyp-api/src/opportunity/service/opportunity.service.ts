@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Opportunity } from '../entity/opportunity.entity';
 import { Repository } from 'typeorm';
 import { OpportunityDto } from '../dto/opportunity-input-dto';
+import { OperationDto } from 'dto/operation-dto';
 
 @Injectable()
 export class OpportunityService {
@@ -20,5 +21,19 @@ export class OpportunityService {
     //Query all opportunities
     async findAllOpportunities(): Promise<Opportunity[]> {
         return await this.opportunityRepository.find({ order: { 'creatdAt': 'DESC' } })
+    }
+
+    //delete opportunity by id
+    async deleteOpportunityById(id: number): Promise<OperationDto> {
+        const opportunity = await this.opportunityRepository.findOne({ where: { id: id } })
+        if (!opportunity) {
+            return {
+                message: "Failed to delete! not found"
+            }
+        }
+        this.opportunityRepository.remove(opportunity)
+        return {
+            message: "Successfully deleted"
+        }
     }
 }

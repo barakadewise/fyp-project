@@ -2,6 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { OpportunityService } from '../service/opportunity.service';
 import { OpportunityDto } from '../dto/opportunity-input-dto';
 import { Opportunity } from '../entity/opportunity.entity';
+import { OperationDto } from 'dto/operation-dto';
 
 @Resolver()
 export class OpportunityResolver {
@@ -19,5 +20,10 @@ export class OpportunityResolver {
     async findAllOpportunities(): Promise<Opportunity[]> {
         return await this.opprtunityService.findAllOpportunities()
     }
-
+   
+    //delete opportunitu by Id
+    @Mutation(() => OperationDto)
+    async deleteOpportunityById(@Args('id') id: number): Promise<OperationDto> {
+        return this.opprtunityService.deleteOpportunityById(id)
+    }
 }
