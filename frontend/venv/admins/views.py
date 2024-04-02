@@ -226,7 +226,7 @@ def deleteYouthById(request):
     except Exception as e:
         print(e)
     
-    return HttpResponse('ok deleted',id)
+    return render(request,'viewYouth.html')
 
 
 #function  to  view the projects
