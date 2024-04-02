@@ -160,7 +160,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Youth</h1>
+              <h1>Opportunity</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -186,7 +186,7 @@
                     >
                     <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
                       <a href="{% url 'createOpportunity' %}" class="text-white"
-                        > Add Youth </a
+                        > Add Opportunity </a
                       >
                     </button>
                   </div>
@@ -222,11 +222,11 @@
                           >
                             <i class="fas fa-pen"></i> Edit
                           </a>
-                          <a href="#" class="btn btn-danger btn-sm delete-btn" 
+                          <a href="" class="btn btn-danger btn-sm delete-btn" 
                           data-toggle="modal"
                            data-target="#deleteModal"
-                           data-userid="{{ youth.id }}"
-                           data-username="{{ youth.email }}">
+                           data-id="{{ opportunity.id }}"
+                          >
                             <i class="fas fa-trash"></i> Delete
                         </a>
                         
@@ -284,7 +284,7 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-danger" id="confirmDelete">
+            <button type="button" class="btn btn-danger" id="confirmDelete" >
               Delete
             </button>
           </div>
@@ -306,7 +306,59 @@
     <!-- /.control-sidebar -->
   </div>
 
-  {% endblock %}
+  <!-- handle delete  -->
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+  <script>
+    $(function (){
+      
+      $("#example1").DataTable({
+        responsive: true,
+        autoWidth: false,
+      });
+      $("#example2").DataTable({
+        paging: true,
+        lengthChange: false,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+      });
+      // Handle delete button click
+      $(".delete-btn").click(function () {
+      console.log("hello 1")
+      
+        var rowData = $(this).closest("tr").find("td:first").text();
+        var id = rowData.trim();
 
+        $("#confirmDelete").data("id", id);
+      });
+
+      $("#confirmDelete").click(function () {
+        var id = $(this).data("id");
+
+        console.log("Deleting obeject with ID: " + id);
+
+        $.ajax({
+          url: "{% url 'deleteOpportunityById' %}",
+          type: "POST",
+          data: {
+            id: id,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function (response) {
+            window.location.reload();
+          },
+          error: function (xhr, status, error) {
+            console.error("Error deleting :", error);
+          },
+        });
+
+        $("#deleteModal").modal("hide");
+      });
+    });
+  </script>
+
+  {% endblock %}
 
 </body>

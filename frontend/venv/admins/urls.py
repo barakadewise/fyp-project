@@ -13,6 +13,7 @@ urlpatterns=[
     path('viewProjects',views.viewProjects,name='viewProjects'),
     path('createProject',views.createProject,name='createProject'),
     path('viewOpportunities',views.viewOpportunities,name='viewOpportunities'),
-    path('createOpportunity',views.createOpportunity,name='createOpportunity')
+    path('createOpportunity',views.createOpportunity,name='createOpportunity'),
+    path('deleteOpportunityById"',views.deleteOpporrtunityById,name="deleteOpportunityById"),
     
 ]

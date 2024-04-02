@@ -345,3 +345,26 @@ def createOpportunity(request):
 
     
     return render(request,'createOpportunity.html')
+
+#delete opportunity by id
+def deleteOpporrtunityById(request):
+    if request.method =='POST':
+        id =int(request.POST.get('id'))
+        
+        muatation='''
+       mutation($id: Float!) {
+       deleteOpportunityById(id: $id) {
+       message
+       }
+      }
+           '''
+        try:
+            response =api_service.performMuttion(muatation,{'id':id})
+            if response:
+                print(response['data']['deleteOpportunityById']['message'])
+            else:
+                print(response)
+        except Exception as e:
+            print('Filed to perform operation')
+
+    return render(request,'viewOpportunities.html')

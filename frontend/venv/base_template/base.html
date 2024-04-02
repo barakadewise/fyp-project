@@ -65,67 +65,6 @@
     <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
     <!-- AdminLTE App -->
-    <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
-
-    <!-- toast -->
-    <script src="{% static 'dist/css/toast/tostr.js' %}"></script>
    
-
-
-    <!-- page script -->
-    <script>
-      $(function () {
-        $("#example1").DataTable({
-          responsive: true,
-          autoWidth: false,
-        });
-        $("#example2").DataTable({
-          paging: true,
-          lengthChange: false,
-          searching: true,
-          ordering: true,
-          info: true,
-          autoWidth: false,
-          responsive: true,
-        });
-        // Handle delete button click
-        $(".delete-btn").click(function () {
-          // Get the data from the row
-          var rowData = $(this).closest("tr").find("td:first").text();
-          var userId = rowData.trim();
-
-          // Set the user ID in the modal for reference when confirming delete
-          $("#confirmDelete").data("user-id", userId);
-        });
-
-        // Handle confirm delete button click
-        $("#confirmDelete").click(function () {
-          // Retrieve the user ID from the modal
-          var userId = $(this).data("user-id");
-
-          // Perform your delete action here (you may want to make an AJAX request to the server)
-          console.log("Deleting user with ID: " + userId);
-
-          $.ajax({
-            url: "{% url 'deleteYouthById' %}",
-            type: "POST",
-            data: {
-              userId: userId,
-              csrfmiddlewaretoken: "{{ csrf_token }}",
-            },
-            success: function (response) {
-              window.location.reload();
-            },
-            error: function (xhr, status, error) {
-              // Handle error response
-              console.error("Error deleting user:", error);
-            },
-          });
-
-          // Close the modal
-          $("#deleteModal").modal("hide");
-        });
-      });
-    </script>
   </body>
 </html>
