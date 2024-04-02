@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Youth } from '../entity/youth.entity';
-import {  Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { YouthDto } from '../dto/youth-input-dto';
 import * as bcrypt from 'bcrypt'
 import { Role } from 'utils/roles-enums';
@@ -46,7 +46,7 @@ export class YouthService {
     async deleteYouthById(id: number): Promise<OperationDto> {
         const user = await this.youthRepository.findOne({ where: { id: id } })
         if (!user) {
-            throw new BadRequestException('Invalid operation');
+            throw new NotFoundException('User Not found!')
         }
         await this.youthRepository.remove(user)
         return {
