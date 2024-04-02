@@ -205,10 +205,28 @@ def viewYouth(request):
 
 #delete youth by id
 def deleteYouthById(request):
-    userId = request.POST.get('userId')
-    print(userId)
-    print('user successfully deleted!')
-    return HttpResponse('ok')
+    id =int( request.POST.get('id'))
+    print(id)
+    muatation='''
+       mutation($id: Float!) {
+       deleteYouthById(id: $id) {
+       message
+      }
+      }
+
+    '''
+    try:
+        response =api_service.performMuttion(muatation,{'id':id})
+        if not response:
+            print(response)
+            
+        else:
+            print(response)
+            
+    except Exception as e:
+        print(e)
+    
+    return HttpResponse('ok deleted',id)
 
 
 #function  to  view the projects
@@ -361,8 +379,10 @@ def deleteOpporrtunityById(request):
         try:
             response =api_service.performMuttion(muatation,{'id':id})
             if response:
+                #todo success message
                 print(response['data']['deleteOpportunityById']['message'])
             else:
+                #todo error message!
                 print(response)
         except Exception as e:
             print('Filed to perform operation')
