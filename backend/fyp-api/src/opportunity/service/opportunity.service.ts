@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Opportunity } from '../entity/opportunity.entity';
 import { Repository } from 'typeorm';
@@ -27,7 +27,7 @@ export class OpportunityService {
     async deleteOpportunityById(id: number): Promise<OperationDto | any> {
         const opportunity = await this.opportunityRepository.findOne({ where: { id: id } })
         if (!opportunity) {
-            throw new BadRequestException("Failde! Not found")
+            throw new NotFoundException('Not found');
         }
         this.opportunityRepository.remove(opportunity)
         return {
