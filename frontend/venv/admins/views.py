@@ -1,7 +1,6 @@
 
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-import json
 from Api.api import ApiService
 from django.contrib import messages
 
@@ -11,7 +10,90 @@ api_service = ApiService()
 
 #function to load admin dashpanel
 def getAdminPanel(request):
-    return render(request,'dashboard.html')
+    csrf_token =api_service.getCsrfToken(request)
+    
+    # all admin query
+    queryAdmin ='''
+               query{
+  findAlladmins{
+    id,
+     }
+         }
+       '''
+    
+    # all youth query
+    queryYouth ='''
+query{
+  findAllYouth{
+    id
+  }
+}
+        '''
+    
+    # all projects
+    queryProjects='''
+query {
+  findAllProjects {
+    id
+  }
+}
+
+ '''
+    
+    # query teams
+    queryTeams='''
+query {
+  findAllTeams {
+    id
+  }
+}
+   '''
+    #query project
+    queryPartners='''
+query {
+  findAllPartners {
+    id
+  }
+}
+
+'''
+#query opportunities
+    queryOpportunities='''
+query {
+  findAllOpportunities {
+    id
+  }
+}
+
+'''
+    try:
+        allAdmins =api_service.performQuery(queryAdmin,csrf_token)
+        allYouth =api_service.performQuery(queryYouth,csrf_token)
+        allProjects =api_service.performQuery(queryProjects,csrf_token)
+        allTeams =api_service.performQuery(queryTeams,csrf_token)
+        allPartner =api_service.performQuery(queryPartners,csrf_token)
+        allOpportunities =api_service.performQuery(queryOpportunities,csrf_token)
+
+        #convert the data to list and count the data
+        countAdmins =len(allAdmins['data']['findAlladmins'])
+        countYouth =len(allYouth['data']['findAllYouth'])
+        countProjects =len(allProjects['data']['findAllProjects'])
+        countTeams =len(allTeams['data']['findAllTeams'])
+        countPartners=len(allPartner['data']['findAllPartners'])
+        countOpportunities =len(allOpportunities['data']['findAllOpportunities'])
+        context={
+                'alladmin':countAdmins,
+                'allyouth':countYouth,
+                'allprojects':countProjects,
+                'allteams':countTeams,
+                'allpartner':countPartners,
+                'allopportunities':countOpportunities
+                }
+       
+        print(context)
+    except Exception as e:
+        print('something went wrong')
+    return render(request,'dashboard.html',context=context)
 
 
 #function to create admin
@@ -78,7 +160,6 @@ def createPartner(request):
         '''
         
         try:
-
            response_data =api_service.performMuttion(mutation,variables)
            return  render(request, 'createPartner.html')  
 
