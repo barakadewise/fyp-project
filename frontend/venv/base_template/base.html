@@ -57,6 +57,22 @@
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <script>
+      $(document).ready(function () {
+        $('[data-widget="pushmenu"]').click(function () {
+          $('body').toggleClass('sidebar-collapse');
+        });
+        $('.nav-item.has-treeview > .nav-link').click(function (e) {
+        e.preventDefault(); // Prevent default anchor link behavior
+        var $parent = $(this).parent();
+        var isOpen = $parent.hasClass('menu-open');
+        $('.nav-item.has-treeview').removeClass('menu-open'); // Close all other dropdowns
+        if (!isOpen) {
+          $parent.addClass('menu-open'); // Open clicked dropdown
+        }
+      });
+      });
+    </script>
     <!-- Bootstrap 4 -->
     <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- DataTables -->

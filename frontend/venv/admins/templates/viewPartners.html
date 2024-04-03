@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Create | Partner {% endblock %}</title>
+<title>{% block title %} View | Partner {% endblock %}</title>
 
 {% block content %}
 
@@ -126,7 +126,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewOpportunities' %} class="nav-link">
+                  <a href="{% url 'viewOpportunities' %}" class="nav-link">
                     <i
                       class="fa-solid fa-seedling"
                       style="margin: 0 4px 0 0px"
@@ -300,6 +300,7 @@
     </aside>
     <!-- /.control-sidebar -->
   </div>
+ 
 
   {% endblock %}
 </body>
