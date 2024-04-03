@@ -11,7 +11,7 @@ import { OperationDto } from 'dto/operation-dto';
 export class YouthService {
     constructor(@InjectRepository(Youth) private readonly youthRepository: Repository<Youth>) { }
 
-    //async create user 
+    //create user  function
     async createYouth(createYouth: YouthDto): Promise<Youth> {
         const hashedPassword = await bcrypt.hash(createYouth.password, 10);
         const newYouth = this.youthRepository.create({
@@ -33,7 +33,6 @@ export class YouthService {
 
     //function to find  youth by email or phone number
     async findOneByEmailOrPhone(identifier: string): Promise<any> {
-        // return await this.youthRepository.findOne({ where: { phone: email } })
         return await this.youthRepository.createQueryBuilder('youth').where('youth.email=:identifier OR youth.phone=:identifier', { identifier }).getOne()
     }
 
