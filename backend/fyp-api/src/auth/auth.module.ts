@@ -9,7 +9,7 @@ import { JwtStrategy } from './strategy/jwt-strategy';
 import { PartnersModule } from 'src/partners/partners.module';
 import { YouthModule } from 'src/youth/youth.module';
 import { TeamsModule } from 'src/teams/teams.module';
-import { LocalStrategy } from './strategy/local.strategy';
+
 
 @Module({
   imports: [AdminModule,
@@ -26,7 +26,7 @@ import { LocalStrategy } from './strategy/local.strategy';
 
     )
   ],
-  providers: [AuthResolver, AuthService,LocalStrategy, JwtStrategy],
+  providers: [AuthResolver, AuthService, JwtStrategy],
   exports: [AuthService]
 })
 export class AuthModule { }
