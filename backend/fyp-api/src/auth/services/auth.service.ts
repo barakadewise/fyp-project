@@ -64,14 +64,15 @@ export class AuthService {
     async login(loginDto: LoginUserDto): Promise<AuthResults> {
         const user = await this.validateUser(loginDto);
         if (!user) {
-            throw new UnauthorizedException('Invalid credentials')
+            throw new UnauthorizedException('Invalid loggin credentials!')
         }
         const { password, ...results } = user
         const payload = {
-            id: results.id,
-            email: results.email
+            sub: results.id,
+            username: results.email
 
         }
+        console.log(payload)
         return {
             message: "Successfuly loggedin",
             id: results.id,

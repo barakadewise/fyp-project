@@ -62,6 +62,11 @@ type AuthResults {
   access_token: String
 }
 
+type UserDto {
+  id: Float
+  username: String
+}
+
 type OperationDto {
   message: String!
 }
@@ -92,6 +97,7 @@ type AdministrationLevel {
 
 type Query {
   findAlladmins: [Admin!]!
+  getCurrentUser: UserDto!
   findAllPartners: [Partner!]!
   findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!

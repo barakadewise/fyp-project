@@ -16,10 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) {
-        const user = await this.adminService.findOne(payload.email)
-        if (user) {
-            return { id: payload.sub, username: payload.email, name: payload.name };
-        }
-        throw new UnauthorizedException('Invalid credentials');
+
+        return { sub: payload.sub, username: payload.username }
     }
 }

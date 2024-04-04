@@ -24,7 +24,7 @@ import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationleve
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req }) => ({ Headers: req.Headers })
+      context: ({ req }) => ({ req })
 
     }),
     TypeOrmModule.forRootAsync(typeormConfigAsyc),
