@@ -72,7 +72,6 @@ export class AuthService {
             username: results.email
 
         }
-        console.log(payload)
         return {
             message: "Successfuly loggedin",
             id: results.id,
