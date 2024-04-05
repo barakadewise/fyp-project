@@ -2,9 +2,9 @@ import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 export class UserDto{
-    @Field({nullable:true})
+    @Field()
     id:number;
 
-    @Field({nullable:true})
+    @Field()
     username:string;
 }

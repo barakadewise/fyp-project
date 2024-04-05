@@ -63,8 +63,8 @@ type AuthResults {
 }
 
 type UserDto {
-  id: Float
-  username: String
+  id: Float!
+  username: String!
 }
 
 type OperationDto {

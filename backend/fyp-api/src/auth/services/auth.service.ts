@@ -48,7 +48,7 @@ export class AuthService {
                 return null;
             }
 
-            //default return admin service
+            //By default return admin service doesnt require role
             default: {
                 const user = await this.adminService.findOne(loginUserDto.username);
                 if (user && await bcrypt.compare(loginUserDto.password, user.password)) {

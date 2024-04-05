@@ -8,6 +8,7 @@ import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { User as CurrentUser } from 'decorator/user.decorator'
 
 import { UserDto } from 'dto/user.dto';
+import { Console } from 'console';
 
 @Resolver()
 export class AdminResolver {
@@ -35,9 +36,12 @@ export class AdminResolver {
     async getCurrentUser(@Context() context): Promise<UserDto> {
         console.log(context.req.user)
         const currentUser = context.req.user;
+        // console.log(context.req.user.username);
+        // console.log("sucessfully retrieved data from the payload");
         return {
             id: currentUser.sub,
-            username: currentUser.username
+            username: currentUser.username,
+            
         }
     }
 
