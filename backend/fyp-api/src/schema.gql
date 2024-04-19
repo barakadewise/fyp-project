@@ -69,6 +69,7 @@ type UserDto {
 
 type OperationDto {
   message: String!
+  statusCode: Float!
 }
 
 type Opportunity {

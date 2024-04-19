@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Youth } from '../entity/youth.entity';
 import { Repository } from 'typeorm';
@@ -49,7 +49,8 @@ export class YouthService {
         }
         await this.youthRepository.remove(user)
         return {
-            message: 'Successfully deleted'
+            message: 'Successfully deleted',
+            statusCode:HttpStatus.OK
         }
     }
 

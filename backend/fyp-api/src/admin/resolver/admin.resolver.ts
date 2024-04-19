@@ -5,19 +5,14 @@ import { AdminInputDto } from '../dto/admin-input-dto';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
-import { User as CurrentUser } from 'decorator/user.decorator'
-
 import { UserDto } from 'dto/user.dto';
-import { Console } from 'console';
+
 
 @Resolver()
 export class AdminResolver {
     constructor(private readonly adminService: AdminService) { }
-
-
-
-    //fetch all admin 
-    @UseGuards(GqlAuthGuard)
+    
+    // @UseGuards(GqlAuthGuard)
     @Query(() => [Admin])
     async findAlladmins(): Promise<Admin[]> {
         return this.adminService.findAll();
@@ -37,7 +32,6 @@ export class AdminResolver {
         console.log(context.req.user)
         const currentUser = context.req.user;
         // console.log(context.req.user.username);
-        // console.log("sucessfully retrieved data from the payload");
         return {
             id: currentUser.sub,
             username: currentUser.username,

@@ -4,4 +4,7 @@ import { Field, ObjectType } from "@nestjs/graphql";
 export class OperationDto{
     @Field()
     message:string
+
+    @Field()
+    statusCode:number;
 }

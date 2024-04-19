@@ -14,6 +14,9 @@ import { YouthModule } from './youth/youth.module';
 import { TeamsModule } from './teams/teams.module';
 import { typeormConfigAsyc } from './config/typeorm.config';
 import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationlevel.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from 'dto/exeption.filter';
+
 
 
 
@@ -39,6 +42,6 @@ import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationleve
 
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,],
 })
 export class AppModule { }
