@@ -75,12 +75,12 @@ query {
         allOpportunities =api_service.performQuery(queryOpportunities,csrf_token)
 
         #convert the data to list and count the data
-        countAdmins =len(allAdmins['data']['findAlladmins'])
-        countYouth =len(allYouth['data']['findAllYouth'])
-        countProjects =len(allProjects['data']['findAllProjects'])
-        countTeams =len(allTeams['data']['findAllTeams'])
-        countPartners=len(allPartner['data']['findAllPartners'])
-        countOpportunities =len(allOpportunities['data']['findAllOpportunities'])
+        countAdmins =len(allAdmins.get('data',{}).get('findAlladmins',[]))
+        countYouth =len(allYouth.get('data',{}).get('findAllYouth', []))
+        countProjects =len(allProjects.get('data',{}).get('findAllProjects',[]))
+        countTeams =len(allTeams.get('data',{}).get('findAllTeams',[]))
+        countPartners=len(allPartner.get('data',{}).get('findAllPartners',[]))
+        countOpportunities =len(allOpportunities.get('data',{}).get('findAllOpportunities',[]))
         context={
                 'alladmin':countAdmins,
                 'allyouth':countYouth,
@@ -89,11 +89,12 @@ query {
                 'allpartner':countPartners,
                 'allopportunities':countOpportunities
                 }
-       
-        print(context)
+        print(countAdmins,countYouth,countPartners)
+        return render(request,'dashboard.html',context)
+    
     except Exception as e:
-        print('something went wrong')
-    return render(request,'dashboard.html',context=context)
+        print('Failed to fetch data')
+    return render(request,'dashboard.html',)
 
 
 #function to create admin
@@ -184,7 +185,8 @@ def viewPartners(request):
             query {
                 findAllPartners {
                     name
-                    id
+                    id,
+                    phone
                     address
                     createdAt
                     email

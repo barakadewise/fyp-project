@@ -22,10 +22,11 @@ class ApiService:
             'X-CSRFToken': csrf_token,
         }
         response =requests.get(self.Baseurl,params={'query': query },headers=headers)
-        if response.status_code==200:
+        if response.ok:
             return response.json()
+        
         else:
-            print("Request failed with status code:", response.status_code)
+            print('Failed')
             raise Exception('failed to pull data')
             
      #function to return csrf token from the request       
