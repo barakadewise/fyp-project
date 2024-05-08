@@ -1,22 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AuthResolver } from './resolver/auth.resolver';
 import { AuthService } from './services/auth.service';
-import { AdminModule } from 'src/admin/admin.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstant } from 'constants/secret.';
 import { JwtStrategy } from './strategy/jwt-strategy';
-import { PartnersModule } from 'src/partners/partners.module';
-import { YouthModule } from 'src/youth/youth.module';
-import { TeamsModule } from 'src/teams/teams.module';
+import { AccountsModule } from 'src/accounts/accounts.module';
 
 
 @Module({
-  imports: [AdminModule,
-    PartnersModule,
-    YouthModule,
+  imports: [
+    AccountsModule,
     PassportModule,
-   TeamsModule,
     JwtModule.register(
       {
         global: true,

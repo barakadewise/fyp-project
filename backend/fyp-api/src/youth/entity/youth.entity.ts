@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { Account } from "src/accounts/entities/account.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('youth')
@@ -39,15 +40,16 @@ export class Youth {
     @Field({nullable:true})
     @Column({nullable:true})
     location: string;
+    
+    @Field({nullable:true})
+    @Column({nullable:true})
+    accountId:number
 
-    @Field()
-    @Column({ unique: true, nullable: true })
-    email: string;
-
-    @Column()
-    @Field()
-    password: string;
-    role: string;
+   
+    @Field(()=>Account,{nullable:true})
+    @OneToOne(()=>Account,(account)=>account.partner)
+    @JoinColumn()
+    account:Account
 
     @Field()
     @CreateDateColumn()

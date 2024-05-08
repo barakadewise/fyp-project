@@ -2,27 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Admin {
-  id: Float!
-  name: String!
-  email: String!
-  phone: String
-  is_superAdmin: Boolean!
-  password: String!
-  role: String
-  createdAt: String!
-}
-
-type Partner {
+type Opportunity {
   id: Float!
   name: String!
   location: String!
-  phone: String
-  address: String!
-  email: String!
-  password: String!
-  role: String!
-  createdAt: DateTime!
+  duration: String!
+  creatdAt: DateTime!
 }
 
 """
@@ -30,54 +15,9 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Youth {
-  id: Float!
-  fname: String!
-  mname: String!
-  lname: String!
-  phone: String
-  address: String
-  education: String!
-  skills: String!
-  location: String
-  email: String!
-  password: String!
-  createdAt: DateTime!
-}
-
-type Teams {
-  id: Float!
-  name: String!
-  location: String!
-  address: String!
-  email: String!
-  password: String!
-  role: String!
-}
-
-type AuthResults {
-  message: String
-  id: Float
-  username: String
-  access_token: String
-}
-
-type UserDto {
-  id: Float!
-  username: String!
-}
-
 type OperationDto {
   message: String!
   statusCode: Float!
-}
-
-type Opportunity {
-  id: Float!
-  name: String!
-  location: String!
-  duration: String!
-  creatdAt: DateTime!
 }
 
 type Project {
@@ -91,46 +31,119 @@ type Project {
   createdAt: DateTime!
 }
 
+type Staff {
+  id: Float!
+  name: String!
+  email: String!
+  gender: String!
+  phone: String
+  isAdmin: Boolean
+  accountId: Float!
+  account: Account
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Teams {
+  id: Float!
+  name: String!
+  location: String!
+  address: String!
+  email: String!
+  accountId: Float
+  account: Account
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Youth {
+  id: Float!
+  fname: String!
+  mname: String!
+  lname: String!
+  phone: String
+  address: String
+  education: String!
+  skills: String!
+  location: String
+  accountId: Float
+  account: Account
+  createdAt: DateTime!
+}
+
+type Account {
+  id: Float!
+  email: String
+  password: String
+  role: String
+  lastlogin: DateTime
+  team: Teams
+  partner: Partner!
+  staff: Staff!
+  youth: Youth!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Partner {
+  id: Float!
+  name: String!
+  location: String!
+  phone: String
+  address: String!
+  accountId: Float
+  account: Account
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
 type AdministrationLevel {
   id: Float!
   name: String!
 }
 
+type AuthResults {
+  message: String
+  id: Float
+  username: String
+  access_token: String
+  role: String
+}
+
 type Query {
-  findAlladmins: [Admin!]!
-  getCurrentUser: UserDto!
+  findAllOpportunities: [Opportunity!]!
+  findAllProjects: [Project!]!
   findAllPartners: [Partner!]!
   findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!
-  findAllOpportunities: [Opportunity!]!
-  findAllProjects: [Project!]!
 }
 
 type Mutation {
-  login(loginUserDto: LoginUserDto!): AuthResults!
-  createAdmin(createAdminInput: AdminInputDto!): Admin!
+  createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
+  deleteOpportunityById(id: Float!): OperationDto!
+  createProject(createProjectInput: ProjectDto!): Project!
   createPartner(createPartnerInput: PartnerDto!): Partner!
   createYouth(createYoutDto: YouthDto!): Youth!
   deleteYouthById(id: Float!): OperationDto!
   createTeam(createTeamInput: TeamsDto!): Teams!
-  createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
-  deleteOpportunityById(id: Float!): OperationDto!
-  createProject(createProjectInput: ProjectDto!): Project!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
+  crateAcccount(createAccountInput: CreateAccountInput!): Account!
+  login(loginInput: LoginUserDto!): AuthResults!
 }
 
-input LoginUserDto {
-  username: String!
-  password: String!
-  role: String
-}
-
-input AdminInputDto {
+input OpportunityDto {
   name: String!
-  email: String!
-  phone: String!
-  password: String!
-  is_superAdmin: Boolean!
+  location: String!
+  duration: String!
+}
+
+input ProjectDto {
+  name: String!
+  cost: Float!
+  duration: String!
+  discription: String!
+  status: String!
+  funded: Boolean!
 }
 
 input PartnerDto {
@@ -164,21 +177,17 @@ input TeamsDto {
   role: String!
 }
 
-input OpportunityDto {
-  name: String!
-  location: String!
-  duration: String!
-}
-
-input ProjectDto {
-  name: String!
-  cost: Float!
-  duration: String!
-  discription: String!
-  status: String!
-  funded: Boolean!
-}
-
 input AdminStrationLevelDto {
   name: String!
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+  role: String!
+}
+
+input LoginUserDto {
+  email: String!
+  password: String!
 }

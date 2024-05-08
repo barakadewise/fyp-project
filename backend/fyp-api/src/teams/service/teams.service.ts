@@ -11,15 +11,8 @@ export class TeamsService {
 
     //create teams function
     async createTeam(createTeamInput: TeamsDto): Promise<Teams> {
-        const hashedPssword = await bcript.hash(createTeamInput.password, 10)
-        const newTeam = this.teamsRepository.create({
-            name: createTeamInput.name,
-            location: createTeamInput.location,
-            address: createTeamInput.address,
-            email: createTeamInput.email,
-            role: createTeamInput.role,
-            password: hashedPssword
-        })
+      
+        const newTeam = this.teamsRepository.create({...createTeamInput})
         console.log(newTeam)
         return await this.teamsRepository.save(newTeam);
     }

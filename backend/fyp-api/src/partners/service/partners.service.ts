@@ -14,24 +14,15 @@ export class PartnersService {
     //function to create partner
     async createPartner(createPartnerInput: PartnerDto): Promise<Partner> {
         const hashedPassword = await bcrypt.hash(createPartnerInput.password, 10)
-        const newPartner = this.partnerRepository.create({
-            name: createPartnerInput.name,
-            location: createPartnerInput.location,
-            phone: createPartnerInput.phone,
-            email: createPartnerInput.email,
-            address: createPartnerInput.address,
-            password: hashedPassword,
-            role: Role.partner
-
-        });
+        const newPartner = this.partnerRepository.create({...createPartnerInput});
         return await this.partnerRepository.save(newPartner);
 
     }
 
     //function to find partner by email
-    async findOne(email: string): Promise<any> {
-        return await this.partnerRepository.findOne({ where: { email: email } })
-    }
+    // async findOne(email: string): Promise<any> {
+    //     return await this.partnerRepository.findOne({ where: { email: e } })
+    // }
 
     //Query all partners
     async findAllPartners(): Promise<Partner[]> {

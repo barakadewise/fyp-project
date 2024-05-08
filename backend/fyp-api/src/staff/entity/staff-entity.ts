@@ -2,42 +2,49 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import { Account } from "src/accounts/entities/account.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity('partners')
+@Entity("staffs")
 @ObjectType()
-export class Partner {
+export class Staff {
     @PrimaryGeneratedColumn()
     @Field()
     id: number;
 
-    @Field()
     @Column()
+    @Field()
     name: string;
 
+    @Column({ nullable: true})
     @Field()
-    @Column()
-    location: string;
+    email: string;
+    
+    @Column({ nullable: true, })
+    @Field()
+    gender: string;
 
-    @Field({ nullable: true })
     @Column({ nullable: true })
+    @Field({ nullable: true })
     phone: string;
 
-    @Field()
-    @Column()
-    address: string;
-
+    @Column({ nullable: true })
     @Field({nullable:true})
+    isAdmin: boolean;
+
+    @Field()
+ 
     @Column({nullable:true})
     accountId:number
-
+    
     @Field(()=>Account,{nullable:true})
-    @OneToOne(()=>Account,(account)=>account.partner)
+    @OneToOne(()=>Account,(account)=>account.staff)
     @JoinColumn()
     account:Account
 
-    @Field()
     @CreateDateColumn()
-    createdAt: Date;
+    @Field()
+    createdAt: string;
+
     @UpdateDateColumn()
-    @Field({nullable:true})
-    updatedAt:Date
+    @Field()
+    updatedAt: string;
+   
 }

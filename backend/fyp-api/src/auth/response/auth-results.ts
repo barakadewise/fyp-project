@@ -15,6 +15,9 @@ export class AuthResults {
 
     @Field({nullable:true})
     access_token: string;
+    
+    @Field({nullable:true})
+    role:string
 
     
 

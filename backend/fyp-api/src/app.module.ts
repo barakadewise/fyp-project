@@ -1,12 +1,11 @@
-import { Module } from '@nestjs/common';
+import { HttpStatus, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { AdminModule } from './admin/admin.module';
+
 import { OpportunityModule } from './opportunity/opportunity.module';
 import { ProjectModule } from './project/project.module';
 import { PartnersModule } from './partners/partners.module';
@@ -16,6 +15,10 @@ import { typeormConfigAsyc } from './config/typeorm.config';
 import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationlevel.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from 'dto/exeption.filter';
+import { AccountsModule } from './accounts/accounts.module';
+import { error } from 'console';
+import { StaffModule } from './staff/staff.module';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -27,18 +30,31 @@ import { HttpExceptionFilter } from 'dto/exeption.filter';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req }) => ({ req })
+      context: ({ req }) => ({ req }),
+      formatError: (err) => {
+
+        if (err.extensions && err.extensions.originalError) {
+          const originalError: any = err.extensions.originalError;
+          const statusCode = originalError.statusCode;
+          const message = originalError.message;
+          return { message, statusCode };
+        } else {
+          return { message: err.message, status: HttpStatus.INTERNAL_SERVER_ERROR };
+        }
+      }
 
     }),
     TypeOrmModule.forRootAsync(typeormConfigAsyc),
-    AuthModule,
-    AdminModule,
+ 
     OpportunityModule,
     ProjectModule,
     PartnersModule,
     YouthModule,
     TeamsModule,
     AdminstrationlevelModule,
+    AccountsModule,
+    StaffModule,
+    AuthModule
 
   ],
   controllers: [AppController],
