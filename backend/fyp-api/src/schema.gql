@@ -49,7 +49,9 @@ type Teams {
   name: String
   location: String
   address: String
+  phone: String
   email: String
+  status: String
   accountId: Float
   account: Account
   createdAt: DateTime
@@ -182,7 +184,8 @@ input TeamsDto {
   name: String!
   location: String!
   address: String!
-  email: String!
+  phone: String!
+  status: String!
 }
 
 input AdminStrationLevelDto {

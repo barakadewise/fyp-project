@@ -21,10 +21,18 @@ export class Teams {
     @Field({nullable:true})
     @Column({nullable:true})
     address: string;
+    
+    @Field({nullable:true})
+    @Column({nullable:true})
+    phone: string;
 
     @Field({nullable:true})
     @Column({nullable:true})
     email: string;
+
+    @Field({nullable:true})
+    @Column({nullable:true})
+    status: string;
 
     @Field({nullable:true})
     @Column({nullable:true})

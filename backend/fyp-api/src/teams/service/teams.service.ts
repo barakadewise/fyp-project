@@ -13,25 +13,23 @@ export class TeamsService {
         @InjectRepository(Account) private readonly accountRepository: Repository<Account>
     ) { }
 
-    async createTeam(createTeamInput: TeamsDto,accountId:number) {
-        const account= await this.accountRepository.findOne({where:{id:accountId}})
-        if(account){
+    async createTeam(createTeamInput: TeamsDto, accountId: number) {
+        const account = await this.accountRepository.findOne({ where: { id: accountId } })
+        if (account) {
             const newTeam = this.teamsRepository.create({ ...createTeamInput })
-            newTeam.accountId=accountId,
-            newTeam.email=account.email
+            newTeam.accountId = accountId,
+                newTeam.email = account.email
             return await this.teamsRepository.save(newTeam);
 
         }
         throw new BadRequestException("Invalid user account")
-      
+
     }
 
-    //function to query for all teams 
     async findAllTeams(): Promise<Teams[]> {
         return await this.teamsRepository.find({ order: { 'createdAt': 'DESC' } })
     }
 
-    //function to find the teams by email or phone
     async findOneByEmailOrPhone(identifier: string): Promise<any> {
         return await this.teamsRepository.createQueryBuilder('youth').where('youth.email=:identifier OR youth.phone=:identifier', { identifier }).getOne()
     }
