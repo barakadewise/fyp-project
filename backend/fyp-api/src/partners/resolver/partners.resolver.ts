@@ -5,16 +5,14 @@ import { Partner } from '../entity/partner.entity';
 
 @Resolver()
 export class PartnersResolver {
-    constructor(private readonly partnerService:PartnersService){}
-
-    //mutation to create partner
-    @Mutation(_retruns =>Partner)
-    async createPartner(@Args('createPartnerInput') createPartnerInput: PartnerDto): Promise<Partner> {
-        return await this.partnerService.createPartner(createPartnerInput)
+    constructor(private readonly partnerService: PartnersService) { }
+    @Mutation(_retruns => Partner)
+    async createPartner(@Args('createPartnerInput') createPartnerInput: PartnerDto, @Args('accountId') accountId: number) {
+        return await this.partnerService.createPartner(createPartnerInput, accountId)
 
     }
-    @Query(_returns =>[Partner])
-    async findAllPartners():Promise<Partner[]>{
+    @Query(_returns => [Partner])
+    async findAllPartners() {
         return this.partnerService.findAllPartners()
     }
 }

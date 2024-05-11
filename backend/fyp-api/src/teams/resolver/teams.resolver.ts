@@ -8,15 +8,13 @@ import { TeamsDto } from '../dto/team-input-dto';
 export class TeamsResolver {
     constructor(private readonly teamsService: TeamsService) { }
 
-    //mutation to craete teams 
     @Mutation(_returns => Teams)
-    async createTeam(@Args('createTeamInput') createTeamInput: TeamsDto): Promise<Teams> {
-        return await this.teamsService.createTeam(createTeamInput)
+    async createTeam(@Args('createTeamInput') createTeamInput: TeamsDto, @Args('accountId') accountId: number){
+        return await this.teamsService.createTeam(createTeamInput,accountId)
     }
 
-    //query for all teams 
     @Query(_returns => [Teams])
-    async findAllTeams(): Promise<Teams[]> {
+    async findAllTeams(){
         return await this.teamsService.findAllTeams()
     }
 

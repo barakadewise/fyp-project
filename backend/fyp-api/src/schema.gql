@@ -33,23 +33,23 @@ type Project {
 
 type Staff {
   id: Float!
-  name: String!
-  email: String!
-  gender: String!
+  name: String
+  email: String
+  gender: String
   phone: String
-  isAdmin: Boolean
-  accountId: Float!
-  account: Account
+  status: String
+  accountId: Float
+  account: Account!
   createdAt: String!
-  updatedAt: String!
+  updatedAt: String
 }
 
 type Teams {
   id: Float!
-  name: String!
-  location: String!
-  address: String!
-  email: String!
+  name: String
+  location: String
+  address: String
+  email: String
   accountId: Float
   account: Account
   createdAt: DateTime
@@ -64,6 +64,7 @@ type Youth {
   phone: String
   address: String
   education: String!
+  gender: String
   skills: String!
   location: String
   accountId: Float
@@ -87,10 +88,11 @@ type Account {
 
 type Partner {
   id: Float!
-  name: String!
-  location: String!
+  name: String
+  location: String
   phone: String
-  address: String!
+  address: String
+  status: String
   accountId: Float
   account: Account
   createdAt: DateTime!
@@ -100,6 +102,11 @@ type Partner {
 type AdministrationLevel {
   id: Float!
   name: String!
+}
+
+type ResponseDto {
+  message: String!
+  statusCode: Float!
 }
 
 type AuthResults {
@@ -116,18 +123,22 @@ type Query {
   findAllPartners: [Partner!]!
   findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!
+  findAllAccount: [Account!]!
+  findAllStaffs: [Staff!]!
 }
 
 type Mutation {
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   deleteOpportunityById(id: Float!): OperationDto!
   createProject(createProjectInput: ProjectDto!): Project!
-  createPartner(createPartnerInput: PartnerDto!): Partner!
+  createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
   createYouth(createYoutDto: YouthDto!): Youth!
   deleteYouthById(id: Float!): OperationDto!
-  createTeam(createTeamInput: TeamsDto!): Teams!
+  createTeam(createTeamInput: TeamsDto!, accountId: Float!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
-  crateAcccount(createAccountInput: CreateAccountInput!): Account!
+  createAccount(createAccountInput: CreateAccountInput!): Account!
+  removeAccount(accountId: Float!): ResponseDto!
+  createStaff(createStaffInput: StaffInputDto!, accountId: Float!): Staff!
   login(loginInput: LoginUserDto!): AuthResults!
 }
 
@@ -151,8 +162,7 @@ input PartnerDto {
   location: String!
   phone: String!
   address: String!
-  email: String!
-  password: String!
+  status: String!
 }
 
 input YouthDto {
@@ -173,8 +183,6 @@ input TeamsDto {
   location: String!
   address: String!
   email: String!
-  password: String!
-  role: String!
 }
 
 input AdminStrationLevelDto {
@@ -185,6 +193,13 @@ input CreateAccountInput {
   email: String!
   password: String!
   role: String!
+}
+
+input StaffInputDto {
+  name: String!
+  gender: String!
+  phone: String!
+  status: String!
 }
 
 input LoginUserDto {

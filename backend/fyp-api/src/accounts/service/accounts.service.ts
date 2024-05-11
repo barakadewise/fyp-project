@@ -28,6 +28,7 @@ export class AccountsService {
       const newAccount = this.accountsRepository.create({ ...createAccountInput })
       const hashpawword = await bcrypt.hash(createAccountInput.password, 10)
       newAccount.password = hashpawword
+      console.log(newAccount,"created")
       return await this.accountsRepository.save(newAccount)
     }
     throw new BadRequestException('Email alredy taken')
@@ -59,6 +60,18 @@ export class AccountsService {
     const account = await this.accountsRepository.findOne({ where: { email: email } })
     account.lastlogin = new Date
     await this.accountsRepository.save(account)
+  }
+  async removeAccount(id:number):Promise<ResponseDto>{
+    const account =await this.accountsRepository.findOne({where:{id:id}})
+    if(account){
+      await this.accountsRepository.remove(account)
+      return{
+        message:"Successfully removed",
+        statusCode:HttpStatus.OK
+      }
+    }
+    throw new NotFoundException()
+
   }
 
 

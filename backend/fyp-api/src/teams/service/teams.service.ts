@@ -1,20 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Teams } from '../entity/team.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeamsDto } from '../dto/team-input-dto';
 import * as bcript from 'bcrypt'
+import { Account } from 'src/accounts/entities/account.entity';
 
 @Injectable()
 export class TeamsService {
-    constructor(@InjectRepository(Teams) private readonly teamsRepository: Repository<Teams>) { }
+    constructor(
+        @InjectRepository(Teams) private readonly teamsRepository: Repository<Teams>,
+        @InjectRepository(Account) private readonly accountRepository: Repository<Account>
+    ) { }
 
-    //create teams function
-    async createTeam(createTeamInput: TeamsDto): Promise<Teams> {
+    async createTeam(createTeamInput: TeamsDto,accountId:number) {
+        const account= await this.accountRepository.findOne({where:{id:accountId}})
+        if(account){
+            const newTeam = this.teamsRepository.create({ ...createTeamInput })
+            newTeam.accountId=accountId,
+            newTeam.email=account.email
+            return await this.teamsRepository.save(newTeam);
+
+        }
+        throw new BadRequestException("Invalid user account")
       
-        const newTeam = this.teamsRepository.create({...createTeamInput})
-        console.log(newTeam)
-        return await this.teamsRepository.save(newTeam);
     }
 
     //function to query for all teams 

@@ -9,35 +9,40 @@ export class Partner {
     @Field()
     id: number;
 
-    @Field()
-    @Column()
+    @Field({nullable:true})
+    @Column({nullable:true})
     name: string;
 
-    @Field()
-    @Column()
+    @Field({nullable:true})
+    @Column({nullable:true})
     location: string;
 
     @Field({ nullable: true })
     @Column({ nullable: true })
     phone: string;
 
-    @Field()
-    @Column()
-    address: string;
-
     @Field({nullable:true})
     @Column({nullable:true})
-    accountId:number
+    address: string;
+    
+    @Field({nullable:true})
+    @Column({nullable:true})
+    status: string;
 
-    @Field(()=>Account,{nullable:true})
-    @OneToOne(()=>Account,(account)=>account.partner)
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    accountId: number
+
+    @Field(() => Account, { nullable: true })
+    @OneToOne(() => Account, (account) => account.partner)
     @JoinColumn()
-    account:Account
+    account: Account
 
     @Field()
     @CreateDateColumn()
     createdAt: Date;
-    @UpdateDateColumn()
-    @Field({nullable:true})
-    updatedAt:Date
+
+    @UpdateDateColumn({nullable:true})
+    @Field({ nullable: true })
+    updatedAt: Date
 }

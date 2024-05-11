@@ -10,20 +10,20 @@ export class Teams {
     @Field()
     id: number;
 
-    @Field()
-    @Column()
+    @Field({nullable:true})
+    @Column({nullable:true})
     name: string;
 
-    @Field()
-    @Column()
+    @Field({nullable:true})
+    @Column({nullable:true})
     location: string;
 
-    @Field()
-    @Column()
+    @Field({nullable:true})
+    @Column({nullable:true})
     address: string;
 
-    @Field()
-    @Column()
+    @Field({nullable:true})
+    @Column({nullable:true})
     email: string;
 
     @Field({nullable:true})
@@ -40,7 +40,7 @@ export class Teams {
     @Field({nullable:true})
     createdAt:Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({nullable:true})
     @Field({nullable:true})
     updatedAt:Date
 

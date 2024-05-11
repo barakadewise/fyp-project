@@ -9,16 +9,16 @@ export class Staff {
     @Field()
     id: number;
 
-    @Column()
-    @Field()
+    @Column({ nullable: true })
+    @Field({ nullable: true })
     name: string;
 
-    @Column({ nullable: true})
-    @Field()
+    @Column({ nullable: true })
+    @Field({ nullable: true })
     email: string;
-    
+
     @Column({ nullable: true, })
-    @Field()
+    @Field({ nullable: true })
     gender: string;
 
     @Column({ nullable: true })
@@ -26,25 +26,24 @@ export class Staff {
     phone: string;
 
     @Column({ nullable: true })
-    @Field({nullable:true})
-    isAdmin: boolean;
+    @Field({ nullable: true })
+    status: string;
 
-    @Field()
- 
-    @Column({nullable:true})
-    accountId:number
-    
-    @Field(()=>Account,{nullable:true})
-    @OneToOne(()=>Account,(account)=>account.staff)
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    accountId: number
+
+    @Field(() => Account)
+    @OneToOne(() => Account, (account) => account.staff)
     @JoinColumn()
-    account:Account
+    account: Account
 
     @CreateDateColumn()
     @Field()
     createdAt: string;
 
-    @UpdateDateColumn()
-    @Field()
+    @UpdateDateColumn({ nullable: true })
+    @Field({ nullable: true })
     updatedAt: string;
-   
+
 }

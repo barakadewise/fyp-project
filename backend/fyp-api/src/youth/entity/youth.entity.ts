@@ -33,6 +33,10 @@ export class Youth {
     @Column()
     education: string;
 
+    @Field({nullable:true})
+    @Column({nullable:true})
+    gender: string;
+
     @Field()
     @Column()
     skills: string;
