@@ -99,12 +99,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'viewAdmins' %}" class="nav-link">
+                <a href="{% url 'viewStaffs' %}" class="nav-link">
                   <i
                     class="fa-solid fa-user-tie"
                     style="margin: 0 4px 0 0px"
                   ></i>
-                  <p>Admins</p>
+                  <p>Staff</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -135,7 +135,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../members/members.html" class="nav-link">
+                <a href="{% url 'viewTeams' %}" class="nav-link">
                   <i
                     class="fa-brands fa-teamspeak"
                     style="margin: 0 4px 0 0px"
@@ -221,7 +221,7 @@
                     ></span>
 
                     <div class="info-box-content">
-                      <span class="info-box-text">Admins</span>
+                      <span class="info-box-text">Staff</span>
                       <span class="info-box-number">{{ alladmin }}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -343,6 +343,5 @@
 
 </div
 
-
-  {% endblock %}
+{% endblock %}
 

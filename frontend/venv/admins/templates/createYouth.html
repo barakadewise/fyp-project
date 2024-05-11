@@ -99,12 +99,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'createAdmin' %}" class="nav-link">
+                  <a href="{% url 'createStaff' %}" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
                     ></i>
-                    <p>Admins</p>
+                    <p>Staff</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -135,7 +135,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="{% url 'viewTeams' %}" class="nav-link">
                     <i
                       class="fa-brands fa-teamspeak"
                       style="margin: 0 4px 0 0px"
@@ -189,6 +189,67 @@
                         {% csrf_token %}
                         <div class="card-body">
                           <div class="row">
+                            <div class="col-12">
+                              <p class="text-info">Account details</p>
+                            </div>
+                            <div class="col-md-6">
+                              <label>Email</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa fa-envelope"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  id="email"
+                                  name="email"
+                                  type="email"
+                                  class="form-control"
+                                  placeholder="Email"
+                                  required
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <label>Password</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-lock"></i
+                                  ></span>
+                                </div>
+                                <input
+                                minlength="5"
+                                  id="password"
+                                  type="password"
+                                  name="password"
+                                  class="form-control"
+                                  placeholder="password"
+                                />
+                              </div>
+                            </div>
+                            <!-- <div class="col-md-6">
+                              <label>Confirm Password</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"
+                                    ><i class="fa-solid fa-lock"></i
+                                  ></span>
+                                </div>
+                                <input
+                                minlength="5"
+                                  id="password"
+                                  type="password"
+                                  name="password2"
+                                  class="form-control"
+                                  placeholder="confrim password"
+                                />
+                              </div>
+                            </div>  -->
+                            <div class="col-md-6"></div>
+                            <div class="col-12 py-2">
+                              <p class="text-info">Personal Details</p>
+                            </div>
                             <div class="col-md-6">
                               <label>First Name</label>
                               <div class="input-group mb-3">
@@ -241,6 +302,25 @@
                               </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group" id="role">
+                                <label>Gender</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                  id="gender"
+                                  name="gender"
+                                >
+                                <option selected="selected">Gender</option>
+                                  <option>Female</option>
+                                  <option>Male</option>
+                               
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
                               <label>Phone</label>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -257,26 +337,6 @@
                                 />
                               </div>
                             </div>
-                         
-
-                            <div class="col-md-6">
-                              <label>Email</label>
-                              <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i class="fas fa-envelope"></i
-                                  ></span>
-                                </div>
-                                <input
-                                  id="email"
-                                  name="email"
-                                  type="email'"
-                                  class="form-control"
-                                  placeholder="email"
-                                />
-                              </div>
-                            </div>
-
                             <div class="col-md-6">
                               <label>P.O.BOX</label>
                               <div class="input-group mb-3">
@@ -290,7 +350,7 @@
                                   name="pobox"
                                   type="text'"
                                   class="form-control"
-                                  placeholder="P.O.BOX"
+                                  placeholder="P.o.box"
                                 />
                               </div>
                             </div>
@@ -349,45 +409,12 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6">
-                              <label>Password</label>
-                              <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i class="fa-solid fa-lock"></i
-                                  ></span>
-                                </div>
-                                <input
-                                  id="password"
-                                  type="password"
-                                  name="password"
-                                  class="form-control"
-                                  placeholder="password"
-                                />
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <label>Confirm Password</label>
-                              <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i class="fa-solid fa-lock"></i
-                                  ></span>
-                                </div>
-                                <input
-                                  id="password"
-                                  type="password"
-                                  name="password2"
-                                  class="form-control"
-                                  placeholder="confrim password"
-                                />
-                              </div>
-                            </div> 
+                          
                           </div>
-                          <div class="col-">
+                          <div class="col-" style="float: right;">
                             <button
                               type="submit"
-                              class="btn btn-success btn-block"
+                              class="btn btn-success bg-info"
                             >
                               Register
                             </button>
@@ -468,43 +495,36 @@
     <!-- /.control-sidebar -->
   </div>
 
- 
+
+  {% if messages %}
+   
   <script>
-    document.getElementById("form").addEventListener("submit", function (event) {
-      // Get form inputs
-      var name = document.getElementById("name").value.trim();
-      var phone = document.getElementById("phone").value.trim();
-      var email = document.getElementById("email").value.trim();
-      var pobox = document.getElementById("pobox").value.trim();
-      var location = document.getElementById("location").value.trim();
-      var password = document.getElementById("password").value.trim();
-      var role = document.getElementById("role").value;
-  
-      // Get the alert element
-      var alertDiv = document.getElementById("alertMessage");
-  
-      // Check if any field is empty
-      if (
-        !name ||
-        !phone ||
-        !email ||
-        !pobox ||
-        !location ||
-        !password ||
-        role === "Role"
-      ) {
-        alertDiv.classList.remove("d-none"); // Show the alert
-        event.preventDefault(); // Prevent form submission
-        
-        // Hide the alert after half a second
-        setTimeout(function() {
-          alertDiv.classList.add("d-none");
-        }, 1500);
-      }else{
-        console.log(name,pobox)
-      }
+    var messages = [];
+  </script>
+  {% for message in messages %}
+  <script>
+    messages.push({
+      "message": "{{ message.message }}",
+      "tag": "{{ message.tags }}"
     });
   </script>
+  {% endfor %}
+{% endif %}
+
+<script>
+$(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message); 
+    } else {
+      
+      toastr.info(message.message);
+    }
+  });
+});
+</script>
   
   {% endblock %}
 </body>

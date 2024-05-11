@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Create | Admin {% endblock %}</title>
+<title>{% block title %} Create | Staff {% endblock %}</title>
 
 {% block content %}
 
@@ -102,12 +102,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="createAdmin" class="nav-link active">
+                  <a href="{% url 'viewStaffs' %}" class="nav-link active">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
                     ></i>
-                    <p>Admins</p>
+                    <p>Staff</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -138,7 +138,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="{% url 'viewTeams' %}" class="nav-link">
                     <i
                       class="fa-brands fa-teamspeak"
                       style="margin: 0 4px 0 0px"
@@ -162,12 +162,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Add admin</h1>
+              <h1>Add Staff</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Add Admin</li>
+                <li class="breadcrumb-item active">Add staff</li>
               </ol>
             </div>
           </div>
@@ -182,15 +182,17 @@
             <div class="card">
               <!-- /.card-header -->
               <div class="card-header bg-info">
-                <h4>Admin details</h4>
+                <h4>Staff details</h4>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-12">
                     <div class="card card-primary">
-                      <form role="form">
+                      <form role="form" action="" method="POST">
+                        {% csrf_token %}
                         <div class="card-body">
                           <div class="row">
+                        
                             <div class="col-md-6">
                               <label>Name</label>
                               <div class="input-group mb-3">
@@ -201,9 +203,11 @@
                                 </div>
                                 <input
                                   id="name"
+                                  name="name"
                                   type="text"
                                   class="form-control"
                                   placeholder="name"
+                                  required
                                 />
                               </div>
                             </div>
@@ -218,9 +222,12 @@
                                 </div>
                                 <input
                                   id="phone"
+                                  maxlength="10"
                                   type="tel"
+                                  name="phone"
                                   class="form-control"
                                   placeholder="phone"
+                                  required
                                 />
                               </div>
                             </div>
@@ -235,9 +242,11 @@
                                 </div>
                                 <input
                                   id="email"
-                                  type="email'"
+                                  type="email"
+                                  name="email"
                                   class="form-control"
                                   placeholder="email"
+                                  required
                                 />
                               </div>
                             </div>
@@ -253,8 +262,10 @@
                                 <input
                                   id="password"
                                   type="password"
+                                  name="password"
                                   class="form-control"
                                   placeholder="password"
+                                  required
                                 />
                               </div>
                             </div>
@@ -268,11 +279,32 @@
                                   data-select2-id="1"
                                   tabindex="-1"
                                   aria-hidden="true"
-                                >
+                                  name="role"
+                                  required 
+                                   >
                                   <option selected="selected">Role</option>
-                                  <option>admin</option>
-                                  <option>partner</option>
-                                  <option>team</option>
+                                  <option>Admin</option>
+                                  <option>Staff</option>
+                                </select>
+                              </div>
+                              <!-- /.form-group -->
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>Gender</label>
+                                <select
+                                  class="form-control select2 select2-hidden-accessible"
+                                  style="width: 100%"
+                                  data-select2-id="1"
+                                  tabindex="-1"
+                                  aria-hidden="true"
+                                  name="gender"
+                                  required 
+                                   >
+                                  <option selected="selected">Gender</option>
+                                  <option>Male</option>
+                                  <option>Female</option>
+                                 
                                 </select>
                               </div>
                               <!-- /.form-group -->
@@ -285,20 +317,21 @@
                                   style="width: 100%"
                                   data-select2-id="1"
                                   tabindex="-1"
+                                  name="status"
                                   aria-hidden="true"
                                 >
                                   <option selected="selected">Status</option>
                                   <option>Active</option>
-                                  <option>inactive</option>
+                                  <option>Inactive</option>
                                 </select>
                               </div>
                               <!-- /.form-group -->
                             </div>
                           </div>
-                          <div class="col-">
+                          <div class="col-" style="float: right;">
                             <button
                               type="submit"
-                              class="btn btn-success btn-block"
+                              class="btn btn-info"
                             >
                               Submit
                             </button>
@@ -373,6 +406,35 @@
     </aside>
     <!-- /.control-sidebar -->
   </div>
+  {% if messages %}
+   
+  <script>
+    var messages = [];
+  </script>
+  {% for message in messages %}
+  <script>
+    messages.push({
+      "message": "{{ message.message }}",
+      "tag": "{{ message.tags }}"
+    });
+  </script>
+  {% endfor %}
+{% endif %}
+
+<script>
+$(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message); 
+    } else {
+      
+      toastr.info(message.message);
+    }
+  });
+});
+</script>
 
   {% endblock %}
 </body>

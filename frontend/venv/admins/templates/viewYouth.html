@@ -100,12 +100,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="createAdmin" class="nav-link">
+                  <a href="{% url 'viewStaffs' %}" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
                     ></i>
-                    <p>Admins</p>
+                    <p>Staffs</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -136,7 +136,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="{% url 'viewTeams' %}" class="nav-link">
                     <i
                       class="fa-brands fa-teamspeak"
                       style="margin: 0 4px 0 0px"
@@ -366,6 +366,35 @@
         });
       });
     </script>
+     {% if messages %}
+   
+     <script>
+       var messages = [];
+     </script>
+     {% for message in messages %}
+     <script>
+       messages.push({
+         "message": "{{ message.message }}",
+         "tag": "{{ message.tags }}"
+       });
+     </script>
+     {% endfor %}
+   {% endif %}
+   
+   <script>
+   $(function(){
+     messages.forEach(function(message) {
+       if (message.tag === "success") {
+         toastr.success(message.message);
+       } else if (message.tag=== "error") {
+         toastr.error(message.message); 
+       } else {
+         
+         toastr.info(message.message);
+       }
+     });
+   });
+   </script>
 
   {% endblock %}
 

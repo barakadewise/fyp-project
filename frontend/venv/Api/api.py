@@ -1,5 +1,6 @@
-import requests
+
 from django.middleware.csrf import get_token
+import requests  # type: ignore
 
 class ApiService:
     
@@ -9,11 +10,13 @@ class ApiService:
     #Function to perform mutation
     def performMuttion(self,mutation,variables):
         response = requests.post(self.Baseurl,json={'query':mutation,'variables':variables})
-        if response.status_code==200:
+        if  response:
+            print("Successfuly response..")
             return response.json()
+            
         else:
-            raise Exception('failed to perform mutation ')
-    
+            print("Connection failed for mutation",response.json())
+            return response.json()
 
     #function to perform query 
     def performQuery(self,query,csrf_token):
@@ -22,12 +25,12 @@ class ApiService:
             'X-CSRFToken': csrf_token,
         }
         response =requests.get(self.Baseurl,params={'query': query },headers=headers)
-        if response.ok:
+        if response:
+            print("Successfuly response..")
             return response.json()
-        
         else:
-            print('Failed')
-            raise Exception('failed to pull data')
+            print("Connection failed for querry",response.json())
+            return response.json()
             
      #function to return csrf token from the request       
     def getCsrfToken(self,request):

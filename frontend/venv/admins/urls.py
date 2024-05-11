@@ -3,8 +3,8 @@ from .import views
 
 urlpatterns=[
     path('',views.getAdminPanel,name='adminPanel'),
-    path('viewAdmins',views.viewAdmin,name='viewAdmins'),
-    path('createAdmin',views.createAdmin,name='createAdmin'),
+    path('viewStaffs',views.viewStaff,name='viewStaffs'),
+    path('createStaff',views.createStaff,name='createStaff'),
     path('createPartner',views.createPartner,name='createPartner'),
     path('viewPartners',views.viewPartners,name='viewPartners'),
     path('createYouth',views.createYouth,name='createYouth'),
@@ -15,5 +15,6 @@ urlpatterns=[
     path('viewOpportunities',views.viewOpportunities,name='viewOpportunities'),
     path('createOpportunity',views.createOpportunity,name='createOpportunity'),
     path('deleteOpportunityById"',views.deleteOpporrtunityById,name="deleteOpportunityById"),
+    path('viewTeams',views.viewTeams,name="viewTeams")
     
 ]

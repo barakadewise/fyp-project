@@ -1,5 +1,6 @@
-{% extends 'base.html' %} {% load static %}
-<title>{% block title %} View | Partner {% endblock %}</title>
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} View Partners {% endblock %}</title>
 
 {% block content %}
 
@@ -99,12 +100,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="createAdmin" class="nav-link">
+                  <a href="{% url 'viewStaffs' %}" class="nav-link">
                     <i
                       class="fa-solid fa-user-tie"
                       style="margin: 0 4px 0 0px"
                     ></i>
-                    <p>Admins</p>
+                    <p>Staff</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -135,7 +136,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../members/members.html" class="nav-link">
+                  <a href="{% url 'viewTeams' %}" class="nav-link">
                     <i
                       class="fa-brands fa-teamspeak"
                       style="margin: 0 4px 0 0px"
@@ -159,12 +160,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Youth</h1>
+              <h1>Partner</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Add Partner</li>
+                <li class="breadcrumb-item active">Add partner</li>
               </ol>
             </div>
           </div>
@@ -201,7 +202,8 @@
                         <th>phone</th>
                         <th>Location</th>
                         <th>Address</th>
-                        <th>Email</th>
+                        <th>status</th>
+                        <th>Action</th>
                        
                       </tr>
                     </thead>
@@ -214,26 +216,26 @@
                         <td> {{ partner.phone }}</td>
                         <td> {{ partner.location }}</td>
                         <td> {{ partner.address }}</td>
-                      
+                        <td> {{ partner.status }}</td>
                     
                         <td class="justify-content-center">
                           <a
-                            href="components/edit_event.html"
+                            href=""
                             class="btn btn-success btn-sm edit-btn"
                           >
                             <i class="fas fa-pen"></i> Edit
                           </a>
-                          <a href="#" class="btn btn-danger btn-sm delete-btn" 
+                          <a href="" class="btn btn-danger btn-sm delete-btn" 
                           data-toggle="modal"
                            data-target="#deleteModal"
-                           data-id="{{ youth.id }}"
+                           data-id="{{ partner.id }}"
                           >
                             <i class="fas fa-trash"></i> Delete
                         </a>
                         
                         </td>
                       </tr>
-                      {% endfor %}
+                     {% endfor %}
                     </tbody>
                   
                     <tfoot></tfoot>
@@ -359,6 +361,35 @@
         });
       });
     </script>
+     {% if messages %}
+   
+     <script>
+       var messages = [];
+     </script>
+     {% for message in messages %}
+     <script>
+       messages.push({
+         "message": "{{ message.message }}",
+         "tag": "{{ message.tags }}"
+       });
+     </script>
+     {% endfor %}
+   {% endif %}
+   
+   <script>
+   $(function(){
+     messages.forEach(function(message) {
+       if (message.tag === "success") {
+         toastr.success(message.message);
+       } else if (message.tag=== "error") {
+         toastr.error(message.message); 
+       } else {
+         
+         toastr.info(message.message);
+       }
+     });
+   });
+   </script>
 
   {% endblock %}
 
