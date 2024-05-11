@@ -15,6 +15,7 @@ urlpatterns=[
     path('viewOpportunities',views.viewOpportunities,name='viewOpportunities'),
     path('createOpportunity',views.createOpportunity,name='createOpportunity'),
     path('deleteOpportunityById"',views.deleteOpporrtunityById,name="deleteOpportunityById"),
-    path('viewTeams',views.viewTeams,name="viewTeams")
+    path('viewTeams',views.viewTeams,name="viewTeams"),
+    path('createTeam',views.createTeam,name="createTeam"),
     
 ]

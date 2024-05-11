@@ -66,6 +66,17 @@ def getAdminPanel(request):
        }
 
      '''
+    queryAllAccounts='''
+       query{
+       findAllAccount{
+       id,
+       email,
+       lastlogin,
+       role,
+       createdAt
+       }
+       }
+     '''
     try:
         allAStaff =api_service.performQuery(queryStaff,csrf_token)
         allYouth =api_service.performQuery(queryYouth,csrf_token)
@@ -73,6 +84,7 @@ def getAdminPanel(request):
         allTeams =api_service.performQuery(queryTeams,csrf_token)
         allPartner =api_service.performQuery(queryPartners,csrf_token)
         allOpportunities =api_service.performQuery(queryOpportunities,csrf_token)
+        accounts=api_service.performQuery(queryAllAccounts,api_service.getCsrfToken(request))
         
         #convert the data to list and count the data
         countStaff =len(allAStaff.get('data',{}).get('findAllStaffs',[]))
@@ -87,7 +99,8 @@ def getAdminPanel(request):
                 'allprojects':countProjects,
                 'allteams':countTeams,
                 'allpartner':countPartners,
-                'allopportunities':countOpportunities
+                'allopportunities':countOpportunities,
+                'accounts':accounts['data']['findAllAccount']
                 }
         print(countStaff,countYouth,countPartners)
         return render(request,'dashboard.html',context)
@@ -113,7 +126,7 @@ def createStaff(request):
             messages.error(request,'Invalid gender type!')
         else:
             #call api end point 
-            accountMutation = '''
+            teaamMutation = '''
             mutation CreateAccount($input: CreateAccountInput!) {
                 createAccount(createAccountInput: $input) {
                     id
@@ -130,7 +143,7 @@ def createStaff(request):
             }
             }
             try:
-                accountResponse =api_service.performMuttion(accountMutation,accountVariables)
+                accountResponse =api_service.performMuttion(teaamMutation,accountVariables)
                 if 'errors' in accountResponse:
                     messages.error(request,accountResponse['errors'][0]['message'])
                     print('Error in stafff:',accountResponse['errors'])
@@ -223,7 +236,7 @@ def createPartner(request):
         status = request.POST.get('Status')
         
         # Define account mutation
-        accountMutation = '''
+        teaamMutation = '''
             mutation CreateAccount($input: CreateAccountInput!) {
                 createAccount(createAccountInput: $input) {
                     id
@@ -255,7 +268,7 @@ def createPartner(request):
         '''
         
         # Call API endpoint
-        accountResponse = api_service.performMuttion(accountMutation, accountVariables)
+        accountResponse = api_service.performMuttion(teaamMutation, accountVariables)
         if 'errors' in accountResponse:
             messages.error(request,accountResponse['errors'][0]['message'][0])
             print(accountResponse,"Got this errors")
@@ -265,7 +278,7 @@ def createPartner(request):
             print(accountResponse,"Got this data ")
 
              # Create partner with account ID
-            partnerVariables = {
+            teamVaribleDetails = {
                     "input": {
                         "name": name,
                         "phone": phone,
@@ -277,9 +290,9 @@ def createPartner(request):
                 }
             
              # Perform partner creation
-            partnerResponse = api_service.performMuttion(partnerMutation, partnerVariables)
-            if 'errors' in partnerResponse:
-                messages.error(request, partnerResponse['errors'][0]['message']) 
+            teamResponse = api_service.performMuttion(partnerMutation, teamVaribleDetails)
+            if 'errors' in teamResponse:
+                messages.error(request, teamResponse['errors'][0]['message']) 
 
                 #perform query to remove the user account pending for new registration
                 removeAccount='''
@@ -290,11 +303,11 @@ def createPartner(request):
                          }  
                   '''
                 response=api_service.performMuttion(removeAccount,{"accountId":accountId})
-                print(partnerResponse,response,) 
+                print(teamResponse,response,) 
             else:
                 print("Account test passed")
                 messages.success(request, 'Successfully created!')
-                print(partnerResponse)
+                print(teamResponse)
                 return redirect('viewPartners')
         else:
             print("Something went wrong")
@@ -305,11 +318,8 @@ def createPartner(request):
 
 #function to display all list of partners 
 def viewPartners(request):
-        #get the crsf token from the request 
-        csrf_token = api_service.getCsrfToken(request)
-        context ={}
-
-        try:
+    
+    try:
         # GraphQL query to fetch the partners data 
            query = '''
             query {
@@ -325,16 +335,13 @@ def viewPartners(request):
                 }
              }
             '''
-           response_data = api_service.performQuery(query,csrf_token)
-           
-           #Pass the data to the dictionary 
-           context={'partners':response_data['data']['findAllPartners']}
-           print(context)
-           return render(request,'viewPartners.html',context=context)
+           response_data = api_service.performQuery(query, api_service.getCsrfToken(request))
+           return render(request,'viewPartners.html',{'partners':response_data['data']['findAllPartners']})
         
-        except Exception as e:
+    except Exception as e:
             print('Error: {}'.format(e)) 
-            return render(request,'viewPartners.html',{'error':'Failed to fetch '})
+            messages.error(request,'Something went wrong!')
+            return render(request,'viewPartners.html')   
               
 #function  to create youth         
 def createYouth(request):
@@ -382,11 +389,9 @@ def createYouth(request):
 
 #function to fetch all youth 
 def viewYouth(request):
-    #tokens
-    csrfToken = api_service.getCsrfToken(request)
-    context ={}
+  
 
-   #graphql query 
+   #Query
     query ='''
         query {
       findAllYouth {
@@ -397,21 +402,20 @@ def viewYouth(request):
       phone
       location
       address
-      email
       skills
      }
     }
        '''
     try:
     
-        response_data= api_service.performQuery(query,csrfToken)
-        context ={'youths':response_data['data']['findAllYouth']}
+        response_data= api_service.performQuery(query,api_service.getCsrfToken(request))
         if 'error' in response_data:
-            print('data error ')
-        return render(request,'viewYouth.html',context=context)
+            print('data error ',response_data['errors'])
+        return render(request,'viewYouth.html',{'youths':response_data['data']['findAllYouth']})
     except Exception as e:
         print('Failed to query ')
-        return  render(request,'viewYouth.html')
+        messages.error(request,'Network Problems!')
+    return  render(request,'viewYouth.html')
 
 #delete youth by id
 def deleteYouthById(request):
@@ -513,13 +517,10 @@ def createProject(request):
 
 #function to view all availble ooprtunities
 def viewOpportunities(request):
-   
-    csrf_token =api_service.getCsrfToken(request)
-
     query ='''  
-          query {
-         findAllOpportunities {
-         id
+        query {
+        findAllOpportunities {
+        id
         name
         duration
         location
@@ -528,11 +529,13 @@ def viewOpportunities(request):
 
       '''
     try:
-        response =api_service.performQuery(query,csrf_token)
-        return render(request,'viewOpportunities.html',{'opportunities':response['data']['findAllOpportunities']})
+        response =api_service.performQuery(query,api_service.getCsrfToken(request))
+        return render(request,'viewOpportunities.html',{'opportunities':response['data']['findAllOpportunities']}) 
     except Exception as e:
         print(e)
+        messages.error(request,'Network Problems')
     return render(request,'viewOpportunities.html')
+
 
 #fuction to add new opportunities
 def createOpportunity(request):
@@ -571,13 +574,12 @@ def createOpportunity(request):
           print(e)
           messages.error(request,e)
 
-    
     return render(request,'createOpportunity.html')
 
 #delete opportunity by id
 def deleteOpporrtunityById(request):
     if request.method =='POST':
-        id =int(request.POST.get('id'))
+        id =request.POST.get('id')
         
         muatation='''
        mutation($id: Float!) {
@@ -588,16 +590,130 @@ def deleteOpporrtunityById(request):
            '''
         try:
             response =api_service.performMuttion(muatation,{'id':id})
-            if response:
-                #todo success message
+            if 'errors' in response:
+                messages.error(request,'Something went ')
                 print(response['data']['deleteOpportunityById']['message'])
             else:
-                #todo error message!
-                print(response)
+                messages.success(request,'Operation successfully!')
         except Exception as e:
-            print('Filed to perform operation')
+            messages.error(request,'Network Problems')
+            print(e)
 
     return render(request,'viewOpportunities.html')
 
+def createTeam(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        location = request.POST.get('location')
+        address = request.POST.get('pobox')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        status = request.POST.get('Status')
+        
+        # Define account mutation
+        teaamMutation = '''
+            mutation CreateAccount($input: CreateAccountInput!) {
+                createAccount(createAccountInput: $input) {
+                    id
+                    role
+                    password
+                }
+            }
+        '''
+        teamVariables = {
+            "input": {
+                "email": email,
+                "password": password,
+                "role": Roles.TEAM.value
+            }
+        }
+        
+        # Define partner mutation
+        teamMutation = '''
+            mutation CreateTeam($input: TeamsDto!, $accountId: Float!) {
+                 createTeam(createTeamInput: $input, accountId: $accountId) {
+                      id
+                      name
+                      location
+                       phone
+                      status
+                      address
+               }
+            }
+        '''
+        
+        # Call API endpoint
+        accountResponse = api_service.performMuttion(teaamMutation, teamVariables)
+        if 'errors' in accountResponse:
+            messages.error(request,accountResponse['errors'][0]['message'])
+            print(accountResponse,"Got this errors")
+
+        elif 'data' in accountResponse:
+            accountId = accountResponse['data']['createAccount']['id']
+            print(accountResponse,"Got this data ")
+
+             # Create partner with account ID
+            teamVaribleDetails = {
+                    "input": {
+                        "name": name,
+                        "phone": phone,
+                        "address": address,
+                        "location": location,
+                        "status": status
+                    },
+                    "accountId": accountId
+                }
+            
+             # Perform partner creation
+            teamResponse = api_service.performMuttion(teamMutation, teamVaribleDetails)
+            if 'errors' in teamResponse:
+                messages.error(request, teamResponse['errors'][0]['message']) 
+
+                #perform query to remove the user account pending for new registration
+                removeAccount='''
+                        mutation($accountId:Float!){
+                         removeAccount(accountId:$accountId){
+                           message,statusCode
+                           }
+                         }  
+                  '''
+                response=api_service.performMuttion(removeAccount,{"accountId":accountId})
+                print(teamResponse,response,) 
+            else:
+                print("Account test passed")
+                messages.success(request, 'Successfully created!')
+                print(teamResponse)
+                return redirect('viewTeams')
+        else:
+            print("Something went wrong")
+            print(accountResponse)
+            messages.error(request, "Something went wrong!")
+    return render(request,'createTeam.html')        
+  
+    
+
 def viewTeams(request):
+   #fetch Teams from the api
+    query = '''
+            query {
+                findAllTeams{
+                    name
+                    id,
+                    phone
+                    address
+                    createdAt
+                    location,
+                    status
+                    
+                }
+             }
+            '''
+    try:
+        response_data = api_service.performQuery(query,api_service.getCsrfToken(request))
+        return render(request,'viewTeam.html',{'teams':response_data['data']['findAllTeams']})
+    except Exception as e:
+        print(e)
+        messages.error(request,'Network problems!')
     return render(request,'viewTeam.html')
+    

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-<title>{% block title %} View Partners {% endblock %}</title>
+<title>{% block title %} View Teams {% endblock %}</title>
 
 {% block content %}
 
@@ -185,7 +185,7 @@
                       class="btn btn-block btn-success btn-md"
                     >
                     <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
-                      <a href="" class="text-white"
+                      <a href="{% url 'createTeam' %}" class="text-white"
                         > Add Team </a
                       >
                     </button>
@@ -203,20 +203,20 @@
                         <th>Location</th>
                         <th>Address</th>
                         <th>status</th>
-                        <th></th>
+                        <th>Action</tr>
                        
                       </tr>
                     </thead>
                    
                     <tbody>
-                      {% for partner in partners %}
+                      {% for team in teams %}
                       <tr>
-                        <td>{{ partner.id }}</td>
-                        <td> {{ partner.name }}</td>
-                        <td> {{ partner.phone }}</td>
-                        <td> {{ partner.location }}</td>
-                        <td> {{ partner.address }}</td>
-                        <td> {{ partner.status }}</td>
+                        <td>{{ team.id }}</td>
+                        <td> {{ team.name }}</td>
+                        <td> {{ team.phone }}</td>
+                        <td> {{ team.location }}</td>
+                        <td> {{ team.address }}</td>
+                        <td> {{ team.status }}</td>
                     
                         <td class="justify-content-center">
                           <a
@@ -228,7 +228,7 @@
                           <a href="" class="btn btn-danger btn-sm delete-btn" 
                           data-toggle="modal"
                            data-target="#deleteModal"
-                           data-id="{{ partner.id }}"
+                           data-id="{{ team.id }}"
                           >
                             <i class="fas fa-trash"></i> Delete
                         </a>
@@ -337,9 +337,6 @@
   
         $("#confirmDelete").click(function () {
           var id = $(this).data("id");
-          console.log('hshs5thd')
-          console.log("Deleting obeject with ID: " + id);
-  
           $.ajax({
             url: "{% url 'deleteYouthById' %}",
             type: "POST",
