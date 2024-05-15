@@ -26,15 +26,15 @@ export class Youth {
     phone?: string;
 
     @Field({ nullable: true })
-    @Column({nullable:true})
+    @Column({ nullable: true })
     address?: string;
-
-    @Field()
-    @Column()
-    education: string;
 
     @Field({nullable:true})
     @Column({nullable:true})
+    education: string;
+
+    @Field({ nullable: true })
+    @Column({ nullable: true })
     gender: string;
 
     @Field()
@@ -43,17 +43,20 @@ export class Youth {
 
     @Field({nullable:true})
     @Column({nullable:true})
-    location: string;
-    
-    @Field({nullable:true})
-    @Column({nullable:true})
-    accountId:number
+    email: string;
 
-   
-    @Field(()=>Account,{nullable:true})
-    @OneToOne(()=>Account,(account)=>account.partner)
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    location: string;
+
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    accountId: number
+
+    @Field(() => Account, { nullable: true })
+    @OneToOne(() => Account, (account) => account.partner)
     @JoinColumn()
-    account:Account
+    account: Account
 
     @Field()
     @CreateDateColumn()

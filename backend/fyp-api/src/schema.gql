@@ -65,9 +65,10 @@ type Youth {
   lname: String!
   phone: String
   address: String
-  education: String!
+  education: String
   gender: String
   skills: String!
+  email: String
   location: String
   accountId: Float
   account: Account
@@ -134,7 +135,7 @@ type Mutation {
   deleteOpportunityById(id: Float!): OperationDto!
   createProject(createProjectInput: ProjectDto!): Project!
   createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
-  createYouth(createYoutDto: YouthDto!, accountId: Float!): Youth!
+  createYouth(createYouthInput: YouthDto!, accountId: Float!): Youth!
   deleteYouthById(id: Float!): OperationDto!
   createTeam(createTeamInput: TeamsDto!, accountId: Float!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
@@ -172,12 +173,11 @@ input YouthDto {
   mname: String!
   lname: String!
   phone: String
+  gender: String!
   address: String
   education: String!
   skills: String!
   location: String!
-  email: String
-  password: String!
 }
 
 input TeamsDto {

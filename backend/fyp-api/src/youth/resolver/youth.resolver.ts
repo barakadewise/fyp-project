@@ -11,11 +11,10 @@ export class YouthResolver {
     constructor(private readonly youthServce: YouthService) { }
 
     @Mutation(_returns => Youth)
-    async createYouth(@Args('createYoutDto') createYoutDto: YouthDto,@Args('accountId')accountId:number): Promise<Youth> {
-        return await this.youthServce.createYouth(createYoutDto,accountId)
+    async createYouth(@Args('createYouthInput') createYoutDto: YouthDto, @Args('accountId') accountId: number) {
+        return await this.youthServce.createYouth(createYoutDto, accountId)
     }
 
-    //resolver to query forall youth
     @Query(_returns => [Youth])
     async findAllYouth(): Promise<Youth[]> {
         return await this.youthServce.findAllYouth()

@@ -1,29 +1,32 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { IsAlpha, IsNumberString, Length } from "class-validator";
+import { IsAlpha, IsNumberString, IsString, Length } from "class-validator";
 
 @InputType()
 export class YouthDto {
     @Field()
-    @IsAlpha()
+    @IsString()
     fname: string;
 
     @Field()
-    @IsAlpha()
+    @IsString()
     mname: string;
 
     @Field()
-    @IsAlpha()
+    @IsString()
     lname: string;
 
-    @Field({nullable:true})
+    @Field({ nullable: true })
     @IsNumberString()
-    @Length(10,10)
+    @Length(10, 10)
     phone: string;
 
-    @Field({nullable:true})
-    @IsAlpha()
-    address?: string;
+    @Field()
+    @IsString()
+    gender: string;
 
+    @Field({ nullable: true })
+    @IsString()
+    address?: string;
 
     @Field()
     @IsAlpha()
@@ -34,7 +37,7 @@ export class YouthDto {
     skills: string;
 
     @Field()
-    @IsAlpha()
+    @IsString()
     location: string;
 
 }
