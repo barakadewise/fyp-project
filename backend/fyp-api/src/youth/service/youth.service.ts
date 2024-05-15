@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Youth } from '../entity/youth.entity';
 import { Repository } from 'typeorm';
 import { YouthDto } from '../dto/youth-input-dto';
-import * as bcrypt from 'bcrypt'
-import { Role } from 'utils/roles-enums';
 import { OperationDto } from 'dto/operation-dto';
 import { Account } from 'src/accounts/entities/account.entity';
 
@@ -18,7 +16,7 @@ export class YouthService {
         const account = await this.accountRepository.findOne({ where: { id: accountId } })
         if (account) {
             const newYouth = this.youthRepository.create({ ...createYouth });
-            newYouth.accountId=accountId
+            newYouth.accountId = accountId
             return await this.youthRepository.save(newYouth)
 
         }
