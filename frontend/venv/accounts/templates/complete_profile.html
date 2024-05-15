@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} Complete | Profile {% endblock %}</title>
+
+{% block content %}
+<style>
+    body{
+        background-color: rgb(246, 245, 245);
+        
+    }
+</style>
+
+   <div class="container-fluid" style="height: 96vh;">
+    <div class="row justify-content-center" style="margin-top: 50px;">
+        <div class="col-8">
+            <div class="register-logo">
+              <a href=""><b>IMC</b></a>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header ">
+                    <h4 class="text-muted text-center"><b>Complete Profile</b></h4>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card card-primary">
+                          <form role="form" method="POST" id="form">
+                            {% csrf_token %}
+                            <div class="card-body">
+                              <div class="row">
+                           
+                                <div class="col-12 py-2">
+                                  <p class="text-info">Personal Details</p>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>First Name</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fa fa-user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      id="fname"
+                                      name="fname"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="name"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Midlle Name</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fa fa-user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      id="mname"
+                                      name="mname"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="middle name"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Last Name</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fa fa-user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      id="lname"
+                                      name="lname"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="last name"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group" id="role">
+                                    <label>Gender</label>
+                                    <select
+                                      class="form-control select2 select2-hidden-accessible"
+                                      style="width: 100%"
+                                      data-select2-id="1"
+                                      tabindex="-1"
+                                      aria-hidden="true"
+                                      id="gender"
+                                      name="gender"
+                                      required
+                                    >
+                                    <option selected="selected">Gender</option>
+                                      <option>Female</option>
+                                      <option>Male</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Phone</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fas fa-phone"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      id="phone"
+                                      type="tel"
+                                      name="phone"
+                                      class="form-control"
+                                      placeholder="phone"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>P.O.BOX</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fa-solid fa-envelope-open-text"></i>
+                                      </span>
+                                    </div>
+                                    <input
+                                      id="pobox"
+                                      name="pobox"
+                                      type="text'"
+                                      class="form-control"
+                                      placeholder="P.o.box"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <label>Skills</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fa-solid fa-lock"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      id="skills"
+                                      type="text"
+                                      name="skills"
+                                      class="form-control"
+                                      placeholder="Any skills"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+    
+                                <div class="col-md-6">
+                                  <label>Location</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i class="fa-solid fa-location-dot"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      id="location"
+                                      type="text'"
+                                      name="location"
+                                      class="form-control"
+                                      placeholder="location"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group" id="role">
+                                    <label>Education</label>
+                                    <select
+                                      class="form-control select2 select2-hidden-accessible"
+                                      style="width: 100%"
+                                      data-select2-id="1"
+                                      tabindex="-1"
+                                      aria-hidden="true"
+                                      id="education"
+                                      name="education"
+                                      required
+                                    >
+                                      <option selected="selected">Education</option>
+                                      <option>Primary</option>
+                                      <option>Secondary</option>
+                                      <option>University</option>
+                                    </select>
+                                  </div>
+                                </div>
+    
+                              
+                              </div>
+                              <div class="col-" style="float: right;">
+                                <button
+                                  type="submit"
+                                  class="btn btn-info"
+                                >
+                                  Register
+                                </button>
+                              </div>
+                          </form>
+                          
+                         
+                          <!-- /.col -->
+                        </div>
+                        <div id="alertMessage" class="alert alert-danger mt-3 d-none">
+                            Please fill in all fields.
+                          </div>
+                       
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+          </div>
+    </div>
+    {% if messages %}
+   
+    <script>
+      var messages = [];
+    </script>
+    {% for message in messages %}
+    <script>
+      messages.push({
+        "message": "{{ message.message }}",
+        "tag": "{{ message.tags }}"
+      });
+    </script>
+    {% endfor %}
+  {% endif %}
+
+<script>
+  $(function(){
+    messages.forEach(function(message) {
+      if (message.tag === "success") {
+        toastr.success(message.message);
+      } else if (message.tag=== "error") {
+        toastr.error(message.message); 
+      } else {
+        toastr.info(message.message);
+      }
+    });
+  });
+</script>
+
+   </div>
+ {% endblock %}

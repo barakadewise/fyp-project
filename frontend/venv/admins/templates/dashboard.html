@@ -144,6 +144,12 @@
                   <p>Teams</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">
+                  
+                  <p>logout</p>
+                </a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -391,7 +397,38 @@
   </aside>
 </div>
 
+    
+{% if messages %}
+   
+<script>
+  var messages = [];
+</script>
+{% for message in messages %}
+<script>
+  messages.push({
+    "message": "{{ message.message }}",
+    "tag": "{{ message.tags }}"
+  });
+</script>
+{% endfor %}
+{% endif %}
 
+</div>
+
+<script>
+$(function(){
+messages.forEach(function(message) {
+  if (message.tag === "success") {
+    toastr.success(message.message);
+  } else if (message.tag=== "error") {
+    toastr.error(message.message); 
+  } else {
+    
+    toastr.info(message.message);
+  }
+});
+});
+</script>
   {% endblock %}
 </body>
 

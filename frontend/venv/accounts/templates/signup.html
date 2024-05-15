@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} Signup  {% endblock %}</title>
+
+{% block content %}
+<style>
+    body{
+        background-color: rgb(246, 245, 245);
+        
+    }
+</style>
+
+   <div class="container-fluid" style="height: 96vh;">
+    <div class="row justify-content-center" style="margin-top: 50px;">
+        <div class="col-sm-4 mt-4">
+            <div class="register-logo">
+              <a href=""><b>IMC</b></a>
+            </div>
+      
+            <div class="card">
+              <div class="card-body register-card-body">
+                <h4 class="login-box-msg"><b>Register new Account</b></h4>
+      
+                <form method="POST" role="form" action="{% url 'signup' %}">
+                    {% csrf_token %}
+                  <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Email" name="email" required/>
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Password"
+                      name="password1"
+                      required
+                      minlength="5"
+                    />
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Retype password"
+                      name="password2"
+                      required
+                      minlength="5",
+                      
+                    />
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <!-- /.col -->
+                  <div class="col-">
+                    <button type="submit" class="btn btn-info btn-block">
+                      Register
+                    </button>
+                  </div>
+      
+                  <!-- /.col -->
+                  <div class="row justify-content-between mt-2 mr-2">
+                    <p class="text-primary cursor-pointer">
+                      Have account? <a href="{% url 'login' %}">Login</a>
+                    </p>
+                  </div>
+                </form>
+              
+              </div>
+            </div>
+        </div>
+          
+    </div>
+
+    <!-- render messages -->
+    
+      {% if messages %}
+   
+        <script>
+          var messages = [];
+        </script>
+        {% for message in messages %}
+        <script>
+          messages.push({
+            "message": "{{ message.message }}",
+            "tag": "{{ message.tags }}"
+          });
+        </script>
+        {% endfor %}
+      {% endif %}
+
+   </div>
+
+    <script>
+      $(function(){
+        messages.forEach(function(message) {
+          if (message.tag === "success") {
+            toastr.success(message.message);
+          } else if (message.tag=== "error") {
+            toastr.error(message.message); 
+          } else {
+            
+            toastr.info(message.message);
+          }
+        });
+      });
+    </script>
+    {% endblock %}

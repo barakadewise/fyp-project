@@ -10,13 +10,15 @@ class ApiService:
     #Function to perform mutation
     def performMuttion(self,mutation,variables):
         response = requests.post(self.Baseurl,json={'query':mutation,'variables':variables})
-        if  response:
-            print("Successfuly response..")
+        if  'errors' in response:
+            print("Error occured ..:",response['errors'])
             return response.json()
             
         else:
-            print("Connection failed for mutation",response.json())
+            print("Request Successffully!")
             return response.json()
+        
+   
 
     #function to perform query 
     def performQuery(self,query,csrf_token):
@@ -25,11 +27,12 @@ class ApiService:
             'X-CSRFToken': csrf_token,
         }
         response =requests.get(self.Baseurl,params={'query': query },headers=headers)
-        if response:
-            print("Successfuly response..")
+        if 'errors' in response:
+            print("Query request error..:.",response['errors'])
             return response.json()
+        
         else:
-            print("Connection failed for querry",response.json())
+            print("Sucessfully Query!",response.json())
             return response.json()
             
      #function to return csrf token from the request       

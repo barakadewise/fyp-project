@@ -125,7 +125,6 @@ def createStaff(request):
         elif gender=='Gender':
             messages.error(request,'Invalid gender type!')
         else:
-            #call api end point 
             teaamMutation = '''
             mutation CreateAccount($input: CreateAccountInput!) {
                 createAccount(createAccountInput: $input) {
@@ -236,12 +235,13 @@ def createPartner(request):
         status = request.POST.get('Status')
         
         # Define account mutation
-        teaamMutation = '''
+        accountMutation = '''
             mutation CreateAccount($input: CreateAccountInput!) {
                 createAccount(createAccountInput: $input) {
                     id
+                    email
                     role
-                    password
+                    
                 }
             }
         '''
@@ -268,7 +268,7 @@ def createPartner(request):
         '''
         
         # Call API endpoint
-        accountResponse = api_service.performMuttion(teaamMutation, accountVariables)
+        accountResponse = api_service.performMuttion(accountMutation, accountVariables)
         if 'errors' in accountResponse:
             messages.error(request,accountResponse['errors'][0]['message'][0])
             print(accountResponse,"Got this errors")
@@ -278,7 +278,7 @@ def createPartner(request):
             print(accountResponse,"Got this data ")
 
              # Create partner with account ID
-            teamVaribleDetails = {
+            partnerVariables = {
                     "input": {
                         "name": name,
                         "phone": phone,
@@ -290,9 +290,9 @@ def createPartner(request):
                 }
             
              # Perform partner creation
-            teamResponse = api_service.performMuttion(partnerMutation, teamVaribleDetails)
-            if 'errors' in teamResponse:
-                messages.error(request, teamResponse['errors'][0]['message']) 
+            partnerResponse = api_service.performMuttion(partnerMutation, partnerVariables)
+            if 'errors' in partnerResponse:
+                messages.error(request, partnerResponse['errors'][0]['message']) 
 
                 #perform query to remove the user account pending for new registration
                 removeAccount='''
@@ -303,11 +303,11 @@ def createPartner(request):
                          }  
                   '''
                 response=api_service.performMuttion(removeAccount,{"accountId":accountId})
-                print(teamResponse,response,) 
+                print(partnerResponse,response,) 
             else:
                 print("Account test passed")
                 messages.success(request, 'Successfully created!')
-                print(teamResponse)
+                print(partnerResponse)
                 return redirect('viewPartners')
         else:
             print("Something went wrong")
@@ -356,41 +356,99 @@ def createYouth(request):
         location = request.POST.get('location')
         education=request.POST.get('education')
         password = request.POST.get('password')
-        password2 = request.POST.get('password2')
+       
         
-        variables={
-            "fname":fname,
-            "mname":mname,
-            "lname":lname,
-            "phone":phone,
-            "address":address,
-            "education":education,
-            "skills":skills,
-            "location":location,
-            "email":email,
-            "password":password
-        }
-
-        #Graphql Mutation
-        mutation='''
-            mutation($fname: String!,$mname: String!,$lname: String!,$phone: String!,$address: String!,$education: String!,$skills: String!,$location: String!,$email: String!,$password: String!){
-                createYouth(createYoutDto: {fname: $fname,mname: $mname,lname: $lname,phone: $phone,address: $address,education: $education,skills: $skills,location: $location,email: $email,password: $password,}){
-                    fname
-                    mname
-                    lname
+       # Define account mutation
+        youthAccount = '''
+            mutation CreateAccount($input: CreateAccountInput!) {
+                createAccount(createAccountInput: $input) {
+                    id
+                    role
                     email
-                    skills
+                    
                 }
             }
         '''
-        resposnse_data= api_service.performMuttion(mutation,variables)
-        print(resposnse_data)
+        accountVariables = {
+            "input": {
+                "email": email,
+                "password": password,
+                "role": Roles.YOUTH.value
+            }
+        }
+        
+        # Define partner mutation
+        youthMutation = '''
+            mutation CreateYouth($input: YouthDto!, $accountId: Float!) {
+                 createYouth(createYouthInput: $input, accountId: $accountId) {
+                      id
+                      fname
+                      mname
+                      lname
+                      skills
+                      email
+                      location
+                       phone
+                       education
+                      address
+               }
+            }
+        '''
+        
+        # Call API endpoint
+        accountResponse = api_service.performMuttion(youthAccount,accountVariables)
+        if 'errors' in accountResponse:
+            messages.error(request,accountResponse['errors'][0]['message'])
+            print(accountResponse,"Got this errors")
+
+        elif 'data' in accountResponse:
+            accountId = accountResponse['data']['createAccount']['id']
+            print(accountResponse,"Got this data ")
+
+            #Create partner with account ID
+            youthDetails = {
+                    "input": {
+                        "fname":fname,
+                        "mname":mname,
+                        "lname":lname,
+                        "phone": phone,
+                        "education":education,
+                        "address": address,
+                        "location": location,
+                        "skills":skills
+                    },
+                    "accountId": accountId
+                }
+            
+             # Perform youth creation
+            youthResponse = api_service.performMuttion(youthMutation, youthDetails)
+            if 'errors' in youthResponse:
+                messages.error(request, youthResponse['errors'][0]['message']) 
+
+                #perform query to remove the user account pending for new registration
+                removeAccount='''
+                        mutation($accountId:Float!){
+                         removeAccount(accountId:$accountId){
+                           message,statusCode
+                           }
+                         }  
+                  '''
+                response=api_service.performMuttion(removeAccount,{"accountId":accountId})
+                print(youthResponse,response,) 
+            else:
+                print("Account test passed")
+                messages.success(request, 'Successfully created!')
+                print(youthResponse)
+                return redirect('viewYouth')
+        else:
+            print("Something went wrong")
+            print(accountResponse)
+            messages.error(request, "Something went wrong!")
+      
     return render(request,'createYouth.html')
 
 #function to fetch all youth 
 def viewYouth(request):
-  
-
    #Query
     query ='''
         query {
@@ -413,7 +471,7 @@ def viewYouth(request):
             print('data error ',response_data['errors'])
         return render(request,'viewYouth.html',{'youths':response_data['data']['findAllYouth']})
     except Exception as e:
-        print('Failed to query ')
+        print('Failed to query')
         messages.error(request,'Network Problems!')
     return  render(request,'viewYouth.html')
 
@@ -585,8 +643,8 @@ def deleteOpporrtunityById(request):
        mutation($id: Float!) {
        deleteOpportunityById(id: $id) {
        message
-       }
-      }
+          }
+        }
            '''
         try:
             response =api_service.performMuttion(muatation,{'id':id})
@@ -630,7 +688,7 @@ def createTeam(request):
         }
         
         # Define partner mutation
-        teamMutation = '''
+        youthMutation = '''
             mutation CreateTeam($input: TeamsDto!, $accountId: Float!) {
                  createTeam(createTeamInput: $input, accountId: $accountId) {
                       id
@@ -654,7 +712,7 @@ def createTeam(request):
             print(accountResponse,"Got this data ")
 
              # Create partner with account ID
-            teamVaribleDetails = {
+            teamDetails = {
                     "input": {
                         "name": name,
                         "phone": phone,
@@ -666,7 +724,7 @@ def createTeam(request):
                 }
             
              # Perform partner creation
-            teamResponse = api_service.performMuttion(teamMutation, teamVaribleDetails)
+            teamResponse = api_service.performMuttion(youthMutation, teamDetails)
             if 'errors' in teamResponse:
                 messages.error(request, teamResponse['errors'][0]['message']) 
 

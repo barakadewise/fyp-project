@@ -5,7 +5,7 @@ class Roles(Enum):
     YOUTH ='Youth'
     PARTNER='Partner'
     TEAM='Team'
-    ADMIN='Admin',
+    ADMIN='Admin'
     STAFF='Staff'
 
    
