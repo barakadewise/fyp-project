@@ -10,7 +10,7 @@
       
   }
 </style>
-    <div class="row justify-content-center " style="margin-top: 4rem;height: 80vh;">
+    <div class="row justify-content-center" style="margin-top: 4vh;height: 80vh;align-items: center;" >
 
     <div class="col-md-4">
       <div class="register-logo">
@@ -19,6 +19,9 @@
       <div class="card">
         <div class="card-body register-card-body">
           <h4 class="login-box-msg"><b>Login </b></h4>
+          <div class="text-center mb-2">
+            <img src="{% static 'dist/img/logo.png' %}" alt="logo">
+          </div>
 
           <form role="form" action="" method="POST">
             {% csrf_token %}
