@@ -4,15 +4,15 @@ import { Youth } from '../entity/youth.entity';
 import { YouthDto } from '../dto/youth-input-dto';
 import { DeleteResult } from 'typeorm';
 import { OperationDto } from 'dto/operation-dto';
+import { ARRAY_CONTAINS } from 'class-validator';
 
 @Resolver()
 export class YouthResolver {
     constructor(private readonly youthServce: YouthService) { }
 
-    //create youth mutation
     @Mutation(_returns => Youth)
-    async createYouth(@Args('createYoutDto') createYoutDto: YouthDto): Promise<Youth> {
-        return await this.youthServce.createYouth(createYoutDto)
+    async createYouth(@Args('createYoutDto') createYoutDto: YouthDto,@Args('accountId')accountId:number): Promise<Youth> {
+        return await this.youthServce.createYouth(createYoutDto,accountId)
     }
 
     //resolver to query forall youth

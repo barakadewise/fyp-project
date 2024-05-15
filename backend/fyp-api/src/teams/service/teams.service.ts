@@ -18,7 +18,7 @@ export class TeamsService {
         if (account) {
             const newTeam = this.teamsRepository.create({ ...createTeamInput })
             newTeam.accountId = accountId,
-                newTeam.email = account.email
+            newTeam.email = account.email
             return await this.teamsRepository.save(newTeam);
 
         }

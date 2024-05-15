@@ -134,7 +134,7 @@ type Mutation {
   deleteOpportunityById(id: Float!): OperationDto!
   createProject(createProjectInput: ProjectDto!): Project!
   createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
-  createYouth(createYoutDto: YouthDto!): Youth!
+  createYouth(createYoutDto: YouthDto!, accountId: Float!): Youth!
   deleteYouthById(id: Float!): OperationDto!
   createTeam(createTeamInput: TeamsDto!, accountId: Float!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
