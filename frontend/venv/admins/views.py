@@ -356,6 +356,7 @@ def createYouth(request):
         location = request.POST.get('location')
         education=request.POST.get('education')
         password = request.POST.get('password')
+        gender=request.POST.get('gender')
        
         
        # Define account mutation
@@ -415,6 +416,7 @@ def createYouth(request):
                         "education":education,
                         "address": address,
                         "location": location,
+                        "gender":gender,
                         "skills":skills
                     },
                     "accountId": accountId
