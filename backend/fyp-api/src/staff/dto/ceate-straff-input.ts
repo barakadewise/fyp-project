@@ -1,11 +1,11 @@
 import { Field, InputType } from "@nestjs/graphql"
-import { IsAlpha, IsNumberString, Length, isAlpha } from "class-validator";
+import { IsAlpha, IsNumberString, IsString, Length } from "class-validator";
 
 
 @InputType()
 export class StaffInputDto {
     @Field()
-    @IsAlpha()
+    @IsString()
     name: string;
 
     @Field()

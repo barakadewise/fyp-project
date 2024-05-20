@@ -4,11 +4,11 @@ import { IsAlpha, IsNumberString, IsString, Length } from "class-validator";
 @InputType()
 export class PartnerDto {
     @Field()
-    @IsAlpha()
+    @IsString()
     name: string;
 
     @Field()
-    @IsAlpha()
+    @IsString()
     location: string;
 
  
