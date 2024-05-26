@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
 import { ProjectDto } from '../dto/project-input-dto';
 import { Partner } from 'src/partners/entity/partner.entity';
+import { ResponseDto } from 'shared/response-dto';
 
 @Injectable()
 export class ProjectService {
@@ -30,5 +31,15 @@ export class ProjectService {
     async findAll(): Promise<Project[]> {
         return await this.projectRepository.find({ order: { 'createdAt': 'DESC' } })
     }
-
+    async removeProject(id: number): Promise<ResponseDto> {
+        const project = await this.projectRepository.findOne({ where: { id: id } })
+        if (project) {
+            await this.projectRepository.delete(id)
+            return {
+                message: "Successfully deleted",
+                statusCode: HttpStatus.OK
+            }
+        }
+        throw new NotFoundException("Project Not found!")
+    }
 }

@@ -34,14 +34,16 @@ export class YouthService {
 
     async deleteYouthById(id: number): Promise<OperationDto> {
         const user = await this.youthRepository.findOne({ where: { id: id } })
-        if (!user) {
-            throw new NotFoundException('User Not found!')
+        if (user) {
+            await this.youthRepository.remove(user)
+            return {
+                message: 'Successfully deleted',
+                statusCode: HttpStatus.OK
+            }
+
         }
-        await this.youthRepository.remove(user)
-        return {
-            message: 'Successfully deleted',
-            statusCode: HttpStatus.OK
-        }
+        throw new NotFoundException('User Not found!')
+
     }
 
 }
