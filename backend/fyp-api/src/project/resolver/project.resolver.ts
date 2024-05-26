@@ -9,8 +9,8 @@ export class ProjectResolver {
 
     //create opportunity mutation 
     @Mutation(() => Project)
-    async createProject(@Args('createProjectInput') createProjectInput: ProjectDto): Promise<Project> {
-        return await this.projectService.createProject(createProjectInput)
+    async createProject(@Args('createProjectInput') createProjectInput: ProjectDto, @Args('partner',{nullable:true}) partner?: string) {
+        return await this.projectService.createProject(createProjectInput, partner)
 
     }
 

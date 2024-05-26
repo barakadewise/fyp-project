@@ -1,9 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Partner } from '../entity/partner.entity';
 import { Repository } from 'typeorm';
 import { PartnerDto } from '../dto/partner-input-dto';
 import { Account } from 'src/accounts/entities/account.entity';
+import { ResponseDto } from 'shared/response-dto';
+import { threadId } from 'worker_threads';
 
 
 
@@ -39,5 +41,16 @@ export class PartnersService {
             return partner
         }
         throw new NotFoundException('Not found')
+    }
+    async removePartner(id: number): Promise<ResponseDto> {
+        const partner = await this.partnerRepository.findOne({ where: { id: id } })
+        if (partner) {
+            await this.partnerRepository.delete(id)
+            return {
+                message: "Successfully deleted",
+                statusCode: HttpStatus.OK
+            }
+        }
+        throw new NotFoundException("Partner Not found!")
     }
 }

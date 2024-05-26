@@ -22,6 +22,4 @@ export class ProjectDto{
     @Field()
     funded: boolean;
 
-  
-
 }

@@ -20,17 +20,6 @@ type OperationDto {
   statusCode: Float!
 }
 
-type Project {
-  id: Float!
-  name: String!
-  cost: Float!
-  duration: String!
-  discription: String!
-  status: String!
-  funded: Boolean!
-  createdAt: DateTime!
-}
-
 type Staff {
   id: Float!
   name: String
@@ -98,18 +87,33 @@ type Partner {
   status: String
   accountId: Float
   account: Account
-  createdAt: DateTime!
+  projet: [Project!]
+  createdAt: DateTime
   updatedAt: DateTime
 }
 
-type AdministrationLevel {
+type Project {
   id: Float!
-  name: String!
+  name: String
+  cost: Float
+  duration: String
+  discription: String
+  status: String
+  funded: Boolean
+  partner: Partner
+  partnerId: Float
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type ResponseDto {
   message: String!
   statusCode: Float!
+}
+
+type AdministrationLevel {
+  id: Float!
+  name: String!
 }
 
 type AuthResults {
@@ -133,8 +137,9 @@ type Query {
 type Mutation {
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   deleteOpportunityById(id: Float!): OperationDto!
-  createProject(createProjectInput: ProjectDto!): Project!
+  createProject(createProjectInput: ProjectDto!, partner: String): Project!
   createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
+  removePartner(id: Float!): ResponseDto!
   createYouth(createYouthInput: YouthDto!, accountId: Float!): Youth!
   deleteYouthById(id: Float!): OperationDto!
   createTeam(createTeamInput: TeamsDto!, accountId: Float!): Teams!

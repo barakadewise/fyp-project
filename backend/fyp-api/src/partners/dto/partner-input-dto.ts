@@ -1,14 +1,14 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { IsAlpha, IsNumberString, IsString, Length } from "class-validator";
+import { IsAlpha, IsNumberString, Length } from "class-validator";
 
 @InputType()
 export class PartnerDto {
     @Field()
-    @IsString()
+    @IsAlpha()
     name: string;
 
     @Field()
-    @IsString()
+    @IsAlpha()
     location: string;
 
  
@@ -18,7 +18,7 @@ export class PartnerDto {
     phone: string;
     
     @Field()
-    @IsString()
+    @IsAlpha()
     address: string;
 
     @Field()
