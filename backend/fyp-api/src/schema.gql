@@ -100,6 +100,7 @@ type Project {
   discription: String
   status: String
   funded: Boolean
+  partnerName: String
   partner: Partner
   partnerId: Float
   createdAt: DateTime

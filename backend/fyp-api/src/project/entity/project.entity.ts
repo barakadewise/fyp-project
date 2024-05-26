@@ -33,6 +33,10 @@ export class Project {
     @Column({ nullable: true })
     funded: boolean;
 
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    partnerName: string;
+
     @Field(() => Partner, { nullable: true })
     @ManyToOne(() => Partner, (partner) => partner.projet, { nullable: true })
     @JoinColumn()

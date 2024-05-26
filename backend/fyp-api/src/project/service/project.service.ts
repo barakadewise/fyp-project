@@ -15,9 +15,10 @@ export class ProjectService {
     async createProject(createProjectInput: ProjectDto, partner?: string): Promise<Project> {
         const newProject = this.projectRepository.create({ ...createProjectInput });
         if (createProjectInput.funded) {
-            const partnerAcount = await this.partnerRepository.findOne({ where: { name: partner } })
-            if (partnerAcount) {
-                newProject.partnerId = partnerAcount.id
+            const partnerData = await this.partnerRepository.findOne({ where: { name: partner } })
+            if (partnerData) {
+                newProject.partnerId = partnerData.id
+                newProject.partnerName = partner
                 return await this.projectRepository.save(newProject)
             }
             throw new BadRequestException("Invalid partner details")
