@@ -504,9 +504,7 @@ def deleteYouthById(request):
 
 #function  to  view the projects
 def viewProjects(request):
-    csrf_token =api_service.getCsrfToken(request)
-    context ={}
-    
+   
     #graphql query
     query='''
         query {
@@ -518,11 +516,12 @@ def viewProjects(request):
     discription
     cost
     duration
+    partnerName
      }
      }
        '''
     try:
-        response =api_service.performQuery(query,csrf_token)
+        response =api_service.performQuery(query,api_service.getCsrfToken(request))
         context ={'projects':response['data']['findAllProjects']}
     except Exception as e:
         print('failed to fetch data',e)
@@ -530,50 +529,59 @@ def viewProjects(request):
     return render(request,'viewProjects.html',context)
 
 def createProject(request):
+
+    #query for partners
+    queryPartners='''
+         query {
+         findAllPartners {
+          id
+          name
+         }
+         }
+
+        '''
+    partnersResponse=api_service.performQuery(queryPartners,api_service.getCsrfToken(request))
     if request.method =="POST":
         name=request.POST.get('name')
         cost=float(request.POST.get('cost'))
         duration=request.POST.get('duration')
         discription=request.POST.get('discription')
         status=request.POST.get('status')
-        funded=bool(request.POST.get('funded'))
-
-       #variables
-        variables={
-            "name":name,
-            "cost":cost,
-            "duration":duration,
-            "discription":discription,
-            "status":status,
-            "funded":funded
-
+        funded=bool(request.POST.get('inlineRadioOptions'))
+        partner=request.POST.get('partner')
+       
+        mutation = '''
+            mutation CreateProject($input: ProjectDto!,$partner: String) {
+            createProject(createProjectInput: $input,partner:$partner) {
+             id
+             name
+              }
+            }
+          '''
+        variables = {
+          "input": {
+          "name": name,
+           "cost": cost,
+           "duration": duration,
+          "discription": discription,
+          "status": status,
+           "funded": funded
+         },
+         "partner":partner
         }
-        #graphql mutation
-        mutation='''
-        mutation(
-        $name: String!
-        $cost: Float!
-        $duration: String!
-        $discription: String!
-        $status: String!
-        $funded: Boolean!
-       ) {
-       createProject(
-       createProjectInput: {name: $name,cost: $cost,duration: $duration,discription: $discription,status: $status,funded: $funded}
-       )  {
-      id
-      name
-       }
-       }
-         '''
+     
         response=api_service.performMuttion(mutation,variables)
-        if response:
-            print('Record created successfuly')
-            return render(request,'createProject.html')
+        if 'errors' in response:
+            print('Failed to create record')
+            messages.error(request,'Failed to create record!')
+            print(response)
+            # return redirect('createProje')
 
         else:
-            print('failed to create record') 
-    return render(request,'createProject.html')
+            messages.success(request,'Successffully Created!')
+            return redirect('viewProjects')
+             
+    return render(request,'createProject.html',{'partners':partnersResponse['data']['findAllPartners']})
 
 #function to view all availble ooprtunities
 def viewOpportunities(request):

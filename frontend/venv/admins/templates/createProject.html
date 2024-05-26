@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %}
+{% load static %}
 <title>{% block title %} Create | Project {% endblock %}</title>
 
 {% block content %}
@@ -81,7 +82,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{% url 'adminPanel' %}" class="nav-link active">
+                  <a href="{% url 'adminPanel' %}" class="nav-link">
                     <i
                       class="fa-regular fa-eye"
                       style="margin: 0 4px 0 0px"
@@ -117,7 +118,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'viewProjects' %}" class="nav-link">
+                  <a href="{% url 'viewProjects' %}" class="nav-link active">
                     <i
                       class="fa-solid fa-diagram-project"
                       style="margin: 0 4px 0 0px"
@@ -186,7 +187,7 @@
                   <div class="col-12">
                    
                     <div class="card card-primary">
-                      <form role="form" method="POST" id="form">
+                      <form role="form" method="POST" id="form" action="{% url 'createProject' %}">
                         {% csrf_token %}
                         <div class="card-body">
                           <div class="row">
@@ -203,6 +204,7 @@
                                   type="text"
                                   class="form-control"
                                   placeholder="name"
+                                  required
                                 />
                               </div>
                             </div>
@@ -219,6 +221,7 @@
                                   type="number"
                                   name="cost"
                                   class="form-control"
+                                  required
                                   placeholder="cost"
                                   min="10000"
                                 />
@@ -239,6 +242,7 @@
                                   type="text'"
                                   class="form-control"
                                   placeholder="Duration"
+                                  required
                                 />
                               </div>
                             </div>
@@ -250,7 +254,7 @@
                                   <span class="input-group-text"
                                     ><i class="fa-solid fa-file-lines"></i></span>
                                 </div>
-                                <textarea name="discription" id="discription" cols="30" rows="1" class="form-control" placeholder="Discription"></textarea>
+                                <textarea name="discription" id="discription" cols="30" rows="1" class="form-control" placeholder="Discription" required></textarea>
                               </div>
                             </div>
 
@@ -260,7 +264,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa-solid fa-repeat"></i><span>
                                     </div>
-                                    <select id="status" name="status" class="form-control">
+                                    <select id="status" name="status" class="form-control" required>
                                         <option value="started">started</option>
                                         <option value="complete">Complete</option>
                                         <option value="paused">Paused</option>
@@ -270,14 +274,21 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="funded">Funded</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa-solid fa-check"></i></span>
-                                    </div>
-                                    <select id="funded" name="funded" class="form-control">
-                                        <option value="true">True</option>
-                                        <option value="false">False</option>
+                                <label for="funded">Funded</label><br>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false">
+                                  <label class="form-check-label" for="inlineRadio1">False</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true">
+                                  <label class="form-check-label" for="inlineRadio2">True</label>
+                                </div><br>
+                                <label for="funded" id="partnerLabel">Partner</label>
+                                <div class="input-group mb-3 mt-2">
+                                    <select id="partner" name="partner" class="form-control select2">
+                                      {% for partner in partners %}
+                                        <option value="{{ partner.name }}">{{ partner.name }}</option>
+                                      {% endfor %}
                                        
                                     </select>
                                 </div>
@@ -366,43 +377,61 @@
     </aside>
     <!-- /.control-sidebar -->
   </div>
-
- 
-  <script>
-    document.getElementById("form").addEventListener("submit", function (event) {
-      // Get form inputs
-      var name = document.getElementById("name").value.trim();
-      var cost= document.getElementById("cost").value.trim();
-      var duration = document.getElementById("duration").value.trim();
-      var discription= document.getElementById("discription").value.trim();
-      var status = document.getElementById("status").value.trim();
-      var funded= document.getElementById("funded").value.trim();
+  
+  {% if messages %}
    
-  
-      // Get the alert element
-      var alertDiv = document.getElementById("alertMessage");
-  
-      // Check if any field is empty
-      if (
-        !name ||
-        !cost ||
-        !duration ||
-        !discription||
-        !status ||!funded
-       
-      ) {
-        alertDiv.classList.remove("d-none"); // Show the alert
-        event.preventDefault(); // Prevent form submission
-        
-        // Hide the alert after half a second
-        setTimeout(function() {
-          alertDiv.classList.add("d-none");
-        }, 1500);
-      }else{
-        console.log(name,pobox)
-      }
+  <script>
+    var messages = [];
+  </script>
+  {% for message in messages %}
+  <script>
+    messages.push({
+      "message": "{{ message.message }}",
+      "tag": "{{ message.tags }}"
     });
+  </script>
+  {% endfor %}
+{% endif %}
+
+
+
+<script>
+$(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message); 
+    } else {
+      
+      toastr.info(message.message);
+    }
+  });
+});
+</script>
+
+  <script>
+   
+    function togglePartnerDropdown() {
+      var isFundedTrue = document.getElementById("inlineRadio2").checked;
+      var partnerDropdown = document.getElementById("partner");
+      var partnerLabel=document.getElementById("partnerLabel")
+
+      if (isFundedTrue) {
+        partnerDropdown.style.display = "block";
+        partnerLabel.style.display="block"
+      } else {
+        partnerDropdown.style.display = "none";
+        partnerLabel.style.display="none"
+      }
+    }
+
+    // Add event listeners to the radio buttons
+    document.getElementById("inlineRadio1").addEventListener("change", togglePartnerDropdown);
+    document.getElementById("inlineRadio2").addEventListener("change", togglePartnerDropdown);
+
+    togglePartnerDropdown();
   </script>
   
   {% endblock %}
-</body>
+

@@ -14,7 +14,7 @@
   }
 </style>
 
-<body class="hold-transition sidebar-mini">
+
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -201,6 +201,7 @@
                         <th>Duration</th>
                         <th>Description(s)</th>
                         <th>Status</th>
+                        <th>Parter Name</th>
                         <th>funded</th>
                         <th>Action</th>
                       </tr>
@@ -215,6 +216,7 @@
                         <td>{{ project.duration  }}</td>
                         <td>{{ project.discription }}</td>
                         <td>{{ project.status }}</td>
+                        <td>{{ project.partnerName }}</td>
                         <td>{{ project.funded }}</td>
                         <td class="justify-content-center">
                           <a
@@ -302,6 +304,36 @@
     </aside>
     <!-- /.control-sidebar -->
   </div>
+  
+  {% if messages %}
+   
+  <script>
+    var messages = [];
+  </script>
+  {% for message in messages %}
+  <script>
+    messages.push({
+      "message": "{{ message.message }}",
+      "tag": "{{ message.tags }}"
+    });
+  </script>
+  {% endfor %}
+{% endif %}
 
+
+
+<script>
+$(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message); 
+    } else {
+      
+      toastr.info(message.message);
+    }
+  });
+});
+</script>
   {% endblock %}
-</body>
