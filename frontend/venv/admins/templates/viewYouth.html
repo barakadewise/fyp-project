@@ -322,6 +322,35 @@
 
     <!-- handle delete  -->
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    {% if messages %}
+   
+    <script>
+      var messages = [];
+    </script>
+    {% for message in messages %}
+    <script>
+      messages.push({
+        "message": "{{ message.message }}",
+        "tag": "{{ message.tags }}"
+      });
+    </script>
+    {% endfor %}
+  {% endif %}
+  
+  <script>
+  $(function(){
+    messages.forEach(function(message) {
+      if (message.tag === "success") {
+        toastr.success(message.message);
+      } else if (message.tag=== "error") {
+        toastr.error(message.message); 
+      } else {
+        
+        toastr.info(message.message);
+      }
+    });
+  });
+  </script>
     <script>
       $(function (){
         
@@ -364,7 +393,9 @@
               window.location.reload();
             },
             error: function (xhr, status, error) {
-              console.error("Error deleting :", error);
+              var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete user!";
+                toastr.error(errorMsg);
+                window.location.reload();
             },
           });
   
@@ -372,35 +403,7 @@
         });
       });
     </script>
-     {% if messages %}
    
-     <script>
-       var messages = [];
-     </script>
-     {% for message in messages %}
-     <script>
-       messages.push({
-         "message": "{{ message.message }}",
-         "tag": "{{ message.tags }}"
-       });
-     </script>
-     {% endfor %}
-   {% endif %}
-   
-   <script>
-   $(function(){
-     messages.forEach(function(message) {
-       if (message.tag === "success") {
-         toastr.success(message.message);
-       } else if (message.tag=== "error") {
-         toastr.error(message.message); 
-       } else {
-         
-         toastr.info(message.message);
-       }
-     });
-   });
-   </script>
 
   {% endblock %}
 

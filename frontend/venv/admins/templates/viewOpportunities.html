@@ -355,7 +355,9 @@
             window.location.reload();
           },
           error: function (xhr, status, error) {
-            console.error("Error deleting :", error);
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete user!";
+                toastr.error(errorMsg);
+                window.location.reload();
           },
         });
 

@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from Api.api import ApiService
 from django.contrib import messages
 from shared.roles_enum import Roles
-
+from django.http import JsonResponse
 #Api instance
 api_service = ApiService()
 roles= Roles
@@ -479,28 +479,35 @@ def viewYouth(request):
 
 #delete youth by id
 def deleteYouthById(request):
-    id =int( request.POST.get('id'))
-    print(id)
-    muatation='''
+    if request.method =="POST":
+      
+      id =int( request.POST.get('id'))
+      print(id)
+      muatation='''
        mutation($id: Float!) {
        deleteYouthById(id: $id) {
        message
       }
       }
 
-    '''
-    try:
-        response =api_service.performMuttion(muatation,{'id':id})
-        if not response:
-            print(response)
+      '''
+      try:
+          
+          response = api_service.performMuttion(muatation,{'id':id} )
+          if 'errors' in response:
+               messages.error(request,'Failed to delete user!')
+               return JsonResponse({'status': 'error'}, status=400)
+          
             
-        else:
-            print(response)
+          else:
+              messages.success(request,response['data'][' deleteYouthById']['message'])
+              print(response,"Data received.... ")
+              return JsonResponse({'status': 'success'}, status=200)
             
-    except Exception as e:
-        print(e)
+      except Exception as e:
+           print(e)
     
-    return render(request,'viewYouth.html')
+    return redirect('viewYouth')
 
 #function  to  view the projects
 def viewProjects(request):
@@ -650,24 +657,26 @@ def deleteOpporrtunityById(request):
         id =request.POST.get('id')
         
         muatation='''
-       mutation($id: Float!) {
-       deleteOpportunityById(id: $id) {
-       message
+           mutation($id: Float!) {
+           deleteOpportunityById(id: $id) {
+           message
           }
         }
            '''
         try:
             response =api_service.performMuttion(muatation,{'id':id})
             if 'errors' in response:
-                messages.error(request,'Something went ')
-                print(response['data']['deleteOpportunityById']['message'])
+                messages.error(request,'Failed to delete Opportunity!')
+                return JsonResponse({'status': 'error'}, status=400)
+          
             else:
                 messages.success(request,'Operation successfully!')
+                return JsonResponse({'status': 'success'}, status=200)
         except Exception as e:
             messages.error(request,'Network Problems')
             print(e)
 
-    return render(request,'viewOpportunities.html')
+    return redirect('viewOpportunities')
 
 def createTeam(request):
     if request.method == 'POST':
@@ -762,7 +771,7 @@ def createTeam(request):
     
 
 def viewTeams(request):
-   #fetch Teams from the api
+
     query = '''
             query {
                 findAllTeams{
@@ -784,4 +793,35 @@ def viewTeams(request):
         print(e)
         messages.error(request,'Network problems!')
     return render(request,'viewTeam.html')
+    
+
+#TODO IMPLEMENT THIS WIT TOKEN FOR SECURITY 
+def deletePartenerById(request):
+       
+    if request.method=="POST":
+        id =int(request.POST.get('id'))
+        
+    
+        muatation='''
+        mutation($id: Float!) {
+            removePartner(id: $id) {
+             message
+          }
+         }
+  
+        '''
+        response = api_service.performMuttion(muatation,{'id':id} )
+        if 'errors' in response:
+            messages.error(request,'Failed to delete user!')
+            return JsonResponse({'status': 'error'}, status=400)
+          
+            
+        else:
+            messages.success(request,response['data']['removePartner']['message'])
+            print(response)
+            return JsonResponse({'status': 'success'}, status=200)
+      
+           
+        
+    return redirect('viewPartners',{'response':response})    
     
