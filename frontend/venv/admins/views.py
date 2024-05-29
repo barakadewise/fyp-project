@@ -451,9 +451,8 @@ def createYouth(request):
 
 #function to fetch all youth 
 def viewYouth(request):
-   #Query
     query ='''
-        query {
+    query {
       findAllYouth {
       id
       fname
@@ -482,7 +481,7 @@ def deleteYouthById(request):
     if request.method =="POST":
       
       id =int( request.POST.get('id'))
-      print(id)
+    
       muatation='''
        mutation($id: Float!) {
        deleteYouthById(id: $id) {
@@ -508,6 +507,27 @@ def deleteYouthById(request):
            print(e)
     
     return redirect('viewYouth')
+
+#Edit youth by Id function 
+def editYouthById(request):
+    if request.method =="POST":
+       youthId = request.POST.get('id')
+       fname= request.POST.get('fname')
+       mname= request.POST.get('mname')
+       lname=request.POST.get('lname')
+       phone = request.POST.get('phone')
+       location =request.POST.get('location')
+       addrress = request.POST.get('address')
+       email =request.POST.get('email')
+       skills= request.POST.get('skills')
+
+       print([youthId,fname,mname,lname,phone,addrress,phone,location,email,skills])
+       messages.success(request,'Succesflly Updated')
+       return JsonResponse({'status': 'success'}, status=200)
+    return redirect('viewYouth')
+   
+
+
 
 #function  to  view the projects
 def viewProjects(request):
@@ -707,7 +727,7 @@ def createTeam(request):
         }
         
         # Define partner mutation
-        youthMutation = '''
+        teamsMutation = '''
             mutation CreateTeam($input: TeamsDto!, $accountId: Float!) {
                  createTeam(createTeamInput: $input, accountId: $accountId) {
                       id
@@ -743,7 +763,7 @@ def createTeam(request):
                 }
             
              # Perform partner creation
-            teamResponse = api_service.performMuttion(youthMutation, teamDetails)
+            teamResponse = api_service.performMuttion(teamsMutation, teamDetails)
             if 'errors' in teamResponse:
                 messages.error(request, teamResponse['errors'][0]['message']) 
 

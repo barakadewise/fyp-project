@@ -18,5 +18,6 @@ urlpatterns=[
     path('viewTeams',views.viewTeams,name="viewTeams"),
     path('createTeam',views.createTeam,name="createTeam"),
     path('deletePartnerById',views.deletePartenerById,name="deletePartnerById"),
+    path('editYouthById',views.editYouthById,name="editYouthById"),
     
 ]

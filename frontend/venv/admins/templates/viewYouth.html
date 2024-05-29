@@ -22,24 +22,16 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"
-            ><i class="fas fa-bars"></i
-          ></a>
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+            <i class="fas fa-bars"></i>
+          </a>
         </li>
       </ul>
-
-      <!-- SEARCH FORM -->
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a
-            class="nav-link"
-            data-widget="control-sidebar"
-            data-slide="true"
-            href="#"
-            role="button"
-          >
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
             <i class="fa-brands fa-windows"></i>
           </a>
         </li>
@@ -51,12 +43,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{% url 'adminPanel' %}" class="brand-link">
-        <img
-          src="{% static 'dist/img/user2-160x160.jpg' %}"
-          class="brand-image img-circle elevation-3"
-          alt="User Image"
-          style="opacity: 0.8"
-        />
+        <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="brand-image img-circle elevation-3" alt="User Image" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Admin</span>
       </a>
 
@@ -64,14 +51,8 @@
       <div class="sidebar">
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul
-            class="nav nav-pills nav-sidebar flex-column"
-            data-widget="treeview"
-            role="menu"
-            data-accordion="false"
-          >
-            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview menu-open">
               <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -83,70 +64,48 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="{% url 'adminPanel' %}" class="nav-link">
-                    <i
-                      class="fa-regular fa-eye"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
                     <p>Overview</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'viewPartners' %}" class="nav-link">
-                    <i
-                      class="fa-solid fa-users"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-solid fa-users" style="margin: 0 4px 0 0px"></i>
                     <p>Partners</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'viewStaffs' %}" class="nav-link">
-                    <i
-                      class="fa-solid fa-user-tie"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-solid fa-user-tie" style="margin: 0 4px 0 0px"></i>
                     <p>Staffs</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'viewYouth' %}" class="nav-link active">
-                    <i
-                      class="fa-solid fa-restroom"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-solid fa-restroom" style="margin: 0 4px 0 0px"></i>
                     <p>Youth</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'viewProjects' %}" class="nav-link">
-                    <i
-                      class="fa-solid fa-diagram-project"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
                     <p>Projects</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'viewOpportunities' %}" class="nav-link">
-                    <i
-                      class="fa-solid fa-seedling"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-solid fa-seedling" style="margin: 0 4px 0 0px"></i>
                     <p>Opportunities</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'viewTeams' %}" class="nav-link">
-                    <i
-                      class="fa-brands fa-teamspeak"
-                      style="margin: 0 4px 0 0px"
-                    ></i>
+                    <i class="fa-brands fa-teamspeak" style="margin: 0 4px 0 0px"></i>
                     <p>Teams</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'logout' %}" class="nav-link">
-                    
                     <p>logout</p>
                   </a>
                 </li>
@@ -184,77 +143,62 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                  <div class="float-right">
-                    <button
-                      type="button"
-                      class="btn btn-block btn-primary btn-md"
-                    >
+              <div class="card-header">
+                <div class="float-right">
+                  <button type="button" class="btn btn-block btn-primary btn-md">
                     <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
-                      <a href="{% url 'createYouth' %}" class="text-white"
-                        > Add Youth </a
-                      >
-                    </button>
-                  </div>
+                    <a href="{% url 'createYouth' %}" class="text-white"> Add Youth </a>
+                  </button>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                 
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Fname</th>
-                        <th>Mname</th>
-                        <th>Lname</th>
-                        <th>phone</th>
-                        <th>Location</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>skill</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                   
-                    <tbody>
-                      {% for youth in youths %}
-                      <tr>
-                        <td>{{ youth.id }}</td>
-                        <td>{{  youth.fname }}</td>
-                        <td> {{ youth.mname }}</td>
-                        <td> {{ youth.lname  }}</td>
-                        <td> {{ youth.phone }}</td>
-                        <td> {{ youth.location }}</td>
-                        <td> {{ youth.address }}</td>
-                        <td> {{ youth.email }}</td>
-                        <td> {{ youth.skills }}</td>
-                    
-                        <td class="justify-content-center">
-                          <a
-                            href="components/edit_event.html"
-                            class="btn btn-success btn-sm edit-btn"
-                          >
-                            <i class="fas fa-pen"></i> Edit
-                          </a>
-                          <a href="#" class="btn btn-danger btn-sm delete-btn" 
-                          data-toggle="modal"
-                           data-target="#deleteModal"
-                           data-id="{{ youth.id }}"
-                          >
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
-                        
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  
-                    <tfoot></tfoot>
-                  </table>
-                  
-                </div>
-                <!-- /.card-body -->
               </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Fname</th>
+                      <th>Mname</th>
+                      <th>Lname</th>
+                      <th>phone</th>
+                      <th>Location</th>
+                      <th>Address</th>
+                      <th>Email</th>
+                      <th>skill</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for youth in youths %}
+                    <tr>
+                      <td>{{ youth.id }}</td>
+                      <td>{{ youth.fname }}</td>
+                      <td>{{ youth.mname }}</td>
+                      <td>{{ youth.lname }}</td>
+                      <td>{{ youth.phone }}</td>
+                      <td>{{ youth.location }}</td>
+                      <td>{{ youth.address }}</td>
+                      <td>{{ youth.email }}</td>
+                      <td>{{ youth.skills }}</td>
+
+                      <td class="justify-content-center">
+                        <button type="button" class="btn btn-success btn-sm edit-btn" data-toggle="modal" data-target="#editModal" data-id="{{ youth.id }}" data-fname="{{ youth.fname }}" data-mname="{{ youth.mname }}" data-lname="{{ youth.lname }}" data-phone="{{ youth.phone }}" data-location="{{ youth.location }}" data-address="{{ youth.address }}" data-email="{{ youth.email }}" data-skills="{{ youth.skills }}">
+                          <i class="fas fa-pen"></i> Edit
+                        </button>
+                        <a href="#" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal" data-id="{{ youth.id }}">
+                          <i class="fas fa-trash"></i> Delete
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+
+                  <tfoot></tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
             <!-- /.card -->
           </div>
           <!-- /.col -->
@@ -265,46 +209,80 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <!-- Delete Modal -->
-    <div
-    class="modal fade"
-    id="deleteModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="deleteModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to delete this record?</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-danger" id="confirmDelete" >
-            Delete
-          </button>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit Youth</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="editYouthForm">
+              <input type="hidden" id="edit-id" name="id">
+              <div class="form-group">
+                <label for="edit-fname">First Name</label>
+                <input type="text" class="form-control" id="edit-fname" name="fname">
+              </div>
+              <div class="form-group">
+                <label for="edit-mname">Middle Name</label>
+                <input type="text" class="form-control" id="edit-mname" name="mname">
+              </div>
+              <div class="form-group">
+                {% csrf_token %}
+                <label for="edit-lname">Last Name</label>
+                <input type="text" class="form-control" id="edit-lname" name="lname">
+              </div>
+              <div class="form-group">
+                <label for="edit-phone">Phone</label>
+                <input type="text" class="form-control" id="edit-phone" name="phone">
+              </div>
+              <div class="form-group">
+                <label for="edit-location">Location</label>
+                <input type="text" class="form-control" id="edit-location" name="location">
+              </div>
+              <div class="form-group">
+                <label for="edit-address">Address</label>
+                <input type="text" class="form-control" id="edit-address" name="address">
+              </div>
+              <div class="form-group">
+                <label for="edit-email">Email</label>
+                <input type="email" class="form-control" id="edit-email" name="email">
+              </div>
+              <div class="form-group">
+                <label for="edit-skills">Skills</label>
+                <input type="text" class="form-control" id="edit-skills" name="skills">
+              </div>
+              <button type="button" class="btn btn-primary" id="saveEdit">Save changes</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <!-- /.modal -->
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this record?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- /.modal -->
 
     <footer class="main-footer">
@@ -320,92 +298,126 @@
     <!-- /.control-sidebar -->
   </div>
 
-    <!-- handle delete  -->
-    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-    {% if messages %}
-   
-    <script>
-      var messages = [];
-    </script>
-    {% for message in messages %}
-    <script>
-      messages.push({
-        "message": "{{ message.message }}",
-        "tag": "{{ message.tags }}"
-      });
-    </script>
-    {% endfor %}
-  {% endif %}
+  <!-- jQuery -->
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- DataTables -->
+  <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+  <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
   
+
+  {% if messages %}
   <script>
-  $(function(){
-    messages.forEach(function(message) {
-      if (message.tag === "success") {
-        toastr.success(message.message);
-      } else if (message.tag=== "error") {
-        toastr.error(message.message); 
-      } else {
-        
-        toastr.info(message.message);
-      }
-    });
-  });
+    var messages = [];
   </script>
-    <script>
-      $(function (){
-        
-        $("#example1").DataTable({
-          responsive: true,
-          autoWidth: false,
-        });
-        $("#example2").DataTable({
-          paging: true,
-          lengthChange: false,
-          searching: true,
-          ordering: true,
-          info: true,
-          autoWidth: false,
-          responsive: true,
-        });
-        // Handle delete button click
-        $(".delete-btn").click(function () {
-        console.log("hello 1")
-        
-          var rowData = $(this).closest("tr").find("td:first").text();
-          var id = rowData.trim();
-  
-          $("#confirmDelete").data("id", id);
-        });
-  
-        $("#confirmDelete").click(function () {
-          var id = $(this).data("id");
-          console.log('hshs5thd')
-          console.log("Deleting obeject with ID: " + id);
-  
-          $.ajax({
-            url: "{% url 'deleteYouthById' %}",
-            type: "POST",
-            data: {
-              id: id,
-              csrfmiddlewaretoken: "{{ csrf_token }}",
-            },
-            success: function (response) {
-              window.location.reload();
-            },
-            error: function (xhr, status, error) {
-              var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete user!";
-                toastr.error(errorMsg);
-                window.location.reload();
-            },
-          });
-  
-          $("#deleteModal").modal("hide");
+  {% for message in messages %}
+  <script>
+    messages.push({
+      "message": "{{ message.message }}",
+      "tag": "{{ message.tags }}"
+    });
+  </script>
+  {% endfor %}
+  {% endif %}
+
+  <script>
+    $(function() {
+      messages.forEach(function(message) {
+        if (message.tag === "success") {
+          toastr.success(message.message);
+        } else if (message.tag === "error") {
+          toastr.error(message.message);
+        } else {
+          toastr.info(message.message);
+        }
+      });
+    });
+  </script>
+  <script>
+    $(function() {
+      $("#example1").DataTable({
+        responsive: true,
+        autoWidth: false,
+      });
+
+      // Handle edit button click
+      $(".edit-btn").click(function() {
+        var id = $(this).data("id");
+        var fname = $(this).data("fname");
+        var mname = $(this).data("mname");
+        var lname = $(this).data("lname");
+        var phone = $(this).data("phone");
+        var location = $(this).data("location");
+        var address = $(this).data("address");
+        var email = $(this).data("email");
+        var skills = $(this).data("skills");
+
+        $("#edit-id").val(id);
+        $("#edit-fname").val(fname);
+        $("#edit-mname").val(mname);
+        $("#edit-lname").val(lname);
+        $("#edit-phone").val(phone);
+        $("#edit-location").val(location);
+        $("#edit-address").val(address);
+        $("#edit-email").val(email);
+        $("#edit-skills").val(skills);
+
+      
+
+      });
+     
+      $("#saveEdit").click(function() {
+        var formData = $("#editYouthForm").serialize();
+        $.ajax({
+          url: "{% url 'editYouthById' %}", 
+          type: "POST",
+          data: formData,
+          success: function(response) {
+            $("#editModal").modal("hide");
+            window.location.reload();
+          },
+          error: function(xhr, status, error) {
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to update youth!";
+            toastr.error(errorMsg);
+          }
         });
       });
-    </script>
-   
 
+      // Handle delete button click
+      $(".delete-btn").click(function() {
+        var rowData = $(this).closest("tr").find("td:first").text();
+        var id = rowData.trim();
+
+        $("#confirmDelete").data("id", id);
+      });
+
+      $("#confirmDelete").click(function() {
+        var id = $(this).data("id");
+        $.ajax({
+          url: "{% url 'deleteYouthById' %}",
+          type: "POST",
+          data: {
+            id: id,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function(response) {
+            window.location.reload();
+          },
+          error: function(xhr, status, error) {
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete youth!";
+            toastr.error(errorMsg);
+            window.location.reload();
+          },
+        });
+
+        $("#deleteModal").modal("hide");
+      });
+    });
+  </script>
   {% endblock %}
-
-
 </body>
