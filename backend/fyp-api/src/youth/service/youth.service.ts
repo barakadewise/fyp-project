@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { YouthDto } from '../dto/youth-input-dto';
 import { OperationDto } from 'dto/operation-dto';
 import { Account } from 'src/accounts/entities/account.entity';
+import { UpdateYouthDto } from '../dto/update-youth-dto';
+import { ResponseDto } from 'shared/response-dto';
 
 @Injectable()
 export class YouthService {
@@ -46,4 +48,16 @@ export class YouthService {
 
     }
 
+    async updateYouth(updateYouthDto: UpdateYouthDto, youthId: number): Promise<ResponseDto> {
+        const youth = await this.youthRepository.findOne({ where: { id: youthId } })
+        if (youth) {
+            await this.youthRepository.update(youthId, {...updateYouthDto})
+            console.log(await this.youthRepository.findOne({where:{lname:"youth"}}))
+            return {
+                message: "Successfully Updated",
+                statusCode: HttpStatus.OK
+            }
+        }
+        throw new BadRequestException("Failed to update corresponding user Not Found")
+    }
 }

@@ -5,6 +5,8 @@ import { YouthDto } from '../dto/youth-input-dto';
 import { DeleteResult } from 'typeorm';
 import { OperationDto } from 'dto/operation-dto';
 import { ARRAY_CONTAINS } from 'class-validator';
+import { ResponseDto } from 'shared/response-dto';
+import { UpdateYouthDto } from '../dto/update-youth-dto';
 
 @Resolver()
 export class YouthResolver {
@@ -23,5 +25,10 @@ export class YouthResolver {
     @Mutation(() => OperationDto)
     async deleteYouthById(@Args('id') id: number): Promise<OperationDto> {
         return await this.youthServce.deleteYouthById(id)
+    }
+
+    @Mutation(_returns => ResponseDto)
+    async updateYouth(@Args('updateYouthDto') updateYouthDto: UpdateYouthDto, @Args('youthId') youthId: number) {
+        return await this.youthServce.updateYouth(updateYouthDto, youthId)
     }
 }

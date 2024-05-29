@@ -144,6 +144,7 @@ type Mutation {
   removePartner(id: Float!): ResponseDto!
   createYouth(createYouthInput: YouthDto!, accountId: Float!): Youth!
   deleteYouthById(id: Float!): OperationDto!
+  updateYouth(updateYouthDto: UpdateYouthDto!, youthId: Float!): ResponseDto!
   createTeam(createTeamInput: TeamsDto!, accountId: Float!): Teams!
   createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
   createAccount(createAccountInput: CreateAccountInput!): Account!
@@ -185,6 +186,18 @@ input YouthDto {
   education: String!
   skills: String!
   location: String!
+}
+
+input UpdateYouthDto {
+  fname: String
+  mname: String
+  lname: String
+  phone: String
+  gender: String
+  address: String
+  education: String
+  skills: String
+  location: String
 }
 
 input TeamsDto {
