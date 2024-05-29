@@ -9,4 +9,6 @@ class Roles(Enum):
     STAFF='Staff'
 
    
-
+class Status(Enum):
+    SUCCESS='success'
+    ERROR ='error'

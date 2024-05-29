@@ -2,11 +2,13 @@
 from django.shortcuts import render,redirect
 from Api.api import ApiService
 from django.contrib import messages
-from shared.roles_enum import Roles
+from shared.roles_enum import Roles, Status
 from django.http import JsonResponse
+
 #Api instance
 api_service = ApiService()
 roles= Roles
+status =Status
 
 #function to load admin dashpanel
 def getAdminPanel(request):
@@ -511,23 +513,110 @@ def deleteYouthById(request):
 #Edit youth by Id function 
 def editYouthById(request):
     if request.method =="POST":
-       youthId = request.POST.get('id')
+       youthId = float(request.POST.get('id'))
        fname= request.POST.get('fname')
        mname= request.POST.get('mname')
        lname=request.POST.get('lname')
        phone = request.POST.get('phone')
        location =request.POST.get('location')
-       addrress = request.POST.get('address')
-       email =request.POST.get('email')
+       address = request.POST.get('address')
        skills= request.POST.get('skills')
 
-       print([youthId,fname,mname,lname,phone,addrress,phone,location,email,skills])
-       messages.success(request,'Succesflly Updated')
-       return JsonResponse({'status': 'success'}, status=200)
+      
+      #graphql mUtation 
+       mutation ='''
+       mutation UpdateYouth($input:UpdateYouthDto!,$youthId:Float!){
+          updateYouth(updateYouthDto:$input,youthId:$youthId){
+            message,
+            statusCode
+          }
+       }
+       '''
+       variables ={
+           "input":{
+               "fname":fname,
+               "mname":mname,
+               "lname":lname,
+               "phone":phone,
+               "location":location,
+               "address":address,
+               "skills":skills
+               
+           },
+           "youthId":youthId
+       }
+       updateYouth = api_service.performMuttion(mutation,variables)
+    
+
+       if 'errors' in updateYouth:
+           messages.error(request,updateYouth['errors'][0]['message'])
+           print(updateYouth['errors'])
+           return JsonResponse({'status': status.ERROR.value}, status= 400)
+
+       if 'data' in updateYouth:
+           messages.success(request,updateYouth['data']['updateYouth']['message'])
+           print(updateYouth)
+           return JsonResponse({'status': status.SUCCESS.value}, updateYouth['updateYouth']['statusCode'])
+       
+       else:
+           messages.error(request,"Internal server error")
+           print(updateYouth)
+           return JsonResponse({'status':status.ERROR.value},status=500)
+       
     return redirect('viewYouth')
    
 
+def editPartner(request):
+    if request.method =="POST":
+       partnerId = float(request.POST.get('id'))
+       name=request.POST.get('name')
+       phone = request.POST.get('phone')
+       location =request.POST.get('location')
+       address = request.POST.get('address')
+       statuss =request.POST.get('status')
+   
+      
+      #graphql mUtation 
+   
+       mutation ='''
+       mutation UpdatePartner($input:UpdatePartnerDto!,$partnerId:Float!){
+          updatePartner(updatePartnerDto:$input,partnerId:$partnerId){
+            message,
+            statusCode
+          }
+       }
+       '''
+       variables ={
+           "input":{
+              
+               "name":name,
+               "phone":phone,
+               "location":location,
+               "address":address,
+               "status":statuss
+            
+           },
+           "partnerId":partnerId
+       }
+       upadatePartner = api_service.performMuttion(mutation,variables)
+    
 
+       if 'errors' in upadatePartner:
+           messages.error(request,upadatePartner['errors'][0]['message'])
+           print(upadatePartner['errors'])
+           return JsonResponse({'status': status.ERROR.value}, status= 400)
+
+       if 'data' in upadatePartner:
+           messages.success(request,upadatePartner['data']['updatePartner']['message'])
+           print(upadatePartner['data'])
+           return JsonResponse({'status': status.SUCCESS.value}, status= upadatePartner['data']['updatePartner']['statusCode'])
+       
+       else:
+           messages.error(request,"Internal server error")
+           print(upadatePartner)
+           return JsonResponse({'status':status.ERROR.value},status=500)
+       
+    return redirect('viewPartners')
 
 #function  to  view the projects
 def viewProjects(request):

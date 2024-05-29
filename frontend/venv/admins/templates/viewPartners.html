@@ -218,6 +218,14 @@
                         <td class="justify-content-center">
                           <a
                             href=""
+                            data-toggle="modal"
+                            data-target="#editModal"
+                            data-name ="{{ partner.name }}"
+                            data-phone="{{ partner.phone }}"
+                            data-location="{{ partner.location }}"
+                            data-address="{{ partner.address }}"
+                            data-status="{{ partner.status }}"
+                            data-id="{{ partner.id }}"
                             class="btn btn-success btn-sm edit-btn"
                           >
                             <i class="fas fa-pen"></i> Edit
@@ -250,6 +258,58 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit Partner</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="editPartnerForm">
+              {% csrf_token %}
+              <input type="hidden" id="edit-id" name="id">
+              <div class="form-group">
+                <label for="edit-name">Name</label>
+                <input type="text" class="form-control" id="edit-name" name="name">
+              </div>
+              <div class="form-group">
+                <label for="edit-phone">Phone</label>
+                <input type="text" class="form-control" id="edit-phone" name="phone">
+              </div>
+              <div class="form-group">
+                <label for="edit-location">Location</label>
+                <input type="text" class="form-control" id="edit-location" name="location">
+              </div>
+              <div class="form-group">
+                <label for="edit-address">Address</label>
+                <input type="text" class="form-control" id="edit-address" name="address">
+              </div>
+              <div class="form-group">
+                <label for="edit-status">Status</label>
+                <select
+                  id="edit-status"
+                  name="status"
+                  class="form-control select2 select2-hidden-accessible"
+                  style="width: 100%"
+                  data-select2-id="1"
+                  tabindex="-1"
+                  aria-hidden="true"
+                  required
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+              
+              <button type="button" class="btn btn-primary" id="saveEdit">Save changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Delete Modal -->
     <div
@@ -354,7 +414,43 @@
           autoWidth: false,
           responsive: true,
         });
+        $(".edit-btn").click(function() {
+        var id = $(this).data("id");
+        var name = $(this).data("name");
+        var phone = $(this).data("phone");
+        var location = $(this).data("location");
+        var address = $(this).data("address");
+        var status=$(this).data("status")
       
+       
+        $("#edit-id").val(id);
+        $("#edit-name").val(name);
+        $("#edit-phone").val(phone);
+        $("#edit-location").val(location);
+        $("#edit-address").val(address);
+        $("#edit-status").val(status);
+
+       console.log("editing partner with id",id,"and name",name)
+      });
+      $("#saveEdit").click(function() {
+        var formData = $("#editPartnerForm").serialize();
+        $.ajax({
+          url: "{% url 'editPartnerById' %}", 
+          type: "POST",
+          data: formData,
+          success: function(response) {
+            $("#editModal").modal("hide");
+            window.location.reload();
+          },
+          error: function(xhr, status, error) {
+            console.log(error,status)
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to update youth!";
+            toastr.error(errorMsg);
+            window.location.reload()
+          }
+        });
+      });
+    
         $(".delete-btn").click(function () {
         
           var rowData = $(this).closest("tr").find("td:first").text();
@@ -367,7 +463,7 @@
           var id = $(this).data("id");
           
           
-  
+          console.log('Editing user with id',id)
           $.ajax({
             url: "{% url 'deletePartnerById' %}",
             type: "POST",
@@ -377,7 +473,7 @@
             },
             success: function (response) {
               
-                    window.location.reload();
+                   window.location.reload();
                 
             },
             error: function (xhr, status, error) {
