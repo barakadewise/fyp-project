@@ -142,6 +142,7 @@ type Mutation {
   removeProject(id: Float!): ResponseDto!
   createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
   removePartner(id: Float!): ResponseDto!
+  updatePartner(updatePartnerDto: UpdatePartnerDto!, partnerId: Float!): ResponseDto!
   createYouth(createYouthInput: YouthDto!, accountId: Float!): Youth!
   deleteYouthById(id: Float!): OperationDto!
   updateYouth(updateYouthDto: UpdateYouthDto!, youthId: Float!): ResponseDto!
@@ -174,6 +175,14 @@ input PartnerDto {
   phone: String!
   address: String!
   status: String!
+}
+
+input UpdatePartnerDto {
+  name: String
+  location: String
+  phone: String
+  address: String
+  status: String
 }
 
 input YouthDto {

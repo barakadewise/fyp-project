@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import { PartnerDto } from '../dto/partner-input-dto';
 import { Account } from 'src/accounts/entities/account.entity';
 import { ResponseDto } from 'shared/response-dto';
-import { threadId } from 'worker_threads';
+import { UpdatePartnerDto } from '../dto/update-partner-dto';
+
 
 
 
@@ -52,5 +53,18 @@ export class PartnersService {
             }
         }
         throw new NotFoundException("Partner Not found!")
+    }
+
+    async updatePartner(updatePartnerDto: UpdatePartnerDto, partnerId: number): Promise<ResponseDto> {
+        const youth = await this.partnerRepository.findOne({ where: { id: partnerId } })
+        if (youth) {
+            await this.partnerRepository.update(partnerId, { ...updatePartnerDto })
+
+            return {
+                message: "Successfully Updated",
+                statusCode: HttpStatus.OK
+            }
+        }
+        throw new BadRequestException("Failed to update corresponding user Not Found")
     }
 }

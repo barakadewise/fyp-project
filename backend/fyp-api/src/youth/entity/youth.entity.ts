@@ -43,7 +43,7 @@ export class Youth {
 
     @Field({nullable:true})
     @Column({nullable:true})
-    email: string;
+    email?: string;
 
     @Field({ nullable: true })
     @Column({ nullable: true })

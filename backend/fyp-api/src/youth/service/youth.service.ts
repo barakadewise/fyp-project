@@ -19,6 +19,7 @@ export class YouthService {
         if (account) {
             const newYouth = this.youthRepository.create({ ...createYouth });
             newYouth.accountId = accountId
+            newYouth.email=account.email
             return await this.youthRepository.save(newYouth)
 
         }
