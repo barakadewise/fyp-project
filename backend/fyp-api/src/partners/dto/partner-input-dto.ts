@@ -1,27 +1,27 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { IsAlpha, IsNumberString, Length } from "class-validator";
+import { IsAlpha, IsNumberString, IsString, Length } from "class-validator";
 
 @InputType()
 export class PartnerDto {
     @Field()
-    @IsAlpha()
+    @IsString()
     name: string;
 
     @Field()
-    @IsAlpha()
+    @IsString()
     location: string;
 
- 
+
     @Field()
     @IsNumberString()
-    @Length(10,10)
+    @Length(10, 10)
     phone: string;
-    
+
     @Field()
-    @IsAlpha()
+    @IsString()
     address: string;
 
     @Field()
-    @IsAlpha()
-    status:string
+    @IsString()
+    status: string
 }
