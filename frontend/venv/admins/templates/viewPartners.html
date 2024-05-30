@@ -477,7 +477,7 @@
                 
             },
             error: function (xhr, status, error) {
-              var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete user!";
+              var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
                 toastr.error(errorMsg);
                 window.location.reload();
               

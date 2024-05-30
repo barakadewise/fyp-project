@@ -618,6 +618,58 @@ def editPartner(request):
        
     return redirect('viewPartners')
 
+def editTeam(request):
+    if request.method =="POST":
+       teamId = float(request.POST.get('id'))
+       name=request.POST.get('name')
+       phone = request.POST.get('phone')
+       location =request.POST.get('location')
+       address = request.POST.get('address')
+       statuss =request.POST.get('status')
+   
+      
+      #graphql mUtation 
+   
+       mutation ='''
+       mutation UpdateTeam($input: UpdateTeamDto!, $teamId: Float!) {
+        updateTeam(updateTeamDto: $input, teamId: $teamId) {
+          message
+          statusCode
+          }
+        }
+       '''
+       variables ={
+           "input":{
+               "name":name,
+               "phone":phone,
+               "location":location,
+               "address":address,
+               "status":statuss
+            
+           },
+           "teamId":teamId
+       }
+       updateTeam = api_service.performMuttion(mutation,variables)
+    
+
+       if 'errors' in updateTeam:
+           messages.error(request,updateTeam['errors'][0]['message'])
+           print(updateTeam['errors'])
+           return JsonResponse({'status': status.ERROR.value}, status= 400)
+
+       if 'data' in updateTeam:
+           messages.success(request,updateTeam['data']['updateTeam']['message'])
+           print(updateTeam['data'])
+           return JsonResponse({'status': status.SUCCESS.value}, status= updateTeam['data']['updateTeam']['statusCode'])
+       
+       else:
+           messages.error(request,"Internal server error")
+           print(updateTeam)
+           return JsonResponse({'status':status.ERROR.value},status=500)
+       
+    return redirect('viewPartners')
+
+
 #function  to  view the projects
 def viewProjects(request):
    
@@ -904,13 +956,11 @@ def viewTeams(request):
     return render(request,'viewTeam.html')
     
 
-#TODO IMPLEMENT THIS WIT TOKEN FOR SECURITY 
+
 def deletePartenerById(request):
-       
     if request.method=="POST":
-        id =int(request.POST.get('id'))
+        id =float(request.POST.get('id'))
         
-    
         muatation='''
         mutation($id: Float!) {
             removePartner(id: $id) {
@@ -930,7 +980,32 @@ def deletePartenerById(request):
             print(response)
             return JsonResponse({'status': 'success'}, status=200)
       
-           
+    return redirect('viewPartners')    
+
+ #delete Team  with respect to Id   
+def deleteTeamById(request):
+    if request.method=="POST":
+        id =float(request.POST.get('id'))
         
-    return redirect('viewPartners',{'response':response})    
-    
+        muatation='''
+        mutation($id: Float!) {
+            removeTeam(teamId: $id) {
+             message,
+             statusCode
+          }
+         }
+  
+        '''
+        response = api_service.performMuttion(muatation,{'id':id} )
+        if 'errors' in response:
+            messages.error(request,'Failed to delete User!')
+            print(response['errors'])
+            return JsonResponse({'status': 'error'}, status=400)
+          
+            
+        else:
+            messages.success(request,response['data']['removeTeam']['message'])
+            print(response['data'])
+            return JsonResponse({'status': 'success'}, status=200)
+      
+    return redirect('viewTeams')
