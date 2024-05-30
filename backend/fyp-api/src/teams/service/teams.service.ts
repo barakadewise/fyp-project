@@ -1,10 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { Teams } from '../entity/team.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeamsDto } from '../dto/team-input-dto';
-import * as bcript from 'bcrypt'
 import { Account } from 'src/accounts/entities/account.entity';
+import { UpdateTeamDto } from '../dto/update-team-dto';
+import { ResponseDto } from 'shared/response-dto';
+import { timeStamp } from 'console';
 
 @Injectable()
 export class TeamsService {
@@ -18,12 +20,23 @@ export class TeamsService {
         if (account) {
             const newTeam = this.teamsRepository.create({ ...createTeamInput })
             newTeam.accountId = accountId,
-            newTeam.email = account.email
+                newTeam.email = account.email
             return await this.teamsRepository.save(newTeam);
 
         }
         throw new BadRequestException("Invalid user account")
 
+    }
+    async removeTeam(teamId: number): Promise<ResponseDto> {
+        const team = await this.teamsRepository.findOne({ where: { id: teamId } })
+        if (team) {
+            await this.teamsRepository.delete(teamId)
+            return {
+                message: "Successufully deleted",
+                statusCode: HttpStatus.OK
+            }
+        }
+        throw new BadRequestException("Failed to  delete! User Not Found!")
     }
 
     async findAllTeams(): Promise<Teams[]> {
@@ -34,4 +47,17 @@ export class TeamsService {
         return await this.teamsRepository.createQueryBuilder('youth').where('youth.email=:identifier OR youth.phone=:identifier', { identifier }).getOne()
     }
 
+    async updateTeam(updateTeamDto: UpdateTeamDto, teamId: number): Promise<ResponseDto> {
+        const youth = await this.teamsRepository.findOne({ where: { id: teamId } })
+        if (youth) {
+            await this.teamsRepository.update(teamId, { ...updateTeamDto })
+            return {
+                message: "Successfully Updated",
+                statusCode: HttpStatus.OK
+            }
+        }
+        throw new BadRequestException("Failed to update corresponding user Not Found")
+    }
 }
+
+

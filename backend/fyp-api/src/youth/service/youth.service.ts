@@ -19,7 +19,7 @@ export class YouthService {
         if (account) {
             const newYouth = this.youthRepository.create({ ...createYouth });
             newYouth.accountId = accountId
-            newYouth.email=account.email
+            newYouth.email = account.email
             return await this.youthRepository.save(newYouth)
 
         }
@@ -52,8 +52,7 @@ export class YouthService {
     async updateYouth(updateYouthDto: UpdateYouthDto, youthId: number): Promise<ResponseDto> {
         const youth = await this.youthRepository.findOne({ where: { id: youthId } })
         if (youth) {
-            await this.youthRepository.update(youthId, {...updateYouthDto})
-            console.log(await this.youthRepository.findOne({where:{lname:"youth"}}))
+            await this.youthRepository.update(youthId, { ...updateYouthDto })
             return {
                 message: "Successfully Updated",
                 statusCode: HttpStatus.OK

@@ -4,7 +4,7 @@ import { IsAlpha, IsNumberString, IsString } from "class-validator";
 @InputType()
 export class TeamsDto {
     @Field()
-    @IsAlpha()
+    @IsString()
     name: string;
 
     @Field()
@@ -22,7 +22,5 @@ export class TeamsDto {
     @Field()
     @IsAlpha()
     status: string;
-
-
 
 }

@@ -11,7 +11,6 @@ export class PartnerDto {
     @IsString()
     location: string;
 
-
     @Field()
     @IsNumberString()
     @Length(10, 10)
