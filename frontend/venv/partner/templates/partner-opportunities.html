@@ -238,24 +238,6 @@
     
     });
 
-    function toggleDarkMode() {
-      const body = document.body;
-      const navbar = document.querySelector('.main-header.navbar');
-      const toggleIcon = document.getElementById('dark-mode-toggle').querySelector('i');
-      
-      body.classList.toggle('dark-mode');
-      body.classList.toggle('light-mode');
-      navbar.classList.toggle('navbar-dark-mode');
-      navbar.classList.toggle('navbar-light-mode');
-      
-      if (body.classList.contains('dark-mode')) {
-        toggleIcon.classList.remove('fa-moon');
-        toggleIcon.classList.add('fa-sun');
-      } else {
-        toggleIcon.classList.remove('fa-sun');
-        toggleIcon.classList.add('fa-moon');
-      }
-    }
   </script>
   {% if messages %}
     <script>
