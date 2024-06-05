@@ -47,40 +47,43 @@ def loginPage(request):
             return render(request,'login.html')
 
         elif 'data' in response:
-           print(response)
+           print('Successfully loged in:',response)
            data =response['data']['login']
-           print('Auth Results:',data)
-           print()
+         
            if data and 'access_token' in data:
                print(data['access_token'])
                if data['role']==roles.ADMIN.value:
                    print('Your the ADMIN')
                    request.session['token'] = data['access_token']
-                   messages.success(request,'Successfullly loggedin')
+                   messages.success(request,data['message'])
                    return redirect('adminPanel')
                
                elif data['role']==roles.PARTNER.value:
                    print('Your the PARTNER')
                    request.session['token'] = data['access_token']
-                   messages.success(request,'Successfullly loggedin')
-                #    return redirect('adminDashbaord')
+                   messages.success(request,data['message'])
+                   return redirect('partnerDashboard')
 
                elif data['role']==roles.STAFF.value:
                    print("Your the STAFF")
-                   messages.success(request,'Successfullly loggedin')
+                   request.session['token'] = data['access_token']
+                   messages.success(request,data['message'])
 
                elif  data['role']==roles.TEAM.value:
                    print("Your the TEAM")
-                   messages.success(request,'Successfullly loggedin')
+                   request.session['token'] = data['access_token']
+                   messages.success(request,data['message'])
 
                elif data['role']==roles.YOUTH.value:
                    print("Your the YOUTH")
-                   messages.success(request,'Successfullly loggedin')
+                   request.session['token'] = data['access_token']
+                   messages.success(request,data['message'])
                else:
-                   messages.error(request,'Unkwon Error occured!') 
-                   print("Error:",data)
+                   print('Invalid User Role Please Check!')
+                   messages.error(request,'Invalid User Role Please Check!') 
+            
            else:
-               print('errors')      
+               messages.error(request,"Invalid User cridentials")     
 
         else:
             print("Something went wrong")
