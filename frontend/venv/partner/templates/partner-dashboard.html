@@ -5,41 +5,55 @@
 
 <style>
   #card {
-    cursor: pointer;
-    transition: all 200ms ease;
-  }
-  #card:hover {
-    box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
-    border-radius: 0.2rem;
-  }
+   cursor: pointer;
+   transition: all 200ms ease;
+ }
+ #card:hover {
+   box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
+   border-radius: 0.2rem;
+ }
+ body.light-mode {
+   background-color: #ffffff;
+   color: #000000;
+ }
+ body.dark-mode {
+   background-color: #121212;
+   color: #ffffff;
+ }
+ .navbar-light-mode {
+   background-color: #f8f9fa;
+   color: #000000;
+ }
+ .navbar-dark-mode {
+   background-color: #343a40;
+   color: #ffffff;
+ }
 </style>
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-    </ul>
-
-    <!-- SEARCH FORM -->
-
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+          <a class="nav-link"
+           data-widget="pushmenu" 
+           href="#" role="button">
+           <i class="fas fa-bars"></i>
+          </a>
+        </li>
       <li class="nav-item">
         <a
           class="nav-link"
-          data-widget="control-sidebar"
-          data-slide="true"
           href="#"
           role="button"
+          id="dark-mode-toggle"
+          onclick="toggleDarkMode()"
         >
-          <i class="fa-brands fa-windows"></i>
+          <i class="fa-solid fa-moon"></i>
         </a>
       </li>
+    
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -67,8 +81,7 @@
           role="menu"
           data-accordion="false"
         >
-          <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
+        
           <li class="nav-item has-treeview menu-open">
             <a href="" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -93,7 +106,7 @@
             
          
               <li class="nav-item">
-                <a href="{% url 'viewProjects' %}" class="nav-link">
+                <a href="{% url 'partnerViewProject' %}" class="nav-link">
                   <i
                     class="fa-solid fa-diagram-project"
                     style="margin: 0 4px 0 0px"
@@ -102,7 +115,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'viewOpportunities' %}" class="nav-link">
+                <a href="{% url 'partnerViewOpportunities' %}" class="nav-link">
                   <i
                     class="fa-solid fa-seedling"
                     style="margin: 0 4px 0 0px"
@@ -155,14 +168,14 @@
             <div class="card-body">
             
               <div class="row justify-content-center">
-                <div class="col-12 col-sm-6 col-md-3" id="card">
+                <div class="col-md-5 " id="card">
                   <div class="info-box">
                     <span class="info-box-icon bg-info elevation-1"
                       ><i class="fa-solid fa-seedling"></i
                     ></span>
                     <div class="info-box-content">
                       <span class="info-box-text">Opportunities</span>
-                      <span class="info-box-number"> {{ allopportunities }} </span>
+                      <span class="info-box-number">34</span>
                     </div>
                     <!-- /.info-box-content -->
                   </div>
@@ -173,11 +186,8 @@
                 <!-- /.col -->
 
                 <!-- fix for small devices only -->
-                <div class="clearfix hidden-md-up"></div>
-
-              
-               
-                <div class="col-12 col-sm-6 col-md-3" id="card">
+                <div class="clearfix hidden-md-up"></div>           
+                <div class="col-md-5 " id="card">
                   <div class="info-box mb-3">
                     <span
                       class="info-box-icon elevation-1"
@@ -187,7 +197,7 @@
 
                     <div class="info-box-content">
                       <span class="info-box-text">Projects</span>
-                      <span class="info-box-number">{{ allprojects }}</span>
+                      <span class="info-box-number">56</span>
                     </div>
                     <!-- /.info-box-content -->
                   </div>
@@ -196,8 +206,6 @@
 
                 <!-- /.col -->
               </div>
-              
-              
             </div>
             <!-- /.card-body -->
           </div>
@@ -297,6 +305,24 @@ messages.forEach(function(message) {
   }
 });
 });
+function toggleDarkMode() {
+      const body = document.body;
+      const navbar = document.querySelector('.main-header.navbar');
+      const toggleIcon = document.getElementById('dark-mode-toggle').querySelector('i');
+      
+      body.classList.toggle('dark-mode');
+      body.classList.toggle('light-mode');
+      navbar.classList.toggle('navbar-dark-mode');
+      navbar.classList.toggle('navbar-light-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        toggleIcon.classList.remove('fa-moon');
+        toggleIcon.classList.add('fa-sun');
+      } else {
+        toggleIcon.classList.remove('fa-sun');
+        toggleIcon.classList.add('fa-moon');
+      }
+    }
 </script>
   {% endblock %}
 </body>
