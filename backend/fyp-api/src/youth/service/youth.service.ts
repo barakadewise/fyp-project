@@ -43,7 +43,6 @@ export class YouthService {
                 message: 'Successfully deleted',
                 statusCode: HttpStatus.OK
             }
-
         }
         throw new NotFoundException('User Not found!')
 

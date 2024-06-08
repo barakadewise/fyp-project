@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { Installment } from "src/installments/entities/installment.entity";
 import { Partner } from "src/partners/entity/partner.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -36,6 +37,10 @@ export class Project {
     @Field({ nullable: true })
     @Column({ nullable: true })
     partnerName: string;
+
+    @OneToMany(() => Installment, (installment) => installment.project)
+    @Field(() => [Installment], { nullable: true })
+    installments: [Installment]
 
     @Field(() => Partner, { nullable: true })
     @ManyToOne(() => Partner, (partner) => partner.projet, { nullable: true })

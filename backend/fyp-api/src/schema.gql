@@ -20,6 +20,21 @@ type OperationDto {
   statusCode: Float!
 }
 
+type Installment {
+  id: Float!
+  projectName: String
+  payment_Ref: String
+  installment_phase: Float
+  projectCost: Float
+  paid: Float
+  remainAmount: Float
+  status: String
+  total_installments: Float
+  project: Project
+  cretedAt: DateTime
+  updatedAt: DateTime
+}
+
 type Staff {
   id: Float!
   name: String
@@ -101,6 +116,7 @@ type Project {
   status: String
   funded: Boolean
   partnerName: String
+  installments: [Installment!]
   partner: Partner
   partnerId: Float
   createdAt: DateTime
@@ -133,6 +149,8 @@ type Query {
   findAllTeams: [Teams!]!
   findAllAccount: [Account!]!
   findAllStaffs: [Staff!]!
+  findAllInstallments: [Installment!]!
+  findOneInsatallment(id: Float!): Installment!
 }
 
 type Mutation {
@@ -154,6 +172,9 @@ type Mutation {
   removeAccount(accountId: Float!): ResponseDto!
   createStaff(createStaffInput: StaffInputDto!, accountId: Float!): Staff!
   login(loginInput: LoginUserDto!): AuthResults!
+  createInstallment(createInstallmentInput: CreateInstallmentInput!, projectId: Float!): Installment!
+  updateInstallment(updateInstallmentInput: UpdateInstallmentInput!): Installment!
+  removeInstallment(id: Float!): Installment!
 }
 
 input OpportunityDto {
@@ -247,4 +268,15 @@ input StaffInputDto {
 input LoginUserDto {
   email: String!
   password: String!
+}
+
+input CreateInstallmentInput {
+  total_installments: Float!
+}
+
+input UpdateInstallmentInput {
+  installmentId: Float!
+  payment_Ref: String
+  installment_phase: Float
+  paid: Float
 }
