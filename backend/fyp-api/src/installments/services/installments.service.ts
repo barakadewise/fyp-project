@@ -5,11 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Installment } from '../entities/installment.entity';
 import { Repository } from 'typeorm';
 import { Project } from 'src/project/entity/project.entity';
-import { Args } from '@nestjs/graphql';
 import { InstallmentsStatus } from '../enum/installment-status';
 import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
-import { throwError } from 'rxjs';
 
 
 @Injectable()

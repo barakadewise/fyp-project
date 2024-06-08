@@ -6,6 +6,7 @@ import { UpdateAccountInput } from "../dto/update-account.input"
 import { Account } from "../entities/account.entity"
 import * as bcrypt from 'bcrypt'
 import { ResponseDto } from "shared/response-dto"
+import { MesssageEnum } from "shared/message-enum"
 
 @Injectable()
 export class AccountsService {
@@ -28,7 +29,7 @@ export class AccountsService {
       const newAccount = this.accountsRepository.create({ ...createAccountInput })
       const hashpawword = await bcrypt.hash(createAccountInput.password, 10)
       newAccount.password = hashpawword
-      console.log(newAccount,"created")
+      console.log(newAccount, "created")
       return await this.accountsRepository.save(newAccount)
     }
     throw new BadRequestException('Email alredy taken')
@@ -45,7 +46,7 @@ export class AccountsService {
       account.password = updateAccountInput.password
       await this.accountsRepository.save(account)
       return {
-        message: "Password successfully Updated",
+        message: MesssageEnum.UPDATE,
         statusCode: HttpStatus.OK
       }
     }
@@ -61,13 +62,13 @@ export class AccountsService {
     account.lastlogin = new Date
     await this.accountsRepository.save(account)
   }
-  async removeAccount(id:number):Promise<ResponseDto>{
-    const account =await this.accountsRepository.findOne({where:{id:id}})
-    if(account){
+  async removeAccount(id: number): Promise<ResponseDto> {
+    const account = await this.accountsRepository.findOne({ where: { id: id } })
+    if (account) {
       await this.accountsRepository.remove(account)
-      return{
-        message:"Successfully removed",
-        statusCode:HttpStatus.OK
+      return {
+        message: MesssageEnum.DELETE,
+        statusCode: HttpStatus.OK
       }
     }
     throw new NotFoundException()

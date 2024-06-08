@@ -6,7 +6,8 @@ import { TeamsDto } from '../dto/team-input-dto';
 import { Account } from 'src/accounts/entities/account.entity';
 import { UpdateTeamDto } from '../dto/update-team-dto';
 import { ResponseDto } from 'shared/response-dto';
-import { timeStamp } from 'console';
+
+import { MesssageEnum } from 'shared/message-enum';
 
 @Injectable()
 export class TeamsService {
@@ -32,7 +33,7 @@ export class TeamsService {
         if (team) {
             await this.teamsRepository.delete(teamId)
             return {
-                message: "Successufully deleted",
+                message: MesssageEnum.DELETE,
                 statusCode: HttpStatus.OK
             }
         }
@@ -52,7 +53,7 @@ export class TeamsService {
         if (youth) {
             await this.teamsRepository.update(teamId, { ...updateTeamDto })
             return {
-                message: "Successfully Updated",
+                message: MesssageEnum.UPDATE,
                 statusCode: HttpStatus.OK
             }
         }

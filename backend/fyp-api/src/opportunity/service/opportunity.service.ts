@@ -9,7 +9,6 @@ import { OperationDto } from 'dto/operation-dto';
 export class OpportunityService {
     constructor(@InjectRepository(Opportunity) private readonly opportunityRepository: Repository<Opportunity>) { }
 
-    //function to create opportunity
     async createOpportunity(createOpportunityInput: OpportunityDto): Promise<Opportunity> {
         const newOpportunity = this.opportunityRepository.create({
             ...createOpportunityInput
@@ -18,12 +17,10 @@ export class OpportunityService {
 
     }
 
-    //Query all opportunities
     async findAllOpportunities(): Promise<Opportunity[]> {
         return await this.opportunityRepository.find({ order: { 'creatdAt': 'DESC' } })
     }
 
-    //delete opportunity by id
     async deleteOpportunityById(id: number): Promise<OperationDto | any> {
         const opportunity = await this.opportunityRepository.findOne({ where: { id: id } })
         if (!opportunity) {

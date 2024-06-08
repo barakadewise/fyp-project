@@ -6,6 +6,7 @@ import { PartnerDto } from '../dto/partner-input-dto';
 import { Account } from 'src/accounts/entities/account.entity';
 import { ResponseDto } from 'shared/response-dto';
 import { UpdatePartnerDto } from '../dto/update-partner-dto';
+import { MesssageEnum } from 'shared/message-enum';
 
 
 
@@ -48,7 +49,7 @@ export class PartnersService {
         if (partner) {
             await this.partnerRepository.delete(id)
             return {
-                message: "Successfully deleted",
+                message: MesssageEnum.DELETE,
                 statusCode: HttpStatus.OK
             }
         }
@@ -61,7 +62,7 @@ export class PartnersService {
             await this.partnerRepository.update(partnerId, { ...updatePartnerDto })
 
             return {
-                message: "Successfully Updated",
+                message: MesssageEnum.UPDATE,
                 statusCode: HttpStatus.OK
             }
         }

@@ -5,6 +5,7 @@ import { Project } from '../entity/project.entity';
 import { ProjectDto } from '../dto/project-input-dto';
 import { Partner } from 'src/partners/entity/partner.entity';
 import { ResponseDto } from 'shared/response-dto';
+import { MesssageEnum } from 'shared/message-enum';
 
 @Injectable()
 export class ProjectService {
@@ -36,7 +37,7 @@ export class ProjectService {
         if (project) {
             await this.projectRepository.delete(id)
             return {
-                message: "Successfully deleted",
+                message: MesssageEnum.DELETE,
                 statusCode: HttpStatus.OK
             }
         }

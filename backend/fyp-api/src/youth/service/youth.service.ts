@@ -7,6 +7,7 @@ import { OperationDto } from 'dto/operation-dto';
 import { Account } from 'src/accounts/entities/account.entity';
 import { UpdateYouthDto } from '../dto/update-youth-dto';
 import { ResponseDto } from 'shared/response-dto';
+import { MesssageEnum } from 'shared/message-enum';
 
 @Injectable()
 export class YouthService {
@@ -40,7 +41,7 @@ export class YouthService {
         if (user) {
             await this.youthRepository.remove(user)
             return {
-                message: 'Successfully deleted',
+                message: MesssageEnum.DELETE,
                 statusCode: HttpStatus.OK
             }
         }
@@ -53,7 +54,7 @@ export class YouthService {
         if (youth) {
             await this.youthRepository.update(youthId, { ...updateYouthDto })
             return {
-                message: "Successfully Updated",
+                message: MesssageEnum.UPDATE,
                 statusCode: HttpStatus.OK
             }
         }
