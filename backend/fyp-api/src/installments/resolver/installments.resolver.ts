@@ -1,18 +1,21 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { CreateInstallmentInput } from '../dto/create-installment.input';
 import { UpdateInstallmentInput } from '../dto/update-installment.input';
 import { Installment } from '../entities/installment.entity';
 import { InstallmentsService } from '../services/installments.service';
 import { ResponseDto } from 'shared/response-dto';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Installment)
 export class InstallmentsResolver {
   constructor(private readonly installmentsService: InstallmentsService) {}
 
   @Mutation(() => Installment)
- async  createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId')projectId:number) {
-    return this.installmentsService.create(createInstallmentInput,projectId);
+ async  createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId')projectId:number,@Context()context:any) {
+    return this.installmentsService.create(createInstallmentInput,projectId,context);
   }
 
   @Query(() => [Installment])

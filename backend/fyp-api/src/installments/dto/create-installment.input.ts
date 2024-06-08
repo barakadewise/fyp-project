@@ -3,7 +3,10 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 @InputType()
 export class CreateInstallmentInput {
   @Field()
- total_installments: number
+  total_installments: number
+
+  @Field({nullable:true})
+  partnerId?:number
 
 
 }

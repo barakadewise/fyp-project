@@ -29,7 +29,7 @@ export class Installment {
   @Field({ nullable: true })
   paid: number
 
-  @Column()
+  @Column({ nullable: true })
   @Field({ nullable: true })
   remainAmount: number
 
@@ -50,7 +50,7 @@ export class Installment {
     nullable: true,
   })
   @Field({ nullable: true })
-  cretedAt: Date
+  createdAt: Date
 
   @UpdateDateColumn({
     type: "timestamp without time zone",

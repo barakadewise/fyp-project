@@ -31,7 +31,7 @@ type Installment {
   status: String
   total_installments: Float
   project: Project
-  cretedAt: DateTime
+  createdAt: DateTime
   updatedAt: DateTime
 }
 
@@ -262,6 +262,7 @@ input LoginUserDto {
 
 input CreateInstallmentInput {
   total_installments: Float!
+  partnerId: Float
 }
 
 input UpdateInstallmentInput {

@@ -8,27 +8,50 @@ import { Project } from 'src/project/entity/project.entity';
 import { InstallmentsStatus } from '../enum/installment-status';
 import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
+import { Roles } from 'shared/roles-enum';
+import { Partner } from 'src/partners/entity/partner.entity';
+import { Role } from 'utils/roles-enums';
 
 
 @Injectable()
 export class InstallmentsService {
   constructor(
+    @InjectRepository(Partner) private readonly partnerRepository: Repository<Partner>,
     @InjectRepository(Project) private readonly projectRepository: Repository<Project>,
     @InjectRepository(Installment) private readonly installmentsRepository: Repository<Installment>) { }
 
-  async create(createInstallmentInput: CreateInstallmentInput, projectId: number) {
-    const project = await this.projectRepository.findOne({ where: { id: projectId } })
-    if (project) {
-      const newInstallment = this.installmentsRepository.create({ ...createInstallmentInput })
+
+    async create(createInstallmentInput: CreateInstallmentInput, projectId: number, context: any) {
+      const user = context.req.user;
+      const project = await this.projectRepository.findOne({ where: { id: projectId } });
+      
+      if (!project) {
+        throw new BadRequestException("Invalid Request: Project not found");
+      }
+      const newInstallment = this.installmentsRepository.create({ ...createInstallmentInput });
+      const partnerId = createInstallmentInput.partnerId || (user.role === Roles.PARTNER ? user.id : null);
+    
+      if (!partnerId) {
+        throw new BadRequestException("Partner id required!");
+      }
+      
+      const partner = await this.partnerRepository.findOne({ where: { id: partnerId } });
+      
+      if (!partner) {
+        throw new BadRequestException("Invalid Request: Partner not found");
+      }
+      
       newInstallment.projectName = project.name;
       newInstallment.projectCost = project.cost;
-      newInstallment.status = InstallmentsStatus.PENDING
-      return await this.installmentsRepository.save(newInstallment)
-
+      newInstallment.status = InstallmentsStatus.PENDING;
+      
+      project.partnerName = partner.name;
+      project.partnerId = partner.id;
+      project.funded = true;
+    
+      await this.projectRepository.save(project);
+      return await this.installmentsRepository.save(newInstallment);
     }
-    throw new BadRequestException("Invalid Request Project Not found")
-
-  }
 
   async findAllInstallments() {
     return await this.installmentsRepository.find()

@@ -3,7 +3,7 @@ import { InputType, Field } from '@nestjs/graphql';
 @InputType()
 export class UpdateInstallmentInput {
   @Field()
-  installmentId: number
+  installmentId?: number
 
   @Field({ nullable: true })
   payment_Ref?: string
