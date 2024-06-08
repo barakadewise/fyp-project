@@ -9,9 +9,7 @@ import { PartnersModule } from './partners/partners.module';
 import { YouthModule } from './youth/youth.module';
 import { TeamsModule } from './teams/teams.module';
 import { typeormConfigAsyc } from './config/typeorm.config';
-import { AdminstrationlevelModule } from './adminstrationlevel/adminstrationlevel.module';
-import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from 'dto/exeption.filter';
+
 import { AccountsModule } from './accounts/accounts.module';
 import { error } from 'console';
 import { StaffModule } from './staff/staff.module';
@@ -43,13 +41,11 @@ import { InstallmentsModule } from './installments/installments.module';
 
     }),
     TypeOrmModule.forRootAsync(typeormConfigAsyc),
- 
     OpportunityModule,
     ProjectModule,
     PartnersModule,
     YouthModule,
     TeamsModule,
-    AdminstrationlevelModule,
     AccountsModule,
     StaffModule,
     AuthModule,

@@ -128,11 +128,6 @@ type ResponseDto {
   statusCode: Float!
 }
 
-type AdministrationLevel {
-  id: Float!
-  name: String!
-}
-
 type AuthResults {
   message: String
   id: Float
@@ -167,7 +162,6 @@ type Mutation {
   createTeam(createTeamInput: TeamsDto!, accountId: Float!): Teams!
   updateTeam(updateTeamDto: UpdateTeamDto!, teamId: Float!): ResponseDto!
   removeTeam(teamId: Float!): ResponseDto!
-  createAdminLevel(createLevelInput: AdminStrationLevelDto!): AdministrationLevel!
   createAccount(createAccountInput: CreateAccountInput!): Account!
   removeAccount(accountId: Float!): ResponseDto!
   createStaff(createStaffInput: StaffInputDto!, accountId: Float!): Staff!
@@ -246,10 +240,6 @@ input UpdateTeamDto {
   address: String
   phone: String
   status: String
-}
-
-input AdminStrationLevelDto {
-  name: String!
 }
 
 input CreateAccountInput {
