@@ -32,9 +32,25 @@ class ApiService:
             return response.json()
         
         else:
-            print("Sucessfully Query!",response.json())
+            print("Sucessfully Query!")
             return response.json()
             
+            
+       
      #function to return csrf token from the request       
     def getCsrfToken(self,request):
         return get_token(request)
+    
+    #perform token mutation 
+    def performTokeMutation(self,token,mutation,variables):
+        headers ={
+            'Authorization': 'Bearer {}'.format(token),
+        }
+        response =requests.post(self.Baseurl,json={'query':mutation,'variables':variables},headers=headers)
+        if 'errors' in response:
+            print("Query request error..:.",response['errors'])
+            return response.json()
+        
+        else:
+            print("Sucessfully Query!")
+            return response.json()

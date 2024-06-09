@@ -1009,3 +1009,68 @@ def deleteTeamById(request):
             return JsonResponse({'status': 'success'}, status=200)
       
     return redirect('viewTeams')
+
+
+def viewInstallments(request):
+    mutation ='''
+    mutation CreateInstallment($createInstallmentInput: CreateInstallmentInput!, $projectId: Float!) {
+    createInstallment(createInstallmentInput: $createInstallmentInput, projectId: $projectId) {
+    id
+    total_installments
+    projectCost
+    payment_Ref
+    paid
+    status
+    remainAmount
+    createdAt
+    }
+   }
+    '''
+     # all projects
+    queryProjects='''
+         query {
+         findAllProjects {
+          id,
+          name
+           }
+          }
+
+       '''
+    #query project
+    queryPartners='''
+         query {
+         findAllPartners {
+          id,
+          name
+         }
+         }
+
+        '''
+    print(request.session.get('token'))
+    if request.method == 'POST':
+        projectId = request.POST.get('projectId')
+        installments=request.POST.get('installments')
+        partnerId =request.POST.get('partnerId')
+        print(projectId,installments,partnerId)
+        
+        variables ={
+        "createInstallmentInput": {
+        "total_installments": int(installments),
+        "partnerId":int(partnerId)
+       },
+       "projectId": int(projectId)
+      }
+        
+        response = api_service.performTokeMutation(request.session.get('token'),mutation,variables)
+       
+        if 'errors' in response:
+            messages.error(request,response['errors'])
+            return redirect('viewInstallments')
+           
+        else:
+            messages.success(request,'Installment successfully added')
+            return redirect('viewInstallments')
+            
+    allProjects =api_service.performQuery(queryProjects,api_service.getCsrfToken(request))
+    allPartner =api_service.performQuery(queryPartners,api_service.getCsrfToken(request))
+    return render(request,'viewinstallmenst.html',{'projects':allProjects['data']['findAllProjects'],'partners':allPartner['data']['findAllPartners']})

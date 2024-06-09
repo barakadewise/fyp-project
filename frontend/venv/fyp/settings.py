@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'youth',
     'opportunity',
     'projects',
-    'accounts'
+    'accounts',
+    'installments',
 ]
 
 MIDDLEWARE = [
