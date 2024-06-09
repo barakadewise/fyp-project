@@ -11,11 +11,11 @@ import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Installment)
 export class InstallmentsResolver {
-  constructor(private readonly installmentsService: InstallmentsService) {}
+  constructor(private readonly installmentsService: InstallmentsService) { }
 
   @Mutation(() => Installment)
- async  createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId')projectId:number,@Context()context:any) {
-    return this.installmentsService.create(createInstallmentInput,projectId,context);
+  async createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId') projectId: number, @Context() context: any) {
+    return this.installmentsService.create(createInstallmentInput, projectId, context);
   }
 
   @Query(() => [Installment])
@@ -24,17 +24,22 @@ export class InstallmentsResolver {
   }
 
   @Query(() => Installment,)
- async  findOneInsatallment(@Args('id') id: number) {
+  async findOneInsatallment(@Args('id') id: number) {
     return this.installmentsService.findOneInstallment(id);
   }
 
   @Mutation(() => Installment)
-  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput):Promise<ResponseDto> {
-    return await this.installmentsService.updateInstallment(updateInstallmentInput.installmentId,updateInstallmentInput)
+  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput): Promise<ResponseDto> {
+    return await this.installmentsService.updateInstallment(updateInstallmentInput.installmentId, updateInstallmentInput)
   }
 
   @Mutation(() => Installment)
   async removeInstallment(@Args('id') id: number) {
     return this.installmentsService.removeInstallment(id);
+  }
+
+  @Query(()=>[Installment])
+  async partnerInstallments(@Context() context: any) {
+    return await this.installmentsService.partnerInstallments(context)
   }
 }

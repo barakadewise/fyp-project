@@ -40,6 +40,7 @@ export class AuthService {
             role: results.role
 
         }
+        console.log(payload)
         return {
             message: "Successfuly loggedin",
             id: results.id,

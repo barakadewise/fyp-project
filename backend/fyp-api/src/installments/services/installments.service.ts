@@ -21,39 +21,39 @@ export class InstallmentsService {
     @InjectRepository(Installment) private readonly installmentsRepository: Repository<Installment>) { }
 
 
-    async create(createInstallmentInput: CreateInstallmentInput, projectId: number, context: any) {
-      const user = context.req.user;
-      console.log(user.role,"got this role from the payload")
-      const project = await this.projectRepository.findOne({ where: { id: projectId } });
-      
-      if (!project) {
-        throw new BadRequestException("Invalid Request: Project not found");
-      }
-      const newInstallment = this.installmentsRepository.create({ ...createInstallmentInput });
-      const partnerId = createInstallmentInput.partnerId || (user.role === Roles.PARTNER ? user.id : null);
-    
-      if (!partnerId) {
-        throw new BadRequestException("Partner id required!");
-      }
-      
-      const partner = await this.partnerRepository.findOne({ where: { id: partnerId } });
-      
-      if (!partner) {
-        throw new BadRequestException("Invalid Request: Partner not found");
-      }
-      
-      newInstallment.projectName = project.name;
-      newInstallment.projectCost = project.cost;
-      newInstallment.partnerId=project.partnerId
-      newInstallment.status = InstallmentsStatus.PENDING;
-      
-      project.partnerName = partner.name;
-      project.partnerId = partner.id;
-      project.funded = true;
-    
-      await this.projectRepository.save(project);
-      return await this.installmentsRepository.save(newInstallment);
+  async create(createInstallmentInput: CreateInstallmentInput, projectId: number, context: any) {
+    const user = context.req.user;
+    console.log(user.role, "got this role from the payload")
+    const project = await this.projectRepository.findOne({ where: { id: projectId } });
+
+    if (!project) {
+      throw new BadRequestException("Invalid Request: Project not found");
     }
+    const newInstallment = this.installmentsRepository.create({ ...createInstallmentInput });
+    const partnerId = createInstallmentInput.partnerId || (user.role === Roles.PARTNER ? user.id : null);
+
+    if (!partnerId) {
+      throw new BadRequestException("Partner id required!");
+    }
+
+    const partner = await this.partnerRepository.findOne({ where: { id: partnerId } });
+
+    if (!partner) {
+      throw new BadRequestException("Invalid Request: Partner not found");
+    }
+
+    newInstallment.projectName = project.name;
+    newInstallment.projectCost = project.cost;
+    newInstallment.partnerId = project.partnerId
+    newInstallment.status = InstallmentsStatus.PENDING;
+
+    project.partnerName = partner.name;
+    project.partnerId = partner.id;
+    project.funded = true;
+
+    await this.projectRepository.save(project);
+    return await this.installmentsRepository.save(newInstallment);
+  }
 
   async findAllInstallments() {
     return await this.installmentsRepository.find()
@@ -93,7 +93,12 @@ export class InstallmentsService {
 
   }
 
-  // async getPartnerInstallments(context){
-  //   return await this.installmentsRepository.find({where:{id}})
-  // }
+  async partnerInstallments(context: any) {
+    const partner = await this.partnerRepository.findOne({ where: { accountId: context.req.user.sub } })
+    if (!partner) {
+      throw new BadRequestException("Invalid partner details account")
+    }
+    return await this.installmentsRepository.find({ where: { partnerId: partner.id } })
+
+  }
 }

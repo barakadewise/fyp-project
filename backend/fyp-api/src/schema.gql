@@ -148,6 +148,7 @@ type Query {
   findAllStaffs: [Staff!]!
   findAllInstallments: [Installment!]!
   findOneInsatallment(id: Float!): Installment!
+  partnerInstallments: [Installment!]!
 }
 
 type Mutation {

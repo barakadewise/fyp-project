@@ -2,8 +2,6 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable,} from '@nestjs/common';
 import { jwtConstant } from 'constants/secret.';
-import { AccountsService } from 'src/accounts/service/accounts.service';
-import { Role } from 'utils/roles-enums';
 
 
 
