@@ -43,4 +43,8 @@ export class ProjectService {
         }
         throw new NotFoundException("Project Not found!")
     }
+
+    async getPartnersProjects(context:any) { 
+        return await this.projectRepository.find({ where: { partnerId: context.req.user.sub } })
+    }
 }

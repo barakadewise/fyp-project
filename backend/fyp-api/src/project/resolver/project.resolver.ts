@@ -1,8 +1,10 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Project } from '../entity/project.entity';
 import { ProjectService } from '../service/project.service';
 import { ProjectDto } from '../dto/project-input-dto';
 import { ResponseDto } from 'shared/response-dto';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 
 @Resolver()
 export class ProjectResolver {
@@ -23,5 +25,10 @@ export class ProjectResolver {
     @Mutation(() => ResponseDto)
     async removeProject(@Args('id') id: number) {
         return await this.projectService.removeProject(id)
+    }
+    @UseGuards(GqlAuthGuard)
+    @Query(() => [Project])
+    async partnerProjects(@Context() context: any) {
+        return await this.projectService.getPartnersProjects(context)
     }
 }

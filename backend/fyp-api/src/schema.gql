@@ -30,6 +30,7 @@ type Installment {
   remainAmount: Float
   status: String
   total_installments: Float
+  partnerId: Float
   project: Project
   createdAt: DateTime
   updatedAt: DateTime
@@ -139,6 +140,7 @@ type AuthResults {
 type Query {
   findAllOpportunities: [Opportunity!]!
   findAllProjects: [Project!]!
+  partnerProjects: [Project!]!
   findAllPartners: [Partner!]!
   findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!

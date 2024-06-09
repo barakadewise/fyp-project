@@ -23,6 +23,7 @@ export class InstallmentsService {
 
     async create(createInstallmentInput: CreateInstallmentInput, projectId: number, context: any) {
       const user = context.req.user;
+      console.log(user.role,"got this role from the payload")
       const project = await this.projectRepository.findOne({ where: { id: projectId } });
       
       if (!project) {
@@ -43,6 +44,7 @@ export class InstallmentsService {
       
       newInstallment.projectName = project.name;
       newInstallment.projectCost = project.cost;
+      newInstallment.partnerId=project.partnerId
       newInstallment.status = InstallmentsStatus.PENDING;
       
       project.partnerName = partner.name;
@@ -90,4 +92,8 @@ export class InstallmentsService {
     throw new BadRequestException("Invalid Installment Not Found")
 
   }
+
+  // async getPartnerInstallments(context){
+  //   return await this.installmentsRepository.find({where:{id}})
+  // }
 }

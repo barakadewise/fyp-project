@@ -41,6 +41,10 @@ export class Installment {
   @Field({ nullable: true })
   total_installments: number
 
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  partnerId: number
+
   @ManyToOne(() => Project, (project) => project.installments)
   @Field(() => Project, { nullable: true })
   project: Project
