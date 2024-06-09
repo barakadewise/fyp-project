@@ -8,8 +8,14 @@ class ApiService:
     Baseurl ='http://localhost:3000/graphql'
 
     #Function to perform mutation
-    def performMuttion(self,mutation,variables):
-        response = requests.post(self.Baseurl,json={'query':mutation,'variables':variables})
+    def performMuttion(self,mutation,variables,token=None):
+        headers = {
+            'Content-Type': 'application/json',
+        }
+        if token:
+            headers['Authorization'] = f'Bearer {token}'
+
+        response = requests.post(self.Baseurl,json={'query':mutation,'variables':variables},headers=headers)
         if  'errors' in response:
             print("Error occured ..:",response['errors'])
             return response.json()
@@ -21,11 +27,13 @@ class ApiService:
    
 
     #function to perform query 
-    def performQuery(self,query,csrf_token):
+    def performQuery(self,query,csrf_token,token=None):
         headers ={
             'Content-Type': 'application/json',
             'X-CSRFToken': csrf_token,
         }
+        if token:
+            headers['Authorization']=f'Bearer {token}'
         response =requests.get(self.Baseurl,params={'query': query },headers=headers)
         if 'errors' in response:
             print("Query request error..:.",response['errors'])
@@ -41,16 +49,4 @@ class ApiService:
     def getCsrfToken(self,request):
         return get_token(request)
     
-    #perform token mutation 
-    def performTokeMutation(self,token,mutation,variables):
-        headers ={
-            'Authorization': 'Bearer {}'.format(token),
-        }
-        response =requests.post(self.Baseurl,json={'query':mutation,'variables':variables},headers=headers)
-        if 'errors' in response:
-            print("Query request error..:.",response['errors'])
-            return response.json()
-        
-        else:
-            print("Sucessfully Query!")
-            return response.json()
+ 

@@ -1061,10 +1061,11 @@ def viewInstallments(request):
        "projectId": int(projectId)
       }
         
-        response = api_service.performTokeMutation(request.session.get('token'),mutation,variables)
+        response = api_service.performMuttion(mutation,variables,request.session.get('token'))
        
         if 'errors' in response:
             messages.error(request,response['errors'])
+            print(response['errors'])
             return redirect('viewInstallments')
            
         else:

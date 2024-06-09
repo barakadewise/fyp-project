@@ -18,7 +18,6 @@ def loginPage(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Define the GraphQL mutation query with variables
         mutation = '''
         mutation LoginMutation($username: String!, $password: String!) {
           login(loginInput: {
@@ -28,6 +27,7 @@ def loginPage(request):
             message
             access_token
             role
+            id
           }
         }
         '''
@@ -35,65 +35,57 @@ def loginPage(request):
         variables = {
             'username': email,
             'password': password,
-            
         }
 
-        # Make a POST request to your GraphQL endpoint
-        response = api.performMuttion(mutation,variables)
+        response = api.performMuttion(mutation, variables)
 
         if 'errors' in response:
-            messages.error(request,response['errors'][0]['message'])
-            print('Errors:',response)
-            return render(request,'login.html')
+            messages.error(request, response['errors'][0]['message'])
+            return render(request, 'login.html')
 
         elif 'data' in response:
-           print('Successfully loged in:',response)
-           data =response['data']['login']
-         
-           if data and 'access_token' in data:
-               print(data['access_token'])
-               if data['role']==roles.ADMIN.value:
-                   print('Your the ADMIN')
-                   request.session['token'] = data['access_token']
-                   messages.success(request,data['message'])
-                   return redirect('adminPanel')
-               
-               elif data['role']==roles.PARTNER.value:
-                   print('Your the PARTNER')
-                   request.session['token'] = data['access_token']
-                   messages.success(request,data['message'])
-                   return redirect('partnerDashboard')
+            data = response['data']['login']
+            if data and 'access_token' in data:
+                token = data['access_token']
+                role = data['role']
+                userId = data['id']
 
-               elif data['role']==roles.STAFF.value:
-                   print("Your the STAFF")
-                   request.session['token'] = data['access_token']
-                   messages.success(request,data['message'])
+                
+                userKey = {
+                    'token': token,
+                    'role': role,
+                    'userId': userId
+                }
+                request.session['User'] = userKey
 
-               elif  data['role']==roles.TEAM.value:
-                   print("Your the TEAM")
-                   request.session['token'] = data['access_token']
-                   messages.success(request,data['message'])
-
-               elif data['role']==roles.YOUTH.value:
-                   print("Your the YOUTH")
-                   request.session['token'] = data['access_token']
-                   messages.success(request,data['message'])
-               else:
-                   print('Invalid User Role Please Check!')
-                   messages.error(request,'Invalid User Role Please Check!') 
-            
-           else:
-               messages.error(request,"Invalid User cridentials")     
+                if role == roles.ADMIN.value:
+                    messages.success(request,"Successfully loggedin")
+                    return redirect('adminPanel')
+                elif role == roles.PARTNER.value:
+                    messages.success(request,"Successfully loggedin")
+                    return redirect('partnerDashboard')
+                    
+                elif role == roles.STAFF.value:
+                    messages.success(request,"Successfully loggedin")
+                    return redirect('staffDashboard')
+                elif role == roles.TEAM.value:
+                    messages.success(request,"Successfully loggedin")
+                    return redirect('teamDashboard')
+                elif role == roles.YOUTH.value:
+                    messages.success(request,"Successfully loggedin")
+                    return redirect('youthDashboard')
+                else:
+                    messages.error(request, 'Invalid User Role, Please Check!')
+                    return render(request, 'login.html')
+                
+            else:
+                messages.error(request, "Invalid User credentials")     
 
         else:
-            print("Something went wrong")
-            messages.error(request,'Something went wrong!')
-            print(response)
-            return render(request,'login.html')
+            messages.error(request, 'Something went wrong!')
+            return render(request, 'login.html')
 
     return render(request, 'login.html')
-
-
 #signup function for Youth
 def signupPage(request):
     if request.method=="POST":
@@ -231,7 +223,8 @@ def is_valid_email(email):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(email_regex, email)
 
+#logout function
 def logout(request):
-    request.session.clear()
-    messages.success(request,'Successfully logged out!')
+    del request.session['User'] 
+    messages.success(request, 'Successfully logged out!')
     return redirect('/')

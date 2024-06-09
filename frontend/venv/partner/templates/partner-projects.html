@@ -114,28 +114,34 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- for project in projects -->
+                  {% for project in projects %}
                   <tr>
-                    <td>1</td>
-                    <td>dummy</td>
-                    <td>234505000</td>
-                    <td>1 year</td>
-                    <td>dummy</td>
-                    <td>ongoing</td>
-                    <td>dummy</td>
-                    <td>false</td>
+                    <td>{{ project.id }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.cost }}</td>
+                    <td>{{ project.duration }}</td>
+                    <td>{{ project.discription }}</td>
+                    <td>{{ project.status }}</td>
+                    <td>{{ project.partnerName }}</td>
+                    <td>{{ project.funded }}</td>
                     <td class="justify-content-center">
-                      <a href="#" class="btn btn-info btn-sm edit-btn" 
-                      data-id="1"
-                      data-name="dummy"
-                      data-cost="234505000"
-                      data-toggle="modal"
-                      data-target="#fundProjectModal">
-                        <i class="fas fa-pen"></i> Fund project
-                      </a>
+                     {% if project.funded %}
+                     <a href="#" class="btn btn-secondary btn-sm edit-btn" aria-disabled="true" style="cursor: default;">
+                       <i class="fas fa-pen"></i> Fund project
+                     </a>
+                     {% else %}
+                     <a href="#" class="btn btn-info btn-sm edit-btn" 
+                     data-id="1"
+                     data-name="dummy"
+                     data-cost="234505000"
+                     data-toggle="modal"
+                     data-target="#fundProjectModal">
+                       <i class="fas fa-pen"></i> Fund project
+                     </a>
+                     {% endif %}
                     </td>
                   </tr>
-                  <!-- endfor -->
+                  {% endfor %}
                 </tbody>
                 <tfoot></tfoot>
               </table>
@@ -151,18 +157,34 @@
       <!-- funded projects by partner start -->
       <div class="row mt-2">
         <div class="col-12">
-          <di class="card">
-            <div class="card-header">
-              <h4 class="text-muted">Projects You Have Funded</h4>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-muted">Projects You Have Funded</h4>
+                </div>
+                <div class="card-body">
+                    {% if installments %}
+                        <div class="list-group">
+                            {% for installment in installments %}
+                                <div class="list-group-item">
+                                    <h5 class="card-title">{{ installment.projectName }}</h5>
+                                    <p class="card-text">Partner ID: {{ installment.partnerId }}</p>
+                                    <p class="card-text">Payment Reference: {{ installment.payment_Ref }}</p>
+                                    <p class="card-text">Paid Amount: {{ installment.paid }}</p>
+                                    <p class="card-text">Project Cost: {{ installment.projectCost }}</p>
+                                    <p class="card-text">Status: {{ installment.status }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">
+                            Currently there are no projects you have funded.
+                        </p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="card-body">
-              <p class="text-muted">
-                Currently there is no project you have funded.
-              </p>
-            </div>
-          </di>
         </div>
-      </div>
+    </div>
+    
       <!-- funded projects by partner end here -->
     </section>
     <!-- /.content -->
