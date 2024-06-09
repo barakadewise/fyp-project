@@ -10,7 +10,7 @@ import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
 import { Roles } from 'shared/roles-enum';
 import { Partner } from 'src/partners/entity/partner.entity';
-import { Role } from 'utils/roles-enums';
+
 
 
 @Injectable()

@@ -25,7 +25,7 @@ export class Installment {
   @Field({ nullable: true })
   projectCost: number
 
-  @Column({ nullable: true })
+  @Column({ nullable: true ,default:0})
   @Field({ nullable: true })
   paid: number
 
