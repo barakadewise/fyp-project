@@ -171,7 +171,7 @@ type Mutation {
   createStaff(createStaffInput: StaffInputDto!, accountId: Float!): Staff!
   login(loginInput: LoginUserDto!): AuthResults!
   createInstallment(createInstallmentInput: CreateInstallmentInput!, projectId: Float!): Installment!
-  updateInstallment(updateInstallmentInput: UpdateInstallmentInput!): Installment!
+  updateInstallment(updateInstallmentInput: UpdateInstallmentInput!, InstallmentId: Float!): ResponseDto!
   removeInstallment(id: Float!): Installment!
 }
 
@@ -279,7 +279,6 @@ input CreateInstallmentInput {
 }
 
 input UpdateInstallmentInput {
-  installmentId: Float!
   payment_Ref: String
   installment_phase: Float
   paid: Float

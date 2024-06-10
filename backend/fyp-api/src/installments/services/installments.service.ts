@@ -23,7 +23,6 @@ export class InstallmentsService {
 
   async create(createInstallmentInput: CreateInstallmentInput, projectId: number, context: any) {
     const user = context.req.user;
-    console.log(user.role, "got this role from the payload")
     const project = await this.projectRepository.findOne({ where: { id: projectId } });
 
     if (!project) {
@@ -41,9 +40,10 @@ export class InstallmentsService {
     if (!partner) {
       throw new BadRequestException("Invalid Request: Partner not found");
     }
-
+    
     newInstallment.projectName = project.name;
     newInstallment.projectCost = project.cost;
+    newInstallment.remainAmount=project.cost
     newInstallment.partnerId = project.partnerId
     newInstallment.status = InstallmentsStatus.PENDING;
 
@@ -61,24 +61,12 @@ export class InstallmentsService {
 
   async findOneInstallment(id: number) {
     const installment = await this.installmentsRepository.findOne({ where: { id: id } })
-    if (installment) {
-      return installment
-    }
-    throw new NotFoundException("Installment Not Found!")
+    if (!installment) throw new NotFoundException("Installment Not Found!");
+    return installment
+
+
   }
 
-  async updateInstallment(id: number, updateInstallmentInput: UpdateInstallmentInput): Promise<ResponseDto> {
-    const installment = await this.installmentsRepository.findOne({ where: { id: id } })
-    if (installment) {
-      await this.installmentsRepository.update(id, { ...updateInstallmentInput })
-      return {
-        message: MesssageEnum.UPDATE,
-        statusCode: HttpStatus.OK
-      }
-
-    }
-    throw new BadRequestException("Invalid Installment Not Found")
-  }
 
   async removeInstallment(id: number): Promise<ResponseDto> {
     const installment = await this.installmentsRepository.findOne({ where: { id: id } })
@@ -99,6 +87,36 @@ export class InstallmentsService {
       throw new BadRequestException("Invalid partner details account")
     }
     return await this.installmentsRepository.find({ where: { partnerId: partner.id } })
+
+  }
+
+  async updateInstallments(installmentId: number, updateInstallmentInput: UpdateInstallmentInput): Promise<ResponseDto> {
+    const installment = await this.installmentsRepository.findOne({ where: { id: installmentId } })
+    if (!installment) throw new NotFoundException("Installment Not Found!");
+
+    //update the installement if exist
+    // if(updateInstallmentInput.paid){
+    //   installment.paid+=updateInstallmentInput.paid,
+    //   installment.payment_Ref=updateInstallmentInput.payment_Ref
+    //   installment.remainAmount-=(installment.paid+updateInstallmentInput.paid)
+    // }
+   
+   
+    if(updateInstallmentInput.paid){
+    
+  
+      await this.installmentsRepository.update(installmentId, { ...updateInstallmentInput })
+      return {
+      message: MesssageEnum.UPDATE,
+      statusCode: HttpStatus.OK
+    }
+    }
+  
+    await this.installmentsRepository.update(installmentId, { ...updateInstallmentInput })
+    return {
+      message: MesssageEnum.UPDATE,
+      statusCode: HttpStatus.OK
+    }
 
   }
 }

@@ -8,7 +8,7 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 
 
-@UseGuards(GqlAuthGuard)
+// @UseGuards(GqlAuthGuard)
 @Resolver(() => Installment)
 export class InstallmentsResolver {
   constructor(private readonly installmentsService: InstallmentsService) { }
@@ -28,9 +28,9 @@ export class InstallmentsResolver {
     return this.installmentsService.findOneInstallment(id);
   }
 
-  @Mutation(() => Installment)
-  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput): Promise<ResponseDto> {
-    return await this.installmentsService.updateInstallment(updateInstallmentInput.installmentId, updateInstallmentInput)
+  @Mutation(() =>ResponseDto)
+  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput,@Args('InstallmentId')InstallmentId:number): Promise<ResponseDto> {
+    return await this.installmentsService.updateInstallments(InstallmentId, updateInstallmentInput)
   }
 
   @Mutation(() => Installment)
@@ -38,8 +38,9 @@ export class InstallmentsResolver {
     return this.installmentsService.removeInstallment(id);
   }
 
-  @Query(()=>[Installment])
+  @Query(() => [Installment])
   async partnerInstallments(@Context() context: any) {
     return await this.installmentsService.partnerInstallments(context)
   }
+
 }
