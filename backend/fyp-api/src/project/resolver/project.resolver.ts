@@ -5,6 +5,7 @@ import { ProjectDto } from '../dto/project-input-dto';
 import { ResponseDto } from 'shared/response-dto';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
+import { UpdateProjectDto } from '../dto/update-project-dto';
 
 @Resolver()
 export class ProjectResolver {
@@ -30,5 +31,11 @@ export class ProjectResolver {
     @Query(() => [Project])
     async partnerProjects(@Context() context: any) {
         return await this.projectService.getPartnersProjects(context)
+    }
+
+    @Mutation(()=>ResponseDto)
+    async updateProject(@Args('projectId') projectId: number, @Args('updateProjectDto') updateProjectDto: UpdateProjectDto) {
+        return await this.projectService.upadateProjectStatus(projectId, updateProjectDto)
+
     }
 }

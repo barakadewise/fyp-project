@@ -25,7 +25,7 @@ export class Installment {
   @Field({ nullable: true })
   projectCost: number
 
-  @Column({ nullable: true ,default:0})
+  @Column({ nullable: true, default: 0 })
   @Field({ nullable: true })
   paid: number
 
@@ -41,6 +41,7 @@ export class Installment {
   @Field({ nullable: true })
   total_installments: number
 
+  
   @Column({ nullable: true })
   @Field({ nullable: true })
   partnerId: number
@@ -50,15 +51,16 @@ export class Installment {
   project: Project
 
   @CreateDateColumn({
-    type: "timestamp without time zone",
+    type: "timestamp",
     nullable: true,
   })
   @Field({ nullable: true })
   createdAt: Date
 
   @UpdateDateColumn({
-    type: "timestamp without time zone",
+    type: "timestamp",
     nullable: true,
+    
   })
   @Field({ nullable: true })
   updatedAt: Date

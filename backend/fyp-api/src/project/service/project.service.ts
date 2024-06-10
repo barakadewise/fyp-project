@@ -6,6 +6,7 @@ import { ProjectDto } from '../dto/project-input-dto';
 import { Partner } from 'src/partners/entity/partner.entity';
 import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
+import { UpdateProjectDto } from '../dto/update-project-dto';
 
 @Injectable()
 export class ProjectService {
@@ -46,5 +47,19 @@ export class ProjectService {
 
     async getPartnersProjects(context:any) { 
         return await this.projectRepository.find({ where: { partnerId: context.req.user.sub } })
+    }
+    async upadateProjectStatus(projectId:number,updateProjectDto:UpdateProjectDto):Promise<ResponseDto>{
+        const project =await this.projectRepository.exists({where:{id:projectId}})
+        if(!project) throw new NotFoundException("Project Not Found!..");
+
+        //update the project if found!
+        await this.projectRepository.update(projectId,{...updateProjectDto})
+        return{
+            message:MesssageEnum.UPDATE,
+            statusCode:HttpStatus.OK
+
+        }
+
+
     }
 }

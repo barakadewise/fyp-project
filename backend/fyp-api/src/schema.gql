@@ -156,6 +156,7 @@ type Mutation {
   deleteOpportunityById(id: Float!): OperationDto!
   createProject(createProjectInput: ProjectDto!, partner: String): Project!
   removeProject(id: Float!): ResponseDto!
+  updateProject(projectId: Float!, updateProjectDto: UpdateProjectDto!): ResponseDto!
   createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
   removePartner(id: Float!): ResponseDto!
   updatePartner(updatePartnerDto: UpdatePartnerDto!, partnerId: Float!): ResponseDto!
@@ -187,6 +188,15 @@ input ProjectDto {
   discription: String!
   status: String!
   funded: Boolean!
+}
+
+input UpdateProjectDto {
+  name: String
+  cost: Float
+  duration: String
+  discription: String
+  status: String
+  funded: Boolean
 }
 
 input PartnerDto {
