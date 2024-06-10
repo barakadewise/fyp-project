@@ -4,8 +4,6 @@
 
 {% block content %}
 
-
-
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -155,34 +153,51 @@
       <!-- /.row -->
 
       <!-- funded projects by partner start -->
-      <div class="row mt-2">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="text-muted">Projects You Have Funded</h4>
-                </div>
-                <div class="card-body">
-                    {% if installments %}
-                        <div class="list-group">
-                            {% for installment in installments %}
-                                <div class="list-group-item">
-                                    <h5 class="card-title">{{ installment.projectName }}</h5>
-                                    <p class="card-text">Partner ID: {{ installment.partnerId }}</p>
-                                    <p class="card-text">Payment Reference: {{ installment.payment_Ref }}</p>
-                                    <p class="card-text">Paid Amount: {{ installment.paid }}</p>
-                                    <p class="card-text">Project Cost: {{ installment.projectCost }}</p>
-                                    <p class="card-text">Status: {{ installment.status }}</p>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <p class="text-muted">
-                            Currently there are no projects you have funded.
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
+      <div class="row mt-2 justify-content-center align-items-center">
+       <div class="col-12 " >
+        <div class="card mb-2 mt-1">
+          <div class="card-header text-white" style="background-color: #6c757d;">
+              <h4 class="text-white">Projects You Have Funded</h4>
+          </div>
+          <div class="card-body">
+              {% if installments %}
+                  <div class="list-group">
+                      {% for installment in installments %}
+                          <div class="list-group-item mb-3" style="border: 1px solid #e0e0e0; border-radius: 5px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                              
+                              <P class="card-text text-info" style="font-size: 18px;">
+                                Title:
+                                <span>{{ installment.projectName }}</span>
+                              </P>
+                              <p class="card-text" style="font-size: 16px;">Payment Reference: {{ installment.payment_Ref }}</p>
+                              <p class="card-text" style="font-size: 16px;">Payment Phases: {{ installment.total_installments }}</p>
+                              <p class="card-text" style="font-size: 16px;">Project Cost: {{ installment.projectCost }}</p>
+                              <p class="card-text" style="font-size: 16px;">Amount Paid: {{ installment.paid }}</p>
+                              <p class="card-text" style="font-size: 16px;">Pending Amount: {{ installment.remainAmount }}</p>
+                              {% if installment.status == 'Pending' %}
+                                  <p class="card-text"style="font-size: 14px;" >Status :
+                                    <span class="bg-danger" style="border: #dddfe0 0.01rem  solid; max-width: fit-content; height: 30px;padding: 0.5rem; border-radius: 0.3rem;">{{ installment.status }}</span>
+                                  </p>
+                              {% elif installment.status == 'PartialyPaid' %}
+                              <p class="card-text" style="font-size: 14px;">Status :
+                                <span class="bg-info" style="border: #dddfe0 0.01rem  solid; max-width: fit-content; height: 30px;padding: 0.5rem; border-radius: 0.3rem;">{{ installment.status }}</span>
+                              </p>
+                              {% else %}
+                              <p class="card-text" style="font-size: 14px;" >Status :
+                                <span class="bg-success" style="border: #dddfe0 0.01rem  solid; max-width: fit-content; height: 30px;padding: 0.5rem; border-radius: 0.4rem;">{{ installment.status }}</span>
+                              </p>
+                              {% endif %}
+                          </div>
+                      {% endfor %}
+                  </div>
+              {% else %}
+                  <p class="text-muted" style="font-size: 16px;">
+                      Currently there are no projects you have funded.
+                  </p>
+              {% endif %}
+          </div>
         </div>
+       </div>
     </div>
     
       <!-- funded projects by partner end here -->

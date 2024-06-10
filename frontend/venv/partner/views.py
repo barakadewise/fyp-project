@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib import messages
 from Api.api import ApiService
 
@@ -35,7 +35,9 @@ def viewProjects(request):
                 payment_Ref
                 paid
                 projectCost,
-                status
+                status,
+                remainAmount,
+                total_installments
             }
         }
     '''
@@ -44,16 +46,15 @@ def viewProjects(request):
     installmentsRes = api_service.performQuery(installments_query, api_service.getCsrfToken(request), request.session.get('User')['token'])
     response = api_service.performQuery(query, api_service.getCsrfToken(request))
 
-    if 'errors' in response:
-        print(response['errors'])
+    if 'errors' in response or 'errors' in installmentsRes:
+        print("from response")
+        print(installmentsRes['errors'],'From installments')
+        messages.error(request,installmentsRes['errors'])
+        return render(request, 'partner-projects.html')
         
-    if 'errors' in installmentsRes:
-        print(installmentsRes['errors'])
-    else:
-        userId = request.session.get('User')['userId']
-        print("UserId",userId)
-        print(installmentsRes['data'])
-
+    
+    
+    print(installmentsRes['data'])
     return render(request, 'partner-projects.html', {'projects': response['data']['findAllProjects'],'installments':installmentsRes['data']['partnerInstallments']})
 
 
