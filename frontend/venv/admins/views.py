@@ -446,7 +446,6 @@ def createYouth(request):
                 return redirect('viewYouth')
         else:
             print("Something went wrong")
-            print(accountResponse)
             messages.error(request, "Something went wrong!")
       
     return render(request,'createYouth.html')
@@ -551,17 +550,17 @@ def editYouthById(request):
        if 'errors' in updateYouth:
            messages.error(request,updateYouth['errors'][0]['message'])
            print(updateYouth['errors'])
-           return JsonResponse({'status': status.ERROR.value}, status= 400)
+           return JsonResponse({'status': status.ERROR.value})
 
        if 'data' in updateYouth:
            messages.success(request,updateYouth['data']['updateYouth']['message'])
            print(updateYouth)
-           return JsonResponse({'status': status.SUCCESS.value}, updateYouth['updateYouth']['statusCode'])
+           return JsonResponse({'status': status.SUCCESS.value})
        
        else:
            messages.error(request,"Internal server error")
            print(updateYouth)
-           return JsonResponse({'status':status.ERROR.value},status=500)
+           return JsonResponse({'status':status.ERROR.value})
        
     return redirect('viewYouth')
    
@@ -1012,6 +1011,7 @@ def deleteTeamById(request):
 
 
 def viewInstallments(request):
+    
     mutation ='''
     mutation CreateInstallment($createInstallmentInput: CreateInstallmentInput!, $projectId: Float!) {
     createInstallment(createInstallmentInput: $createInstallmentInput, projectId: $projectId) {
@@ -1046,7 +1046,23 @@ def viewInstallments(request):
          }
 
         '''
-    print(request.session.get('token'))
+    queryInstallmest='''
+        query {
+      findAllInstallments {
+       id
+       projectName
+       partnerId
+       payment_Ref
+       paid
+       projectCost
+       remainAmount
+       status
+       total_installments
+      }
+     }
+
+    '''
+   
     if request.method == 'POST':
         projectId = request.POST.get('projectId')
         installments=request.POST.get('installments')
@@ -1061,8 +1077,8 @@ def viewInstallments(request):
        "projectId": int(projectId)
       }
         
-        response = api_service.performMuttion(mutation,variables,request.session.get('token'))
-       
+        response = api_service.performMuttion(mutation,variables,request.session.get('User')['token'])
+      
         if 'errors' in response:
             messages.error(request,response['errors'])
             print(response['errors'])
@@ -1074,4 +1090,10 @@ def viewInstallments(request):
             
     allProjects =api_service.performQuery(queryProjects,api_service.getCsrfToken(request))
     allPartner =api_service.performQuery(queryPartners,api_service.getCsrfToken(request))
-    return render(request,'viewinstallmenst.html',{'projects':allProjects['data']['findAllProjects'],'partners':allPartner['data']['findAllPartners']})
+    installments =api_service.performQuery(queryInstallmest,api_service.getCsrfToken(request),request.session.get('User')['token'])
+
+    context={'projects':allProjects['data']['findAllProjects'],
+             'partners':allPartner['data']['findAllPartners'],
+             'installments':installments['data']['findAllInstallments']
+             }
+    return render(request,'viewinstallmenst.html',context)

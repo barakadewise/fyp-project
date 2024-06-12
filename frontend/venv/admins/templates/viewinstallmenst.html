@@ -201,20 +201,23 @@
                         <th>Project cost</th>
                         <th>Paid Ammount</th>
                         <th>Remain Ammount</th>
+                        <th>Status</th>
+                        <th>Action</th>
 
                       </tr>
                     </thead>
                    
                     <tbody>
-                      <!-- % for opportunity in opportunities % -->
+                      {% for installment in installments %}
                       <tr>
-                        <td>1</td>
-                        <td>dumy</td>
-                        <td>hByt45hsyrRT</td>
-                        <td>3</td>
-                        <td>6000000</td>
-                        <td>200000</td>
-                        <td>400000</td>
+                        <td>{{ installment.id }}</td>
+                        <td>{{ installment.projectName }}</td>
+                        <td>{{ installment.payment_Ref }}</td>
+                        <td>{{ installment.total_installments }}</td>
+                        <td>{{ installment.projectCost }}</td>
+                        <td>{{ installment.paid}}</td>
+                        <td>{{ installment.remainAmount}}</td>
+                        <td>{{ installment.status }}</td>
                         <td class="justify-content-center">
                           <a
                             href=""
@@ -237,13 +240,12 @@
                         
                         </td>
                       </tr>
-                      <!-- % endfor % -->
+                      {% endfor %}
 
                     </tbody>
                   
                     <tfoot></tfoot>
                   </table>
-                  
                 </div>
                 <!-- /.card-body -->
               </div>

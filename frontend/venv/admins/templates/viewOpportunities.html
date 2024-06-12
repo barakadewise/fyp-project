@@ -15,7 +15,7 @@
   }
 </style>
 
-<body class="hold-transition sidebar-mini">
+
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -52,7 +52,7 @@
       <!-- Brand Logo -->
       <a href="{% url 'adminPanel' %}" class="brand-link">
         <img
-          src="{% static 'dist/img/user2-160x160.jpg' %}"
+          src="{% static 'dist/img/user.png' %}"
           class="brand-image img-circle elevation-3"
           alt="User Image"
           style="opacity: 0.8"
@@ -224,13 +224,19 @@
 
                         <td class="justify-content-center">
                           <a
-                            href="components/edit_event.html"
+                            href=""
+                            data-toggle="modal"
+                            data-id="{{ opportunity.id }}"
+                            data-name="{{ opportunity.name }}"
+                            data-location="{{ opportunity.location }}"
+                            data-duration="{{ opportunity.duration }}"
+                            data-target="#editModal"
                             class="btn btn-success btn-sm edit-btn"
                           >
                             <i class="fas fa-pen"></i> Edit
                           </a>
                           <a href="" class="btn btn-danger btn-sm delete-btn" 
-                          data-toggle="modal"
+                           data-toggle="modal"
                            data-target="#deleteModal"
                            data-id="{{ opportunity.id }}"
                           >
@@ -300,6 +306,51 @@
     </div>
     <!-- /.modal -->
 
+    <!-- edit modal  -->
+     
+    <div
+    class="modal fade"
+    id="editModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="editModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Opportunity</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="edit-name">Name</label>
+              <input type="text" class="form-control" id="edit-name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-location">Location</label>
+              <input type="text" class="form-control" id="edit-location" name="location" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-duration">Duration</label>
+              <input type="text" class="form-control" id="edit-duration" name="duration" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block"><b>2023</b></div>
       <strong>Copyright &copy; Dar es salaam regional commission.</strong>
@@ -331,19 +382,11 @@
       });
       // Handle delete button click
       $(".delete-btn").click(function () {
-      console.log("hello 1")
-      
-        var rowData = $(this).closest("tr").find("td:first").text();
-        var id = rowData.trim();
-
         $("#confirmDelete").data("id", id);
       });
 
       $("#confirmDelete").click(function () {
         var id = $(this).data("id");
-
-        console.log("Deleting obeject with ID: " + id);
-
         $.ajax({
           url: "{% url 'deleteOpportunityById' %}",
           type: "POST",
@@ -355,7 +398,7 @@
             window.location.reload();
           },
           error: function (xhr, status, error) {
-            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete user!";
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
                 toastr.error(errorMsg);
                 window.location.reload();
           },
@@ -392,8 +435,22 @@
        }
      });
    });
+
+
+      // Handle edit button click
+      $('.edit-btn').click(function () {
+        var opportunityId = $(this).data('id');
+        var name = $(this).data('name');
+        var location = $(this).data('location');
+        var duration = $(this).data('duration');
+        console.log({name,opportunityId,location,duration})
+
+        $('#edit-name').val(name);
+        $('#edit-location').val(location);
+        $('#edit-duration').val(duration);
+        $('#editModal').modal('show');
+      });
    </script>
 
   {% endblock %}
 
-</body>

@@ -42,7 +42,7 @@ def viewProjects(request):
         }
     '''
    
-
+   
     installmentsRes = api_service.performQuery(installments_query, api_service.getCsrfToken(request), request.session.get('User')['token'])
     response = api_service.performQuery(query, api_service.getCsrfToken(request))
 

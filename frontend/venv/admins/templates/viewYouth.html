@@ -291,11 +291,7 @@
       All rights reserved.
     </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+   
   </div>
 
   <!-- jQuery -->
@@ -398,7 +394,7 @@
             window.location.reload();
           },
           error: function(xhr, status, error) {
-            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete youth!";
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
             toastr.error(errorMsg);
             setTimeout(function(){},4000)
             window.location.reload()
