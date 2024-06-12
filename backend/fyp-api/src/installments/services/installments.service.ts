@@ -40,10 +40,10 @@ export class InstallmentsService {
     if (!partner) {
       throw new BadRequestException("Invalid Request: Partner not found");
     }
-    
+
     newInstallment.projectName = project.name;
     newInstallment.projectCost = project.cost;
-    newInstallment.remainAmount=project.cost
+    newInstallment.remainAmount = project.cost
     newInstallment.partnerId = project.partnerId
     newInstallment.status = InstallmentsStatus.PENDING;
 
@@ -94,24 +94,30 @@ export class InstallmentsService {
     const installment = await this.installmentsRepository.findOne({ where: { id: installmentId } })
     if (!installment) throw new NotFoundException("Installment Not Found!");
 
-    //update the installement if exist
-    // if(updateInstallmentInput.paid){
-    //   installment.paid+=updateInstallmentInput.paid,
-    //   installment.payment_Ref=updateInstallmentInput.payment_Ref
-    //   installment.remainAmount-=(installment.paid+updateInstallmentInput.paid)
-    // }
-   
-   
-    if(updateInstallmentInput.paid){
-    
-  
-      await this.installmentsRepository.update(installmentId, { ...updateInstallmentInput })
+
+
+    if (updateInstallmentInput.paid) {
+      console.log("Initiating paid Insatllment...")
+      if (updateInstallmentInput.paid > installment.remainAmount) throw new BadRequestException(`Paid Amount Exceeded Required! ${installment.remainAmount}`);
+      installment.remainAmount-=updateInstallmentInput.paid
+      installment.paid+= updateInstallmentInput.paid
+      installment.payment_Ref = updateInstallmentInput.payment_Ref
+      await this.installmentsRepository.save(installment)
+      
+
+      // check reamin amount and update status 
+      const remainInstallmentAmount = await this.installmentsRepository.findOne({ where: { id: installmentId } })
+      console.log(remainInstallmentAmount,"checking the  previuou one!")
+      remainInstallmentAmount.remainAmount == 0 ? remainInstallmentAmount.status = InstallmentsStatus.COMPLETED : remainInstallmentAmount.status = InstallmentsStatus.PARTIALYPAID;
+      await this.installmentsRepository.save(remainInstallmentAmount)
+
       return {
-      message: MesssageEnum.UPDATE,
-      statusCode: HttpStatus.OK
+        message: MesssageEnum.UPDATE,
+        statusCode: HttpStatus.OK
+      }
     }
-    }
-  
+
+    console.log("skiiping..")
     await this.installmentsRepository.update(installmentId, { ...updateInstallmentInput })
     return {
       message: MesssageEnum.UPDATE,

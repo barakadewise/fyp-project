@@ -45,18 +45,18 @@ export class ProjectService {
         throw new NotFoundException("Project Not found!")
     }
 
-    async getPartnersProjects(context:any) { 
+    async getPartnersProjects(context: any) {
         return await this.projectRepository.find({ where: { partnerId: context.req.user.sub } })
     }
-    async upadateProjectStatus(projectId:number,updateProjectDto:UpdateProjectDto):Promise<ResponseDto>{
-        const project =await this.projectRepository.exists({where:{id:projectId}})
-        if(!project) throw new NotFoundException("Project Not Found!..");
+    async upadateProjectStatus(projectId: number, updateProjectDto: UpdateProjectDto): Promise<ResponseDto> {
+        const project = await this.projectRepository.exists({ where: { id: projectId } })
+        if (!project) throw new NotFoundException("Project Not Found!..");
 
         //update the project if found!
-        await this.projectRepository.update(projectId,{...updateProjectDto})
-        return{
-            message:MesssageEnum.UPDATE,
-            statusCode:HttpStatus.OK
+        await this.projectRepository.update(projectId, { ...updateProjectDto })
+        return {
+            message: MesssageEnum.UPDATE,
+            statusCode: HttpStatus.OK
 
         }
 

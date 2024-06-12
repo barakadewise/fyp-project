@@ -20,6 +20,11 @@ type OperationDto {
   statusCode: Float!
 }
 
+type ResponseDto {
+  message: String!
+  statusCode: Float!
+}
+
 type Installment {
   id: Float!
   projectName: String
@@ -124,11 +129,6 @@ type Project {
   updatedAt: DateTime
 }
 
-type ResponseDto {
-  message: String!
-  statusCode: Float!
-}
-
 type AuthResults {
   message: String
   id: Float
@@ -154,6 +154,7 @@ type Query {
 type Mutation {
   createOpportunity(createOpportunityInput: OpportunityDto!): Opportunity!
   deleteOpportunityById(id: Float!): OperationDto!
+  updateOpportunity(opportunityId: Float!, updateOpportunityDto: UpdateOpportunityDto!): ResponseDto!
   createProject(createProjectInput: ProjectDto!, partner: String): Project!
   removeProject(id: Float!): ResponseDto!
   updateProject(projectId: Float!, updateProjectDto: UpdateProjectDto!): ResponseDto!
@@ -179,6 +180,12 @@ input OpportunityDto {
   name: String!
   location: String!
   duration: String!
+}
+
+input UpdateOpportunityDto {
+  name: String
+  location: String
+  duration: String
 }
 
 input ProjectDto {
