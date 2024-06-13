@@ -81,11 +81,10 @@ export class InstallmentsService {
 
   }
 
-  async partnerInstallments(context: any) {
-    const partner = await this.partnerRepository.findOne({ where: { accountId: context.req.user.sub } })
-    if (!partner) {
-      throw new BadRequestException("Invalid partner details account")
-    }
+  async partnerInstallments(id:number) {
+    const partner = await this.partnerRepository.findOne({ where: { accountId: id } })
+    if (!partner) throw new BadRequestException("Invalid partner details account");
+
     return await this.installmentsRepository.find({ where: { partnerId: partner.id } })
 
   }
@@ -99,15 +98,14 @@ export class InstallmentsService {
     if (updateInstallmentInput.paid) {
       console.log("Initiating paid Insatllment...")
       if (updateInstallmentInput.paid > installment.remainAmount) throw new BadRequestException(`Paid Amount Exceeded Required! ${installment.remainAmount}`);
-      installment.remainAmount-=updateInstallmentInput.paid
-      installment.paid+= updateInstallmentInput.paid
+      installment.remainAmount -= updateInstallmentInput.paid
+      installment.paid += updateInstallmentInput.paid
       installment.payment_Ref = updateInstallmentInput.payment_Ref
       await this.installmentsRepository.save(installment)
-      
+
 
       // check reamin amount and update status 
       const remainInstallmentAmount = await this.installmentsRepository.findOne({ where: { id: installmentId } })
-      console.log(remainInstallmentAmount,"checking the  previuou one!")
       remainInstallmentAmount.remainAmount == 0 ? remainInstallmentAmount.status = InstallmentsStatus.COMPLETED : remainInstallmentAmount.status = InstallmentsStatus.PARTIALYPAID;
       await this.installmentsRepository.save(remainInstallmentAmount)
 
@@ -117,7 +115,7 @@ export class InstallmentsService {
       }
     }
 
-    console.log("skiiping..")
+    console.log("log this portion if no payment")
     await this.installmentsRepository.update(installmentId, { ...updateInstallmentInput })
     return {
       message: MesssageEnum.UPDATE,

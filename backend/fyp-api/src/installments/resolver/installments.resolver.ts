@@ -6,9 +6,11 @@ import { InstallmentsService } from '../services/installments.service';
 import { ResponseDto } from 'shared/response-dto';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
+import { CurrentUser } from 'decorators/current-user-decorator';
 
 
-// @UseGuards(GqlAuthGuard)
+
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Installment)
 export class InstallmentsResolver {
   constructor(private readonly installmentsService: InstallmentsService) { }
@@ -28,8 +30,8 @@ export class InstallmentsResolver {
     return this.installmentsService.findOneInstallment(id);
   }
 
-  @Mutation(() =>ResponseDto)
-  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput,@Args('InstallmentId')InstallmentId:number): Promise<ResponseDto> {
+  @Mutation(() => ResponseDto)
+  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput, @Args('InstallmentId') InstallmentId: number): Promise<ResponseDto> {
     return await this.installmentsService.updateInstallments(InstallmentId, updateInstallmentInput)
   }
 
@@ -39,8 +41,8 @@ export class InstallmentsResolver {
   }
 
   @Query(() => [Installment])
-  async partnerInstallments(@Context() context: any) {
-    return await this.installmentsService.partnerInstallments(context)
+  async partnerInstallments(@CurrentUser() user: any) {
+    return await this.installmentsService.partnerInstallments(user.sub)
   }
 
 }
