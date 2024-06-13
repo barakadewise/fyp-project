@@ -155,34 +155,33 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-               
-                <div class="card-body">
-                 
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>location</th>
-                        <th>Duration</th>
-                      </tr>
-                    </thead>
-                   
-                    <tbody>
-                      <!--  for opportunity in opportunities  -->
-                      <tr>
-                        <td>1 </td>
-                        <td>dummy </td>
-                        <td>dummy</td>
-                        <td>dummy</td>
-                       
-                      </tr>
-                      <!-- endfor  -->
-                    </tbody>
-                    <tfoot></tfoot>
-                  </table>
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>location</th>
+                      <th>Duration</th>
                   
-                </div>
+                    </tr>
+                  </thead>
+                 
+                  <tbody>
+                    {% for opportunity in opportunities %}
+                    <tr>
+                      <td>{{ opportunity.id }}</td>
+                      <td>{{ opportunity.name }}</td>
+                      <td>{{ opportunity.location }}</td>
+                      <td>{{ opportunity.duration }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                
+                  <tfoot></tfoot>
+                </table>
+                
+              </div>
                 <!-- /.card-body -->
               </div>
             <!-- /.card -->

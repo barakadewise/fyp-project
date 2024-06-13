@@ -396,7 +396,6 @@
           error: function(xhr, status, error) {
             var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
             toastr.error(errorMsg);
-            setTimeout(function(){},4000)
             window.location.reload()
           },
         });

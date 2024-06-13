@@ -763,13 +763,15 @@ def viewOpportunities(request):
         }
 
       '''
-    try:
-        response =api_service.performQuery(query,api_service.getCsrfToken(request))
-        return render(request,'viewOpportunities.html',{'opportunities':response['data']['findAllOpportunities']}) 
-    except Exception as e:
-        print(e)
-        messages.error(request,'Network Problems')
-    return render(request,'viewOpportunities.html')
+ 
+    response =api_service.performQuery(query,api_service.getCsrfToken(request))
+    if 'errors' in response:
+        print(response['errors'])
+        messages.error(request,"Failed to get data Something went wrong!")
+        return render(request,'viewOpportunities.html')
+        
+    return render(request,'viewOpportunities.html',{'opportunities':response['data']['findAllOpportunities']}) 
+ 
 
 
 #fuction to add new opportunities

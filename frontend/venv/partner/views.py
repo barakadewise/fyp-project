@@ -7,8 +7,44 @@ api_service = ApiService()
 
 def partnerDashbord(request):
     print("Partner here is your token:",request.session.get('User')['token'])
+    queryOpportunities='''
+        query {
+          findAllOpportunities {
+         id
+        }
+       }
 
-    return render(request,'partner-dashboard.html')
+     '''
+    queryProjects='''
+         query {
+         findAllProjects {
+          id
+           }
+          }
+
+       '''
+    allOpportunities =api_service.performQuery(queryOpportunities,api_service.getCsrfToken(request))
+    allProjects =api_service.performQuery(queryProjects,api_service.getCsrfToken(request))
+
+    if 'errors' in allProjects:
+    
+        print(allProjects['errors'])
+        messages.error(request,"Failed to Load data Something Went Wrong!")
+        return render(request,'partner-dashboard.html')
+
+    if 'errors' in allOpportunities:
+        print(allOpportunities['errors'])
+        messages.error(request,"Failed to Load data Something Went Wrong!")
+        return render(request,'partner-dashboard.html')
+
+    context={
+        "opportunitiesCount":len(allOpportunities['data']['findAllOpportunities']),
+        "projects":len(allProjects['data']['findAllProjects'])
+
+    }
+    print(context)
+    
+    return render(request,'partner-dashboard.html',context)
 
 def viewProjects(request):
     query = '''
@@ -47,16 +83,38 @@ def viewProjects(request):
     response = api_service.performQuery(query, api_service.getCsrfToken(request))
 
     if 'errors' in response or 'errors' in installmentsRes:
-        print("from response")
+        print({'responseDta':
+            response,
+            'installmentResDta':
+            installmentsRes
+            })
         print(installmentsRes['errors'],'From installments')
         messages.error(request,installmentsRes['errors'])
         return render(request, 'partner-projects.html')
         
     
-    
-    print(installmentsRes['data'])
-    return render(request, 'partner-projects.html', {'projects': response['data']['findAllProjects'],'installments':installmentsRes['data']['partnerInstallments']})
+    context={
+        'projects': response['data']['findAllProjects'],
+        'installments':installmentsRes['data']['partnerInstallments']
+        }
+    return render(request, 'partner-projects.html',context)
 
 
 def viewOpportunities(request):
-    return render(request,'partner-opportunities.html')
+    query='''  
+        query {
+        findAllOpportunities {
+        id
+        name
+        duration
+        location
+        }
+        }
+
+      '''
+    response= api_service.performQuery(query,api_service.getCsrfToken(request))
+    if 'errors' in response:
+        print(response['errors'])
+        messages.error(request,'Failed to get data Something went wrong!')
+        
+    return render(request,'partner-opportunities.html',{'opportunities':response['data']['findAllOpportunities']})
