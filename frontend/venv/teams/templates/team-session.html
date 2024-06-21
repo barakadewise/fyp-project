@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} View | Session {% endblock %}</title>
+
+{% block content %}
+
+<style>
+    #card {
+     cursor: pointer;
+     transition: all 200ms ease;
+   }
+   #card:hover {
+     box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
+     border-radius: 0.2rem;
+   }
+   body.light-mode {
+     background-color: #ffffff;
+     color: #000000;
+   }
+   body.dark-mode {
+     background-color: #121212;
+     color: #ffffff;
+   }
+   .navbar-light-mode {
+     background-color: #f8f9fa;
+     color: #000000;
+   }
+   .navbar-dark-mode {
+     background-color: #343a40;
+     color: #ffffff;
+   }
+  </style>
+
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+          <a class="nav-link"
+           data-widget="pushmenu" 
+           href="#" role="button">
+           <i class="fas fa-bars"></i>
+          </a>
+        </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="#"
+          role="button"
+          id="dark-mode-toggle"
+          onclick="toggleDarkMode()"
+        >
+          <i class="fa-solid fa-moon"></i>
+        </a>
+      </li>
+    
+    </ul>
+  </nav>
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'teamDashboard' %}" class="brand-link">
+      <img src="{% static 'dist/img/user.png' %}" class="brand-image img-circle elevation-3" alt="User Image" style="opacity: 0.8"/>
+      <span class="brand-text font-weight-light">Admin</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a
+                      href="{% url 'teamDashboard' %}"
+                      class="nav-link active">
+                      <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
+                      <p>Overview</p>
+                    </a>
+                  </li>
+                <li class="nav-item">
+                <a href="{% url 'teamViewYouth' %}" class="nav-link ">
+                  <i class="fa-solid fa-restroom" style="margin: 0 4px 0 0px"></i>
+                  <p>Youth</p>
+                </a>
+              </li>
+              </li>
+            
+              <li class="nav-item">
+                <a href="{% url 'teamSession' %}" class="nav-link active">
+                  <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
+                  <p>Session</p>
+                </a>
+              </li>
+             
+              <li class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">
+                  <p>logout</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Sessions</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="">Home</a></li>
+              <li class="breadcrumb-item active">Session</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="float-right">
+                <button type="button" class="btn btn-block btn-info btn-md">
+                  <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
+                  <a href="" class="text-white"> Add Session</a>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Session</th>
+                    <th>Skills</th>
+                    <th>Duration</th>
+                    <th>Description(s)</th>
+                    <th>Number of Partcipants</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- for project in projects  -->
+                  <tr>
+                    <td>1</td>
+                    <td>dumy </td>
+                    <td>dumy </td>
+                    <td>dumy </td>
+                    <td>dumy </td>
+                    <td>dumy </td>
+                    <td class="justify-content-center">
+                      <a href="" class="btn btn-success btn-sm edit-btn">
+                        
+                        <i class="fas fa-pen"></i> Edit
+                      </a>
+                      <a href="#" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal">
+                        <i class="fas fa-trash"></i> Delete
+                      </a>
+                    </td>
+                  </tr>
+                  <!--  endfor  -->
+                </tbody>
+                <tfoot></tfoot>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editProjectForm">
+            <input type="hidden" id="editProjectId">
+            <div class="form-group">
+              <label for="editProjectName">Name</label>
+              <input type="text" class="form-control" id="editProjectName" required>
+            </div>
+            <div class="form-group">
+              <label for="editProjectCost">Cost</label>
+              <input type="text" class="form-control" id="editProjectCost" required>
+            </div>
+            <div class="form-group">
+              <label for="editProjectDuration">Duration</label>
+              <input type="text" class="form-control" id="editProjectDuration" required>
+            </div>
+            <div class="form-group">
+              <label for="editProjectDescription">Description</label>
+              <textarea class="form-control" id="editProjectDescription" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="editProjectStatus">Status</label>
+              <input type="text" class="form-control" id="editProjectStatus" required>
+            </div>
+            <div class="form-group">
+              <label for="editProjectPartnerName">Partner Name</label>
+              <input type="text" class="form-control" id="editProjectPartnerName" required>
+            </div>
+            <div class="form-group">
+              <label for="editProjectFunded">Funded</label>
+              <input type="text" class="form-control" id="editProjectFunded" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this record?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block"><b>2023</b></div>
+    <strong>Copyright &copy; Dar es salaam regional commission.</strong>
+    All rights reserved.
+  </footer>
+ 
+</div>
+
+{% if messages %}
+<script>
+  var messages = [];
+</script>
+{% for message in messages %}
+<script>
+  messages.push({
+    "message": "{{ message.message }}",
+    "tag": "{{ message.tags }}"
+  });
+</script>
+{% endfor %}
+{% endif %}
+
+<script>
+
+$(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message);
+    } else {
+      toastr.info(message.message);
+    }
+  });
+});
+  // Handle edit button click
+$('.edit-btn').click(function() {
+    var projectId = $(this).data('id');
+    var name = $(this).data('name');
+    var cost = $(this).data('cost');
+    var duration = $(this).data('duration');
+    var description = $(this).data('description');
+    var status = $(this).data('status');
+    var partnerName = $(this).data('partnername');  
+    var funded = $(this).data('funded');
+
+    console.log("Project detaile:",{name,cost,duration,funded})
+    // Populate the data into the edit modal
+    
+    $('#editProjectName').val(name);
+    $('#editProjectCost').val(cost);
+    $('#editProjectDuration').val(duration);
+    $('#editProjectDescription').val(description);
+    $('#editProjectStatus').val(status);
+    $('#editProjectPartnerName').val(partnerName);
+    $('#editProjectFunded').val(funded);
+  });
+</script>
+{% endblock %}

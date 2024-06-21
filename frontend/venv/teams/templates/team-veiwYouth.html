@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} View| Youth {% endblock %}</title>
+
+{% block content %}
+
+<style>
+    #card {
+     cursor: pointer;
+     transition: all 200ms ease;
+   }
+   #card:hover {
+     box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
+     border-radius: 0.2rem;
+   }
+   body.light-mode {
+     background-color: #ffffff;
+     color: #000000;
+   }
+   body.dark-mode {
+     background-color: #121212;
+     color: #ffffff;
+   }
+   .navbar-light-mode {
+     background-color: #f8f9fa;
+     color: #000000;
+   }
+   .navbar-dark-mode {
+     background-color: #343a40;
+     color: #ffffff;
+   }
+  </style>
+
+
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+              <a class="nav-link"
+               data-widget="pushmenu" 
+               href="#" role="button">
+               <i class="fas fa-bars"></i>
+              </a>
+            </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              role="button"
+              id="dark-mode-toggle"
+              onclick="toggleDarkMode()"
+            >
+              <i class="fa-solid fa-moon"></i>
+            </a>
+          </li>
+        
+        </ul>
+      </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="" class="brand-link">
+        <img src="{% static 'dist/img/user.png' %}" class="brand-image img-circle elevation-3" alt="User Image" style="opacity: 0.8" />
+        <span class="brand-text font-weight-light">Team</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'teamDashboard' %}" class="nav-link">
+                    <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
+                    <p>Overview</p>
+                  </a>
+                </li>
+               
+                <li class="nav-item">
+                  <a href="" class="nav-link active">
+                    <i class="fa-solid fa-restroom" style="margin: 0 4px 0 0px"></i>
+                    <p>Youth</p>
+                  </a>
+                </li>
+              
+                <li class="nav-item">
+                  <a href="{% url 'teamSession' %}" class="nav-link">
+                    <i class="fa-solid fa-seedling" style="margin: 0 4px 0 0px"></i>
+                    <p>View Sessions</p>
+                  </a>
+                </li>
+              
+                <li class="nav-item">
+                  <a href="{% url 'logout' %}" class="nav-link">
+                    <p>logout</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Youth</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active">Youth</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+             
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Fname</th>
+                      <th>Mname</th>
+                      <th>Lname</th>
+                      <th>phone</th>
+                      <th>Location</th>
+                      <th>Address</th>
+                      <th>Email</th>
+                      <th>skill</th>
+                      
+                    
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <!-- for youth in youths  -->
+                    <tr>
+                      <!-- <td>{{ youth.id }}</td>
+                      <td>{{ youth.fname }}</td>
+                      <td>{{ youth.mname }}</td>
+                      <td>{{ youth.lname }}</td>
+                      <td>{{ youth.phone }}</td>
+                      <td>{{ youth.location }}</td>
+                      <td>{{ youth.address }}</td>
+                      <td>{{ youth.email }}</td>
+                      <td>{{ youth.skills }}</td> -->
+                      <td>1</td>
+                      <td>dumy</td>
+                      <td>dumy</td>
+                      <td> dumy</td>
+                      <td> dumy</td>
+                      <td>dumy</td>
+                      <td>dumy</td>
+                      <td>dumy</td>
+                      <td>dumy</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>dumy</td>
+                        <td>dumy</td>
+                        <td> dumy</td>
+                        <td> dumy</td>
+                        <td>dumy</td>
+                        <td>dumy</td>
+                        <td>dumy</td>
+                        <td>dumy</td>
+                    </tr>
+                    <!-- endfor  -->
+                  </tbody>
+
+                  <tfoot></tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+  
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block"><b>2023</b></div>
+      <strong>Copyright &copy; Dar es salaam regional commission.</strong>
+      All rights reserved.
+    </footer>
+
+   
+  </div>
+
+  <!-- jQuery -->
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+
+  
+
+  {% if messages %}
+  <script>
+    var messages = [];
+  </script>
+  {% for message in messages %}
+  <script>
+    messages.push({
+      "message": "{{ message.message }}",
+      "tag": "{{ message.tags }}"
+    });
+  </script>
+  {% endfor %}
+  {% endif %}
+
+  <script>
+    $(function() {
+      messages.forEach(function(message) {
+        if (message.tag === "success") {
+          toastr.success(message.message);
+        } else if (message.tag === "error") {
+          toastr.error(message.message);
+        } else {
+          toastr.info(message.message);
+        }
+      });
+    });
+  </script>
+ 
+     
+  </script>
+  {% endblock %}
+
