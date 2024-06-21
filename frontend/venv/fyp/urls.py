@@ -7,5 +7,7 @@ urlpatterns = [
     path('staff/',include('admins.urls')),
     path('partner/',include('partner.urls')),
     path('',include('accounts.urls')),
+    path('team/',include('teams.urls')),
+    
     
 ]

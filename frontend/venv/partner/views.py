@@ -97,6 +97,7 @@ def viewProjects(request):
         'projects': response['data']['findAllProjects'],
         'installments':installmentsRes['data']['partnerInstallments']
         }
+   
     return render(request, 'partner-projects.html',context)
 
 
@@ -118,3 +119,25 @@ def viewOpportunities(request):
         messages.error(request,'Failed to get data Something went wrong!')
         
     return render(request,'partner-opportunities.html',{'opportunities':response['data']['findAllOpportunities']})
+
+def fundProject(request):
+    mutation ='''
+    mutation CreateInstallment($createInstallmentInput: CreateInstallmentInput!, $projectId: Float!) {
+    createInstallment(createInstallmentInput: $createInstallmentInput, projectId: $projectId) {
+    id
+    total_installments
+    projectCost
+    payment_Ref
+    paid
+    status
+    remainAmount
+    createdAt
+    }
+   }
+    '''
+    if request.method=='POST':
+        project_name=request.POST.get('projectName')
+        installments=request.POST.get('installments')
+        
+        messages.info(request,'Request initiated!')
+        return redirect('partnerViewProject')

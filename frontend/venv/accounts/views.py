@@ -67,6 +67,7 @@ def loginPage(request):
                     
                 elif role == roles.STAFF.value:
                     messages.success(request,"Successfully loggedin")
+                    print("Loooged in as Team")
                     return redirect('staffDashboard')
                 elif role == roles.TEAM.value:
                     messages.success(request,"Successfully loggedin")
@@ -75,7 +76,7 @@ def loginPage(request):
                     messages.success(request,"Successfully loggedin")
                     return redirect('youthDashboard')
                 else:
-                    messages.error(request, 'Invalid User Role, Please Check!')
+                    messages.error(request, 'Invalid Credentials Please Check!')
                     return render(request, 'login.html')
                 
             else:
@@ -124,18 +125,15 @@ def signupPage(request):
                     if 'errors' in response:
                         print(response['errors'])
                         messages.error(request,response['errors'][0]['message'])
-                    elif 'data' in response:
+                    else:
                         print("Opertion was successfully")
                         accountId=response['data']['createAccount']['id']
                         messages.success(request,"Successfuly registered")
                         return redirect('complete-profile',account_id=accountId)
-                    else:
-                        print("Unexpected erros occurred")
-                        messages.error(request,"Unexpected erros occurred")   
-                        
+                    
                 else:
                     print("Password musb be atleast 5")   
-                    messages.error(request,"Password musb be atleast 5") 
+                    messages.error(request,"Password must be atleast 5 characters long!") 
             else:
                 print("Password dont match ")
                 messages.error(request,"Password dont match ") 
