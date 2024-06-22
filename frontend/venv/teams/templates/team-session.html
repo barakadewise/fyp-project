@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 <title>{% block title %} View | Session {% endblock %}</title>
 
 {% block content %}
@@ -29,7 +30,7 @@
      background-color: #343a40;
      color: #ffffff;
    }
-  </style>
+</style>
 
 <div class="wrapper">
   <!-- Navbar -->
@@ -53,7 +54,6 @@
           <i class="fa-solid fa-moon"></i>
         </a>
       </li>
-    
     </ul>
   </nav>
   <!-- Main Sidebar Container -->
@@ -61,7 +61,7 @@
     <!-- Brand Logo -->
     <a href="{% url 'teamDashboard' %}" class="brand-link">
       <img src="{% static 'dist/img/user.png' %}" class="brand-image img-circle elevation-3" alt="User Image" style="opacity: 0.8"/>
-      <span class="brand-text font-weight-light">Admin</span>
+      <span class="brand-text font-weight-light">Team</span>
     </a>
 
     <!-- Sidebar -->
@@ -81,7 +81,7 @@
                 <li class="nav-item">
                     <a
                       href="{% url 'teamDashboard' %}"
-                      class="nav-link active">
+                      class="nav-link">
                       <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
                       <p>Overview</p>
                     </a>
@@ -92,15 +92,12 @@
                   <p>Youth</p>
                 </a>
               </li>
-              </li>
-            
               <li class="nav-item">
                 <a href="{% url 'teamSession' %}" class="nav-link active">
                   <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
                   <p>Session</p>
                 </a>
               </li>
-             
               <li class="nav-item">
                 <a href="{% url 'logout' %}" class="nav-link">
                   <p>logout</p>
@@ -171,14 +168,23 @@
                     <td>dumy </td>
                     <td>dumy </td>
                     <td>dumy </td>
-                    <td class="justify-content-center">
-                      <a href="" class="btn btn-success btn-sm edit-btn">
-                        
+                    <td class="justify-content-center ">
+                      <a href="" class="btn btn-success btn-sm edit-btn"
+                      data-id="1"
+                      data-session="dumy"
+                      data-skills="dumy"
+                      data-duration="dumy"
+                      data-description="dumy"
+                      data-numberofparticipants="50"
+                      data-target="#editModal"
+                      data-toggle="modal"
+                      >
                         <i class="fas fa-pen"></i> Edit
                       </a>
                       <a href="#" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal">
                         <i class="fas fa-trash"></i> Delete
                       </a>
+                      <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i>Partcipants</a>
                     </td>
                   </tr>
                   <!--  endfor  -->
@@ -201,41 +207,33 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit Project</h5>
+          <h5 class="modal-title" id="editModalLabel">Edit Session</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form id="editProjectForm">
-            <input type="hidden" id="editProjectId">
+          <form id="editSessionForm">
+            <input type="hidden" id="editSessionId">
             <div class="form-group">
-              <label for="editProjectName">Name</label>
-              <input type="text" class="form-control" id="editProjectName" required>
+              <label for="editSessionName">Session</label>
+              <input type="text" class="form-control" id="editSessionName" required>
             </div>
             <div class="form-group">
-              <label for="editProjectCost">Cost</label>
-              <input type="text" class="form-control" id="editProjectCost" required>
+              <label for="editSessionSkills">Skills</label>
+              <input type="text" class="form-control" id="editSessionSkills" required>
             </div>
             <div class="form-group">
-              <label for="editProjectDuration">Duration</label>
-              <input type="text" class="form-control" id="editProjectDuration" required>
+              <label for="editSessionDuration">Duration</label>
+              <input type="text" class="form-control" id="editSessionDuration" required>
             </div>
             <div class="form-group">
-              <label for="editProjectDescription">Description</label>
-              <textarea class="form-control" id="editProjectDescription" required></textarea>
+              <label for="editSessionDescription">Description</label>
+              <textarea class="form-control" id="editSessionDescription" required></textarea>
             </div>
             <div class="form-group">
-              <label for="editProjectStatus">Status</label>
-              <input type="text" class="form-control" id="editProjectStatus" required>
-            </div>
-            <div class="form-group">
-              <label for="editProjectPartnerName">Partner Name</label>
-              <input type="text" class="form-control" id="editProjectPartnerName" required>
-            </div>
-            <div class="form-group">
-              <label for="editProjectFunded">Funded</label>
-              <input type="text" class="form-control" id="editProjectFunded" required>
+              <label for="editNumberOfParticipants">Number of Participants</label>
+              <input type="number" class="form-control" id="editNumberOfParticipants" required>
             </div>
             <button type="submit" class="btn btn-primary">Save changes</button>
           </form>
@@ -268,7 +266,6 @@
     <strong>Copyright &copy; Dar es salaam regional commission.</strong>
     All rights reserved.
   </footer>
- 
 </div>
 
 {% if messages %}
@@ -298,27 +295,24 @@ $(function(){
     }
   });
 });
+
   // Handle edit button click
 $('.edit-btn').click(function() {
-    var projectId = $(this).data('id');
-    var name = $(this).data('name');
-    var cost = $(this).data('cost');
+    var sessionId = $(this).data('id');
+    var session = $(this).data('session');
+    var skills = $(this).data('skills');
     var duration = $(this).data('duration');
     var description = $(this).data('description');
-    var status = $(this).data('status');
-    var partnerName = $(this).data('partnername');  
-    var funded = $(this).data('funded');
+    var numberOfParticipants = $(this).data('numberofparticipants');
 
-    console.log("Project detaile:",{name,cost,duration,funded})
+    console.log("Session details:",{session,skills,duration,description,numberOfParticipants})
     // Populate the data into the edit modal
-    
-    $('#editProjectName').val(name);
-    $('#editProjectCost').val(cost);
-    $('#editProjectDuration').val(duration);
-    $('#editProjectDescription').val(description);
-    $('#editProjectStatus').val(status);
-    $('#editProjectPartnerName').val(partnerName);
-    $('#editProjectFunded').val(funded);
+    $('#editSessionId').val(sessionId);
+    $('#editSessionName').val(session);
+    $('#editSessionSkills').val(skills);
+    $('#editSessionDuration').val(duration);
+    $('#editSessionDescription').val(description);
+    $('#editNumberOfParticipants').val(numberOfParticipants);
   });
 </script>
 {% endblock %}
