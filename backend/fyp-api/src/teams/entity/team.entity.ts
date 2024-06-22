@@ -39,7 +39,7 @@ export class Teams {
     accountId:number
 
     @Field(()=>Account,{nullable:true})
-    @OneToOne(()=>Account,(account)=>account.team)
+    @OneToOne(()=>Account,(account)=>account.team,{onDelete:'CASCADE'})
     @JoinColumn()
     account:Account
 

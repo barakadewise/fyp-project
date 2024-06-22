@@ -137,6 +137,14 @@ type AuthResults {
   role: String
 }
 
+type Training {
+  id: Float!
+  session: String!
+  description: String!
+  duration: String!
+  noOfparticipants: Float!
+}
+
 type Query {
   findAllOpportunities: [Opportunity!]!
   findAllProjects: [Project!]!
@@ -149,6 +157,8 @@ type Query {
   findAllInstallments: [Installment!]!
   findOneInsatallment(id: Float!): Installment!
   partnerInstallments: [Installment!]!
+  findAllTraining: [Training!]!
+  findOneTraining(id: Float!): Training!
 }
 
 type Mutation {
@@ -174,6 +184,9 @@ type Mutation {
   createInstallment(createInstallmentInput: CreateInstallmentInput!, projectId: Float!): Installment!
   updateInstallment(updateInstallmentInput: UpdateInstallmentInput!, InstallmentId: Float!): ResponseDto!
   removeInstallment(id: Float!): Installment!
+  createTraining(createTrainingInput: CreateTrainingInput!): Training!
+  updateTraining(updateTrainingInput: UpdateTrainingInput!): Training!
+  removeTraining(id: Float!): Training!
 }
 
 input OpportunityDto {
@@ -281,7 +294,7 @@ input LoginUserDto {
 }
 
 input CreateInstallmentInput {
-  total_installments: Float!
+  total_installments: Float
   partnerId: Float
 }
 
@@ -289,4 +302,19 @@ input UpdateInstallmentInput {
   payment_Ref: String
   installment_phase: Float
   paid: Float
+}
+
+input CreateTrainingInput {
+  session: String!
+  duration: String!
+  description: String!
+  noOfParticipants: Float!
+}
+
+input UpdateTrainingInput {
+  session: String
+  duration: String
+  description: String
+  noOfParticipants: Float
+  id: Int!
 }

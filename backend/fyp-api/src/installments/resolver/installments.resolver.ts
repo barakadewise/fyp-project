@@ -16,8 +16,8 @@ export class InstallmentsResolver {
   constructor(private readonly installmentsService: InstallmentsService) { }
 
   @Mutation(() => Installment)
-  async createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId') projectId: number, @Context() context: any) {
-    return this.installmentsService.create(createInstallmentInput, projectId, context);
+  async createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId') projectId: number, @CurrentUser()user:any) {
+    return this.installmentsService.create(createInstallmentInput, projectId, user);
   }
 
   @Query(() => [Installment])

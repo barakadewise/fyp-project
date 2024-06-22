@@ -4,6 +4,7 @@ import { Staff } from 'src/staff/entity/staff-entity';
 import { Teams } from 'src/teams/entity/team.entity';
 import { Youth } from 'src/youth/entity/youth.entity';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
+
 @Entity('accounts')
 @ObjectType()
 export class Account {
@@ -42,7 +43,6 @@ export class Account {
   @Field(()=>Youth)
   @OneToOne(()=>Youth,(youth)=>youth.account,{onDelete:'CASCADE'})
   youth:Youth
-
 
   @CreateDateColumn({nullable:true})
   @Field({nullable:true})

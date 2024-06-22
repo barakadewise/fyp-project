@@ -9,14 +9,11 @@ import { PartnersModule } from './partners/partners.module';
 import { YouthModule } from './youth/youth.module';
 import { TeamsModule } from './teams/teams.module';
 import { typeormConfigAsyc } from './config/typeorm.config';
-
 import { AccountsModule } from './accounts/accounts.module';
-import { error } from 'console';
 import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
 import { InstallmentsModule } from './installments/installments.module';
-
-
+import { TrainingModule } from './training/training.module';
 
 
 
@@ -49,7 +46,11 @@ import { InstallmentsModule } from './installments/installments.module';
     AccountsModule,
     StaffModule,
     AuthModule,
-    InstallmentsModule
+    InstallmentsModule,
+    TrainingModule,
+ 
+   
+    
 
   ],
 })

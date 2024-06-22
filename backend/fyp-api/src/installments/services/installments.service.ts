@@ -21,26 +21,40 @@ export class InstallmentsService {
     @InjectRepository(Installment) private readonly installmentsRepository: Repository<Installment>) { }
 
 
-  async create(createInstallmentInput: CreateInstallmentInput, projectId: number, context: any) {
-    const user = context.req.user;
+  async create(createInstallmentInput: CreateInstallmentInput, projectId: number, user: any) {
     const project = await this.projectRepository.findOne({ where: { id: projectId } });
 
-    if (!project) {
-      throw new BadRequestException("Invalid Request: Project not found");
-    }
-    const newInstallment = this.installmentsRepository.create({ ...createInstallmentInput });
-    const partnerId = createInstallmentInput.partnerId || (user.role === Roles.PARTNER ? user.id : null);
+    if (!project) throw new BadRequestException("Invalid Request: Project not found");
 
-    if (!partnerId) {
-      throw new BadRequestException("Partner id required!");
-    }
+    const newInstallment = this.installmentsRepository.create({ ...createInstallmentInput });
+    const partnerId = createInstallmentInput.partnerId||(user.role==Roles.PARTNER?user.sub:null)
+
+    if (!partnerId) throw new BadRequestException("Partner id required!");
 
     const partner = await this.partnerRepository.findOne({ where: { id: partnerId } });
 
-    if (!partner) {
-      throw new BadRequestException("Invalid Request: Partner not found");
-    }
+    if (!partner) throw new BadRequestException("Invalid Request: Partner not found");
 
+        // check if the request is directly from the patner
+        // if (user.role == Roles.PARTNER) {
+        //   const partnerDetails = await this.partnerRepository.findOne({ where: { accountId: user.sub } })
+        //   const projectDetails=await this.projectRepository.findOne({where:{name:createInstallmentInput.project_name}})
+        //   newInstallment.projectName = createInstallmentInput.project_name;
+        //   newInstallment.projectCost = projectDetails.cost;
+        //   newInstallment.remainAmount = projectDetails.cost
+        //   newInstallment.partnerId = partnerDetails.id
+        //   newInstallment.status = InstallmentsStatus.PENDING;
+    
+        //   project.partnerName = partnerDetails.name;
+        //   project.partnerId = partnerDetails.id
+        //   project.funded = true;
+    
+        //   await this.projectRepository.save(project);
+        //   return await this.installmentsRepository.save(newInstallment);
+    
+        // }
+    
+    //if not partner proceed to creating installments for funded project
     newInstallment.projectName = project.name;
     newInstallment.projectCost = project.cost;
     newInstallment.remainAmount = project.cost
@@ -53,6 +67,7 @@ export class InstallmentsService {
 
     await this.projectRepository.save(project);
     return await this.installmentsRepository.save(newInstallment);
+
   }
 
   async findAllInstallments() {
@@ -66,8 +81,6 @@ export class InstallmentsService {
 
 
   }
-
-
   async removeInstallment(id: number): Promise<ResponseDto> {
     const installment = await this.installmentsRepository.findOne({ where: { id: id } })
     if (installment) {
@@ -81,7 +94,7 @@ export class InstallmentsService {
 
   }
 
-  async partnerInstallments(id:number) {
+  async partnerInstallments(id: number) {
     const partner = await this.partnerRepository.findOne({ where: { accountId: id } })
     if (!partner) throw new BadRequestException("Invalid partner details account");
 
