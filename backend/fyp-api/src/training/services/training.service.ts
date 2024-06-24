@@ -6,20 +6,23 @@ import { Repository } from 'typeorm';
 import { Training } from '../entities/training.entity';
 import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
+import { Teams } from 'src/teams/entity/team.entity';
 
 
 
 @Injectable()
 export class TrainingService {
-  constructor(@InjectRepository(Training) private readonly trainingRepository: Repository<Training>) { }
-  async create(createTrainingInput: CreateTrainingInput) {
+  constructor(@InjectRepository(Training) private readonly trainingRepository: Repository<Training>, @InjectRepository(Teams) private readonly teamRepository: Repository<Teams>) { }
+  async create(createTrainingInput: CreateTrainingInput, user: any) {
     const training = await this.trainingRepository.exists({ where: { session: createTrainingInput.session } })
 
     //check training session existance 
     if (training) throw new BadRequestException("Training Program Session Already Exits!");
-
-    const newTraining = this.trainingRepository.create({ ...createTrainingInput})
+    const team = await this.teamRepository.findOne({ where: { accountId: user.sub } })
+    const newTraining = this.trainingRepository.create({ ...createTrainingInput })
+    newTraining.teamsId = team.id
     return await this.trainingRepository.save(newTraining)
+
 
   }
 
@@ -50,5 +53,13 @@ export class TrainingService {
       message: MesssageEnum.DELETE,
       statusCode: HttpStatus.OK
     }
+  }
+
+  async getTeamsTraining(id: number) {
+    const team = await this.teamRepository.findOne({ where: { accountId: id } })//check if the userId exists in teams table
+    if (!team) throw new BadRequestException("User Not found")
+
+    //if found retreve the teams Id and use it to query for the training sessions
+    return await this.trainingRepository.find({ where: { teamsId: team.id } })
   }
 }

@@ -56,10 +56,13 @@ type Staff {
 
 type Training {
   id: Float!
-  session: String!
-  description: String!
-  duration: String!
+  session: String
+  description: String
+  duration: String
+  startDate: String
+  endDate: String
   noOfparticipants: Float!
+  teamsId: Float
 }
 
 type Teams {
@@ -155,6 +158,7 @@ type Query {
   partnerInstallments: [Installment!]!
   findAllTraining: [Training!]!
   findOneTraining(id: Float!): Training!
+  getTeamsTraining: [Training!]!
 }
 
 type Mutation {
@@ -304,13 +308,17 @@ input CreateTrainingInput {
   session: String!
   duration: String!
   description: String!
-  noOfParticipants: Float!
+  startDate: String!
+  endDate: String!
+  noOfparticipants: Float!
 }
 
 input UpdateTrainingInput {
   session: String
   duration: String
   description: String
-  noOfParticipants: Float
+  startDate: String
+  endDate: String
+  noOfparticipants: Float
   id: Int!
 }

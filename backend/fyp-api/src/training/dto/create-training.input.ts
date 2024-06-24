@@ -12,5 +12,11 @@ export class CreateTrainingInput {
   description: string
 
   @Field()
-  noOfParticipants: number
+  startDate:string
+
+  @Field()
+  endDate:string
+
+  @Field()
+  noOfparticipants: number
 }

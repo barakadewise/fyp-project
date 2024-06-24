@@ -9,21 +9,34 @@ export class Training {
   @Field()
   id: number
 
-  @Field()
-  @Column()
+  @Field({nullable:true})
+  @Column({nullable:true})
   session: string
 
-  @Field()
-  @Column()
+  @Field({nullable:true})
+  @Column({nullable:true})
   description: string
 
-  @Field()
-  @Column()
+  @Field({nullable:true})
+  @Column({nullable:true})
   duration: string
-
+ 
+  
+  @Field({nullable:true})
+  @Column({nullable:true})
+  startDate:string
+  
+  @Field({nullable:true})
+  @Column({nullable:true})
+  endDate:string
+  
   @Field()
-  @Column()
+  @Column({default:0})
   noOfparticipants: number
+  
+  @Field({nullable:true})
+  @Column({nullable:true})
+  teamsId:number
 
   @ManyToOne(()=>Teams,(team)=>team.training)
   @JoinColumn()
