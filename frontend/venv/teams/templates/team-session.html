@@ -139,9 +139,9 @@
           <div class="card">
             <div class="card-header">
               <div class="float-right">
-                <button type="button" class="btn btn-block btn-info btn-md">
+                <button type="button" class="btn btn-block btn-info btn-md" data-toggle="modal" data-target="#addSessionModal">
                   <span style="margin-right: 2px;"><i class="fa-solid fa-plus"></i></span>
-                  <a href="" class="text-white"> Add Session</a>
+                  Add Session
                 </button>
               </div>
             </div>
@@ -152,42 +152,49 @@
                   <tr>
                     <th>ID</th>
                     <th>Session</th>
-                    <th>Skills</th>
+                  
                     <th>Duration</th>
+                    <th>StartDate</th>
+                    <th>EndDate</th>
                     <th>Description(s)</th>
                     <th>Number of Partcipants</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- for project in projects  -->
+                  {% for session in sessions %}
                   <tr>
-                    <td>1</td>
-                    <td>dumy </td>
-                    <td>dumy </td>
-                    <td>dumy </td>
-                    <td>dumy </td>
-                    <td>dumy </td>
-                    <td class="justify-content-center ">
-                      <a href="" class="btn btn-success btn-sm edit-btn"
-                      data-id="1"
-                      data-session="dumy"
-                      data-skills="dumy"
-                      data-duration="dumy"
-                      data-description="dumy"
-                      data-numberofparticipants="50"
-                      data-target="#editModal"
-                      data-toggle="modal"
-                      >
+                    <td>{{ session.id }}</td>
+                    <td>{{ session.session}}</td>
+                    <td>{{session.duration}} </td>
+                    <td>{{session.startDate}} </td>
+                    <td>{{session.endDate}} </td>
+                    <td>{{session.description}} </td>
+                    <td>{{session.noOfparticipants }} </td>
+                    
+                    <td class="justify-content-center">
+                      <a href="#" class="btn btn-success btn-sm edit-btn"
+                         data-id="{{ session.id }}"
+                         data-session="{{ session.session }}"
+                         data-startDate="{{ session.startDate }}"
+                         data-endDate="{{ session.endDate }}"
+                         data-duration="{{ session.duration }}"
+                         data-description="{{ session.description }}"
+                         data-numberofparticipants="{{ session.noOfparticipants }}"
+                         data-toggle="modal" data-target="#editModal">
                         <i class="fas fa-pen"></i> Edit
                       </a>
-                      <a href="#" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal">
+                      <a href="#" class="btn btn-danger btn-sm delete-btn"
+                         data-toggle="modal" data-target="#deleteModal"
+                         data-id="{{ session.id }}">
                         <i class="fas fa-trash"></i> Delete
                       </a>
-                      <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i>Partcipants</a>
+                      <a href="#" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i> Participants
+                      </a>
                     </td>
                   </tr>
-                  <!--  endfor  -->
+                  {% endfor %}
                 </tbody>
                 <tfoot></tfoot>
               </table>
@@ -202,6 +209,57 @@
     </section>
     <!-- /.content -->
   </div>
+ 
+  <!-- Add Session Modal -->
+<div class="modal fade" id="addSessionModal" tabindex="-1" role="dialog" aria-labelledby="addSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSessionModalLabel">Add Session</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addSessionForm" action="{% url 'createTrainingSession' %}" method="POST" role="form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="addSessionName">Session</label>
+            <input type="text" class="form-control" id="addSessionName" name="session" required>
+          </div>
+          <!-- <div class="form-group">
+            <label for="addSessionSkills">Skills</label>
+            <input type="text" class="form-control" id="addSessionSkills" name="skills" required>
+          </div> -->
+          <div class="form-group">
+            <label for="addSessionDuration">Duration</label>
+            <input type="text" class="form-control" id="addSessionDuration" name="duration" required>
+          </div>
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+          </div>
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+          </div>
+          <div class="form-group">
+            <label for="addSessionDescription">Description</label>
+            <textarea class="form-control" id="addSessionDescription" name="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="addNumberOfParticipants">Number of Participants</label>
+            <input type="number" class="form-control" id="addNumberOfParticipants" name="noOfParticipants" required>
+          </div>
+          <button type="submit" class="btn btn-info float-right">Add Session</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!---End add session modal-->
+
   <!-- Edit Modal -->
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -214,18 +272,23 @@
         </div>
         <div class="modal-body">
           <form id="editSessionForm">
+            {% csrf_token %}
             <input type="hidden" id="editSessionId">
             <div class="form-group">
               <label for="editSessionName">Session</label>
               <input type="text" class="form-control" id="editSessionName" required>
             </div>
             <div class="form-group">
-              <label for="editSessionSkills">Skills</label>
-              <input type="text" class="form-control" id="editSessionSkills" required>
-            </div>
-            <div class="form-group">
               <label for="editSessionDuration">Duration</label>
               <input type="text" class="form-control" id="editSessionDuration" required>
+            </div>
+            <div class="form-group">
+              <label for="editStartDate">Start Date</label>
+              <input type="date" class="form-control" id="editStartDate" required>
+            </div>
+            <div class="form-group">
+              <label for="editEndDate">End Date</label>
+              <input type="date" class="form-control" id="editEndDate" required>
             </div>
             <div class="form-group">
               <label for="editSessionDescription">Description</label>
@@ -235,13 +298,16 @@
               <label for="editNumberOfParticipants">Number of Participants</label>
               <input type="number" class="form-control" id="editNumberOfParticipants" required>
             </div>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+  <!-- End Edit Modal -->
+
   <!-- Delete Modal -->
+
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -298,21 +364,49 @@ $(function(){
 
   // Handle edit button click
 $('.edit-btn').click(function() {
-    var sessionId = $(this).data('id');
-    var session = $(this).data('session');
-    var skills = $(this).data('skills');
-    var duration = $(this).data('duration');
-    var description = $(this).data('description');
-    var numberOfParticipants = $(this).data('numberofparticipants');
+     var sessionId = $(this).data('id');
+      var sessionName = $(this).data('session');
+      var startDate = $(this).data('startDate');
+      var endDate = $(this).data('endDate');
+      var duration = $(this).data('duration');
+      var description = $(this).data('description');
+      var numberOfParticipants = $(this).data('numberofparticipants');
 
-    console.log("Session details:",{session,skills,duration,description,numberOfParticipants})
-    // Populate the data into the edit modal
-    $('#editSessionId').val(sessionId);
-    $('#editSessionName').val(session);
-    $('#editSessionSkills').val(skills);
-    $('#editSessionDuration').val(duration);
-    $('#editSessionDescription').val(description);
-    $('#editNumberOfParticipants').val(numberOfParticipants);
-  });
+      $('#editSessionId').val(sessionId);
+      $('#editSessionName').val(sessionName);
+      $('#editStartDate').val(startDate);
+      $('#editEndDate').val(endDate);
+      $('#editSessionDuration').val(duration);
+      $('#editSessionDescription').val(description);
+      $('#editNumberOfParticipants').val(numberOfParticipants);
+    });
+
+    // Handle delete button click
+    $(".delete-btn").click(function() {
+      var rowData = $(this).closest("tr").find("td:first").text();
+      var id = rowData.trim();
+      console.log("deleting session:",id)
+        $("#confirmDelete").data("id", id);
+      });
+
+      $("#confirmDelete").click(function() {
+        var id = $(this).data("id");
+        $.ajax({
+          url: "{% url 'deleteSessionById' %}",
+          type: "POST",
+          data: {
+            id: id,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function(response) {
+            console.log("successfully")
+            window.location.reload();
+          },
+          error: function(xhr, status, error) {
+            console.log("error")
+            window.location.reload()
+          },
+        });
+      });
 </script>
 {% endblock %}

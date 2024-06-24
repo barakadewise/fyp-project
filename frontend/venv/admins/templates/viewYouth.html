@@ -395,12 +395,9 @@
           },
           error: function(xhr, status, error) {
             var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
-            toastr.error(errorMsg);
             window.location.reload()
           },
         });
-
-        $("#deleteModal").modal("hide");
       });
     });
   </script>
