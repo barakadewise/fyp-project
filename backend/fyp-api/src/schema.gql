@@ -54,6 +54,14 @@ type Staff {
   updatedAt: String
 }
 
+type Training {
+  id: Float!
+  session: String!
+  description: String!
+  duration: String!
+  noOfparticipants: Float!
+}
+
 type Teams {
   id: Float!
   name: String
@@ -63,7 +71,6 @@ type Teams {
   email: String
   status: String
   accountId: Float
-  account: Account
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -92,9 +99,6 @@ type Account {
   role: String
   lastlogin: DateTime
   team: Teams
-  partner: Partner!
-  staff: Staff!
-  youth: Youth!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -135,14 +139,6 @@ type AuthResults {
   username: String
   access_token: String
   role: String
-}
-
-type Training {
-  id: Float!
-  session: String!
-  description: String!
-  duration: String!
-  noOfparticipants: Float!
 }
 
 type Query {

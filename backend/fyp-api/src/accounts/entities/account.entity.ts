@@ -32,15 +32,13 @@ export class Account {
   @OneToOne(()=>Teams,(team)=>team.account,{onDelete:'CASCADE'})
   team:Teams
 
-  @Field(()=>Partner)
+
   @OneToOne(()=>Partner,(partner)=>partner.account,{onDelete:'CASCADE'})
   partner:Partner
 
-  @Field(()=>Staff)
   @OneToOne(()=>Staff,(staff)=>staff.account,{onDelete:'CASCADE'})
   staff:Staff
   
-  @Field(()=>Youth)
   @OneToOne(()=>Youth,(youth)=>youth.account,{onDelete:'CASCADE'})
   youth:Youth
 

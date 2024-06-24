@@ -1,6 +1,7 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { Account } from "src/accounts/entities/account.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Training } from "src/training/entities/training.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('teams')
 @ObjectType()
@@ -38,11 +39,14 @@ export class Teams {
     @Column({nullable:true})
     accountId:number
 
-    @Field(()=>Account,{nullable:true})
-    @OneToOne(()=>Account,(account)=>account.team,{onDelete:'CASCADE'})
+    @OneToOne(()=>Account,(account)=>account.team)
     @JoinColumn()
     account:Account
 
+    
+    @ManyToOne(()=>Training,(training)=>training.team)
+    training:[Training]
+    
 
     @CreateDateColumn({nullable:true})
     @Field({nullable:true})

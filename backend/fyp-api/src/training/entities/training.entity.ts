@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Teams } from 'src/teams/entity/team.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity('trainings')
@@ -24,6 +25,9 @@ export class Training {
   @Column()
   noOfparticipants: number
 
+  @ManyToOne(()=>Teams,(team)=>team.training)
+  @JoinColumn()
+  team:Teams
 
   @CreateDateColumn()
   createdAt: Date

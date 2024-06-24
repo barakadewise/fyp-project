@@ -18,7 +18,7 @@ export class TrainingService {
     //check training session existance 
     if (training) throw new BadRequestException("Training Program Session Already Exits!");
 
-    const newTraining = this.trainingRepository.create({ ...createTrainingInput })
+    const newTraining = this.trainingRepository.create({ ...createTrainingInput})
     return await this.trainingRepository.save(newTraining)
 
   }

@@ -16,7 +16,7 @@ import { AccountsModule } from 'src/accounts/accounts.module';
       {
         global: true,
         secret: jwtConstant.secret,
-        signOptions: { expiresIn: '1h' }
+        signOptions: { expiresIn: '1d' }
       }
 
     )
