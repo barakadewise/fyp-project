@@ -8,6 +8,6 @@ import { Account } from 'src/accounts/entities/account.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Teams, Account])],
   providers: [TeamsResolver, TeamsService],
-  exports: [TeamsService]
+  exports: [TeamsService],
 })
-export class TeamsModule { }
+export class TeamsModule {}

@@ -5,29 +5,33 @@ import { TeamsDto } from '../dto/team-input-dto';
 import { ResponseDto } from 'shared/response-dto';
 import { UpdateTeamDto } from '../dto/update-team-dto';
 
-
 @Resolver()
 export class TeamsResolver {
-    constructor(private readonly teamsService: TeamsService) { }
+  constructor(private readonly teamsService: TeamsService) {}
 
-    @Mutation(_returns => Teams)
-    async createTeam(@Args('createTeamInput') createTeamInput: TeamsDto, @Args('accountId') accountId: number) {
-        return await this.teamsService.createTeam(createTeamInput, accountId)
-    }
+  @Mutation((_returns) => Teams)
+  async createTeam(
+    @Args('createTeamInput') createTeamInput: TeamsDto,
+    @Args('accountId') accountId: number,
+  ) {
+    return await this.teamsService.createTeam(createTeamInput, accountId);
+  }
 
-    @Query(_returns => [Teams])
-    async findAllTeams() {
-        return await this.teamsService.findAllTeams()
-    }
+  @Query((_returns) => [Teams])
+  async findAllTeams() {
+    return await this.teamsService.findAllTeams();
+  }
 
-    @Mutation(_returns => ResponseDto)
-    async updateTeam(@Args('updateTeamDto') updateTeamDto: UpdateTeamDto, @Args('teamId') teamId: number) {
-        return await this.teamsService.updateTeam(updateTeamDto, teamId)
-    }
-    
-    @Mutation(_returns => ResponseDto)
-    async removeTeam(@Args('teamId') teamId: number) {
-        return await this.teamsService.removeTeam(teamId)
-    }
+  @Mutation((_returns) => ResponseDto)
+  async updateTeam(
+    @Args('updateTeamDto') updateTeamDto: UpdateTeamDto,
+    @Args('teamId') teamId: number,
+  ) {
+    return await this.teamsService.updateTeam(updateTeamDto, teamId);
+  }
 
+  @Mutation((_returns) => ResponseDto)
+  async removeTeam(@Args('teamId') teamId: number) {
+    return await this.teamsService.removeTeam(teamId);
+  }
 }
