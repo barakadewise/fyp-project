@@ -7,4 +7,5 @@ urlpatterns=[
  path('session',views.viewSession,name='teamSession'),
  path('createSession',views.createTrainingSession,name="createTrainingSession"),
  path('deleteSession',views.deleteTrainingSession,name="deleteSessionById"),
+ path("editSession",views.editSession,name="editSession"),
 ]

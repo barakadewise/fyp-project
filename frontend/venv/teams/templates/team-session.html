@@ -182,8 +182,8 @@
                          data-description="{{ session.description }}"
                          data-numberofparticipants="{{ session.noOfparticipants }}"
                          data-toggle="modal" data-target="#editModal">
-                        <i class="fas fa-pen"></i> Edit
-                      </a>
+                     <i class="fas fa-pen"></i> Edit
+                       </a>
                       <a href="#" class="btn btn-danger btn-sm delete-btn"
                          data-toggle="modal" data-target="#deleteModal"
                          data-id="{{ session.id }}">
@@ -271,32 +271,32 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="editSessionForm">
+          <form id="editSessionForm"  action="{% url 'editSession' %}" method="POST">
             {% csrf_token %}
-            <input type="hidden" id="editSessionId">
+            <input type="hidden" id="editSessionId" name="editSessionId">
             <div class="form-group">
               <label for="editSessionName">Session</label>
-              <input type="text" class="form-control" id="editSessionName" required>
+              <input type="text" class="form-control" id="editSessionName"  name ="editSessionName" required>
             </div>
             <div class="form-group">
               <label for="editSessionDuration">Duration</label>
-              <input type="text" class="form-control" id="editSessionDuration" required>
+              <input type="text" class="form-control" id="editSessionDuration" name ="editSessionDuration" required>
             </div>
             <div class="form-group">
               <label for="editStartDate">Start Date</label>
-              <input type="date" class="form-control" id="editStartDate" required>
+              <input type="date" class="form-control" id="editStartDate"  name ="editStartDate" required>
             </div>
             <div class="form-group">
               <label for="editEndDate">End Date</label>
-              <input type="date" class="form-control" id="editEndDate" required>
+              <input type="date" class="form-control" id="editEndDate" name ="editEndDate" required>
             </div>
             <div class="form-group">
               <label for="editSessionDescription">Description</label>
-              <textarea class="form-control" id="editSessionDescription" required></textarea>
+              <textarea class="form-control" id="editSessionDescription" name="editSessionDescription" required></textarea>
             </div>
             <div class="form-group">
               <label for="editNumberOfParticipants">Number of Participants</label>
-              <input type="number" class="form-control" id="editNumberOfParticipants" required>
+              <input type="number" class="form-control" id="editNumberOfParticipants" name="editNumberOfParticipants" required>
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
           </form>
@@ -363,23 +363,44 @@ $(function(){
 });
 
   // Handle edit button click
-$('.edit-btn').click(function() {
-     var sessionId = $(this).data('id');
-      var sessionName = $(this).data('session');
-      var startDate = $(this).data('startDate');
-      var endDate = $(this).data('endDate');
-      var duration = $(this).data('duration');
-      var description = $(this).data('description');
-      var numberOfParticipants = $(this).data('numberofparticipants');
+  $('.edit-btn').click(function() {
+   var sessionId = $(this).data('id');
+   var sessionName = $(this).data('session');
+   var startDate = $(this).data('startdate'); 
+   var endDate = $(this).data('enddate');     
+   var duration = $(this).data('duration');
+   var description = $(this).data('description');
+   var numberOfParticipants = $(this).data('numberofparticipants');
+   console.log({sessionId, sessionName, startDate, endDate, numberOfParticipants});
 
-      $('#editSessionId').val(sessionId);
-      $('#editSessionName').val(sessionName);
-      $('#editStartDate').val(startDate);
-      $('#editEndDate').val(endDate);
-      $('#editSessionDuration').val(duration);
-      $('#editSessionDescription').val(description);
-      $('#editNumberOfParticipants').val(numberOfParticipants);
-    });
+   $('#editSessionId').val(sessionId);
+   $('#editSessionName').val(sessionName);
+   $('#editStartDate').val(startDate);
+   $('#editEndDate').val(endDate);
+   $('#editSessionDuration').val(duration);
+   $('#editSessionDescription').val(description);
+   $('#editNumberOfParticipants').val(numberOfParticipants);
+});
+
+    $("#saveEdit").click(function() {
+        var formData = $("#editYouthForm").serialize();
+        $.ajax({
+          url: "{% url 'editYouthById' %}", 
+        
+          type: "POST",
+          data: formData,
+          success: function(response) {
+            $("#editModal").modal("hide");
+            window.location.reload();
+          },
+          error: function(xhr, status, error) {
+            
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ;
+            toastr.error(errorMsg);
+            window.location.reload()
+          }
+        });
+      });
 
     // Handle delete button click
     $(".delete-btn").click(function() {

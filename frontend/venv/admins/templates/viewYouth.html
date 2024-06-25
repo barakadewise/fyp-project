@@ -313,19 +313,7 @@
   {% endfor %}
   {% endif %}
 
-  <script>
-    $(function() {
-      messages.forEach(function(message) {
-        if (message.tag === "success") {
-          toastr.success(message.message);
-        } else if (message.tag === "error") {
-          toastr.error(message.message);
-        } else {
-          toastr.info(message.message);
-        }
-      });
-    });
-  </script>
+
   <script>
     $(function() {
       $("#example1").DataTable({
@@ -357,7 +345,7 @@
       $("#saveEdit").click(function() {
         var formData = $("#editYouthForm").serialize();
         $.ajax({
-          url: "{% url 'editYouthById' %}", 
+          url: "{% url 'editSession' %}", 
           type: "POST",
           data: formData,
           success: function(response) {
@@ -400,6 +388,20 @@
         });
       });
     });
+    
   </script>
+    <script>
+      $(function() {
+        messages.forEach(function(message) {
+          if (message.tag === "success") {
+            toastr.success(message.message);
+          } else if (message.tag === "error") {
+            toastr.error(message.message);
+          } else {
+            toastr.info(message.message);
+          }
+        });
+      });
+    </script>
   {% endblock %}
 

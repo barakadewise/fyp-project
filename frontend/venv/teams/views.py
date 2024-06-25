@@ -43,7 +43,7 @@ def createTrainingSession(request):
     mutation ='''
     mutation CreateTraining($input: CreateTrainingInput!) {
         createTraining(createTrainingInput: $input) {
-            id
+           id
             }
         }
 
@@ -96,9 +96,61 @@ def deleteTrainingSession(request):
     if request.method=="POST":
         id =int(request.POST.get('id'))
         response = api_service.performMuttion(mutation,{"id":id},getToken(request))
+
         if 'errors' in response:
             messages.error(request,response['errors'])
             return redirect('teamSession')
         
+        print("successfully delated ")
         messages.success(request,"SuccessFully Deleted.")
         return redirect('teamSession')
+    
+
+def editSession(request):
+     #define the mutation 
+    mutation ='''
+    mutation UpdateTraining($input: UpdateTrainingInput!,$id:Float!) {
+        updateTraining(updateTrainingInput: $input,id:$id) {
+            message,
+            statusCode
+            }
+        }
+
+       '''
+    if  request.method == "POST":
+        id =request.POST.get('editSessionId')
+        session = request.POST.get('editSessionName')
+        duration = request.POST.get('editSessionDuration')
+        startDate = request.POST.get('editStartDate')
+        endDate = request.POST.get('editEndDate')
+        description = request.POST.get('editSessionDescription')
+        noOfParticipants = request.POST.get('editNumberOfParticipants')
+        
+        variables= {
+        "input": {
+        "session": session,
+        "description": description,
+        "duration": duration,
+        "startDate":startDate,
+        "endDate":endDate,
+        "noOfparticipants": int(noOfParticipants)
+         },
+         "id":int(id)
+        }
+
+
+        try:
+            response = api_service.performMuttion(mutation,variables,getToken(request))
+            if 'errors' in response:
+                print("errors:",response['errors'])
+                messages.error(request,response['errors'][0])
+                return redirect('teamSession')
+
+            messages.success(request,"Successfully Updated!")
+            return redirect('teamSession')
+          
+        except Exception as e:
+            print("exception throw",response['errors'])
+            messages.error(request,"Something Went Wrong!")
+            return redirect('teamSession')
+    # return redirect('teamSession')
