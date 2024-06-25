@@ -6,9 +6,8 @@ import { Project } from 'src/project/entity/project.entity';
 import { Installment } from './entities/installment.entity';
 import { Partner } from 'src/partners/entity/partner.entity';
 
-
 @Module({
-  imports: [TypeOrmModule.forFeature([Project, Installment,Partner])],
+  imports: [TypeOrmModule.forFeature([Project, Installment, Partner])],
   providers: [InstallmentsResolver, InstallmentsService],
 })
-export class InstallmentsModule { }
+export class InstallmentsModule {}

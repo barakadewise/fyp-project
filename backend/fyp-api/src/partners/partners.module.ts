@@ -6,8 +6,8 @@ import { Partner } from './entity/partner.entity';
 import { Account } from 'src/accounts/entities/account.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Partner,Account])],
+  imports: [TypeOrmModule.forFeature([Partner, Account])],
   providers: [PartnersResolver, PartnersService],
-  exports:[PartnersService]
+  exports: [PartnersService],
 })
-export class PartnersModule { }
+export class PartnersModule {}

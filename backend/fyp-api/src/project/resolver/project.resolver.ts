@@ -9,33 +9,39 @@ import { UpdateProjectDto } from '../dto/update-project-dto';
 
 @Resolver()
 export class ProjectResolver {
-    constructor(private readonly projectService: ProjectService) { }
+  constructor(private readonly projectService: ProjectService) {}
 
+  @Mutation(() => Project)
+  async createProject(
+    @Args('createProjectInput') createProjectInput: ProjectDto,
+    @Args('partner', { nullable: true }) partner?: string,
+  ) {
+    return await this.projectService.createProject(createProjectInput, partner);
+  }
 
-    @Mutation(() => Project)
-    async createProject(@Args('createProjectInput') createProjectInput: ProjectDto, @Args('partner', { nullable: true }) partner?: string) {
-        return await this.projectService.createProject(createProjectInput, partner)
+  @Query((_returns) => [Project])
+  async findAllProjects(): Promise<Project[]> {
+    return await this.projectService.findAll();
+  }
 
-    }
+  @Mutation(() => ResponseDto)
+  async removeProject(@Args('id') id: number) {
+    return await this.projectService.removeProject(id);
+  }
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Project])
+  async partnerProjects(@Context() context: any) {
+    return await this.projectService.getPartnersProjects(context);
+  }
 
-    @Query(_returns => [Project])
-    async findAllProjects(): Promise<Project[]> {
-        return await this.projectService.findAll()
-    }
-
-    @Mutation(() => ResponseDto)
-    async removeProject(@Args('id') id: number) {
-        return await this.projectService.removeProject(id)
-    }
-    @UseGuards(GqlAuthGuard)
-    @Query(() => [Project])
-    async partnerProjects(@Context() context: any) {
-        return await this.projectService.getPartnersProjects(context)
-    }
-
-    @Mutation(()=>ResponseDto)
-    async updateProject(@Args('projectId') projectId: number, @Args('updateProjectDto') updateProjectDto: UpdateProjectDto) {
-        return await this.projectService.upadateProjectStatus(projectId, updateProjectDto)
-
-    }
+  @Mutation(() => ResponseDto)
+  async updateProject(
+    @Args('projectId') projectId: number,
+    @Args('updateProjectDto') updateProjectDto: UpdateProjectDto,
+  ) {
+    return await this.projectService.upadateProjectStatus(
+      projectId,
+      updateProjectDto,
+    );
+  }
 }

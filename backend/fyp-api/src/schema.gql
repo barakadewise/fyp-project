@@ -185,8 +185,8 @@ type Mutation {
   updateInstallment(updateInstallmentInput: UpdateInstallmentInput!, InstallmentId: Float!): ResponseDto!
   removeInstallment(id: Float!): Installment!
   createTraining(createTrainingInput: CreateTrainingInput!): Training!
-  updateTraining(updateTrainingInput: UpdateTrainingInput!): Training!
-  removeTraining(id: Float!): Training!
+  updateTraining(updateTrainingInput: UpdateTrainingInput!, id: Float!): ResponseDto!
+  removeTraining(id: Float!): ResponseDto!
 }
 
 input OpportunityDto {
@@ -320,5 +320,4 @@ input UpdateTrainingInput {
   startDate: String
   endDate: String
   noOfparticipants: Float
-  id: Int!
 }

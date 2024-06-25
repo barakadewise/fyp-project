@@ -6,9 +6,7 @@ import { Staff } from './entity/staff-entity';
 import { Account } from 'src/accounts/entities/account.entity';
 
 @Module({
-  imports: [(
-    TypeOrmModule.forFeature([Staff, Account])
-  )],
+  imports: [TypeOrmModule.forFeature([Staff, Account])],
   providers: [StaffResolver, StaffService],
 })
-export class StaffModule { }
+export class StaffModule {}

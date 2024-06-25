@@ -8,16 +8,23 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { CurrentUser } from 'decorators/current-user-decorator';
 
-
-
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Installment)
 export class InstallmentsResolver {
-  constructor(private readonly installmentsService: InstallmentsService) { }
+  constructor(private readonly installmentsService: InstallmentsService) {}
 
   @Mutation(() => Installment)
-  async createInstallment(@Args('createInstallmentInput') createInstallmentInput: CreateInstallmentInput, @Args('projectId') projectId: number, @CurrentUser()user:any) {
-    return this.installmentsService.create(createInstallmentInput, projectId, user);
+  async createInstallment(
+    @Args('createInstallmentInput')
+    createInstallmentInput: CreateInstallmentInput,
+    @Args('projectId') projectId: number,
+    @CurrentUser() user: any,
+  ) {
+    return this.installmentsService.create(
+      createInstallmentInput,
+      projectId,
+      user,
+    );
   }
 
   @Query(() => [Installment])
@@ -25,14 +32,21 @@ export class InstallmentsResolver {
     return this.installmentsService.findAllInstallments();
   }
 
-  @Query(() => Installment,)
+  @Query(() => Installment)
   async findOneInsatallment(@Args('id') id: number) {
     return this.installmentsService.findOneInstallment(id);
   }
 
   @Mutation(() => ResponseDto)
-  async updateInstallment(@Args('updateInstallmentInput') updateInstallmentInput: UpdateInstallmentInput, @Args('InstallmentId') InstallmentId: number): Promise<ResponseDto> {
-    return await this.installmentsService.updateInstallments(InstallmentId, updateInstallmentInput)
+  async updateInstallment(
+    @Args('updateInstallmentInput')
+    updateInstallmentInput: UpdateInstallmentInput,
+    @Args('InstallmentId') InstallmentId: number,
+  ): Promise<ResponseDto> {
+    return await this.installmentsService.updateInstallments(
+      InstallmentId,
+      updateInstallmentInput,
+    );
   }
 
   @Mutation(() => Installment)
@@ -42,7 +56,6 @@ export class InstallmentsResolver {
 
   @Query(() => [Installment])
   async partnerInstallments(@CurrentUser() user: any) {
-    return await this.installmentsService.partnerInstallments(user.sub)
+    return await this.installmentsService.partnerInstallments(user.sub);
   }
-
 }

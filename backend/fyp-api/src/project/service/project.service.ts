@@ -1,4 +1,9 @@
-import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
@@ -10,56 +15,66 @@ import { UpdateProjectDto } from '../dto/update-project-dto';
 
 @Injectable()
 export class ProjectService {
-    constructor(
-        @InjectRepository(Project) private readonly projectRepository: Repository<Project>,
-        @InjectRepository(Partner) private readonly partnerRepository: Repository<Partner>
-    ) { }
+  constructor(
+    @InjectRepository(Project)
+    private readonly projectRepository: Repository<Project>,
+    @InjectRepository(Partner)
+    private readonly partnerRepository: Repository<Partner>,
+  ) {}
 
-    async createProject(createProjectInput: ProjectDto, partner?: string): Promise<Project> {
-        const newProject = this.projectRepository.create({ ...createProjectInput });
-        if (createProjectInput.funded) {
-            const partnerData = await this.partnerRepository.findOne({ where: { name: partner } })
-            if (partnerData) {
-                newProject.partnerId = partnerData.id
-                newProject.partnerName = partner
-                return await this.projectRepository.save(newProject)
-            }
-            throw new BadRequestException("Invalid partner details")
-        }
-        return await this.projectRepository.save(newProject)
-
+  async createProject(
+    createProjectInput: ProjectDto,
+    partner?: string,
+  ): Promise<Project> {
+    const newProject = this.projectRepository.create({ ...createProjectInput });
+    if (createProjectInput.funded) {
+      const partnerData = await this.partnerRepository.findOne({
+        where: { name: partner },
+      });
+      if (partnerData) {
+        newProject.partnerId = partnerData.id;
+        newProject.partnerName = partner;
+        return await this.projectRepository.save(newProject);
+      }
+      throw new BadRequestException('Invalid partner details');
     }
+    return await this.projectRepository.save(newProject);
+  }
 
-    async findAll(): Promise<Project[]> {
-        return await this.projectRepository.find({ order: { 'createdAt': 'DESC' } })
+  async findAll(): Promise<Project[]> {
+    return await this.projectRepository.find({ order: { createdAt: 'DESC' } });
+  }
+  async removeProject(id: number): Promise<ResponseDto> {
+    const project = await this.projectRepository.findOne({ where: { id: id } });
+    if (project) {
+      await this.projectRepository.delete(id);
+      return {
+        message: MesssageEnum.DELETE,
+        statusCode: HttpStatus.OK,
+      };
     }
-    async removeProject(id: number): Promise<ResponseDto> {
-        const project = await this.projectRepository.findOne({ where: { id: id } })
-        if (project) {
-            await this.projectRepository.delete(id)
-            return {
-                message: MesssageEnum.DELETE,
-                statusCode: HttpStatus.OK
-            }
-        }
-        throw new NotFoundException("Project Not found!")
-    }
+    throw new NotFoundException('Project Not found!');
+  }
 
-    async getPartnersProjects(context: any) {
-        return await this.projectRepository.find({ where: { partnerId: context.req.user.sub } })
-    }
-    async upadateProjectStatus(projectId: number, updateProjectDto: UpdateProjectDto): Promise<ResponseDto> {
-        const project = await this.projectRepository.exists({ where: { id: projectId } })
-        if (!project) throw new NotFoundException("Project Not Found!..");
+  async getPartnersProjects(context: any) {
+    return await this.projectRepository.find({
+      where: { partnerId: context.req.user.sub },
+    });
+  }
+  async upadateProjectStatus(
+    projectId: number,
+    updateProjectDto: UpdateProjectDto,
+  ): Promise<ResponseDto> {
+    const project = await this.projectRepository.exists({
+      where: { id: projectId },
+    });
+    if (!project) throw new NotFoundException('Project Not Found!..');
 
-        //update the project if found!
-        await this.projectRepository.update(projectId, { ...updateProjectDto })
-        return {
-            message: MesssageEnum.UPDATE,
-            statusCode: HttpStatus.OK
-
-        }
-
-
-    }
+    //update the project if found!
+    await this.projectRepository.update(projectId, { ...updateProjectDto });
+    return {
+      message: MesssageEnum.UPDATE,
+      statusCode: HttpStatus.OK,
+    };
+  }
 }

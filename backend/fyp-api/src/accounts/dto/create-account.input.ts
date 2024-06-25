@@ -8,11 +8,10 @@ export class CreateAccountInput {
   email: string;
 
   @Field()
-  @Length(5,15,{message:'Password should be atleast 5 characters'})
+  @Length(5, 15, { message: 'Password should be atleast 5 characters' })
   password: string;
 
   @Field()
   @IsString()
   role: string;
-
 }

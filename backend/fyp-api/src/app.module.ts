@@ -15,9 +15,6 @@ import { AuthModule } from './auth/auth.module';
 import { InstallmentsModule } from './installments/installments.module';
 import { TrainingModule } from './training/training.module';
 
-
-
-
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -25,17 +22,18 @@ import { TrainingModule } from './training/training.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: ({ req }) => ({ req }),
       formatError: (err) => {
-
         if (err.extensions && err.extensions.originalError) {
           const originalError: any = err.extensions.originalError;
           const statusCode = originalError.statusCode;
           const message = originalError.message;
           return { message, statusCode };
         } else {
-          return { message: err.message, status: HttpStatus.INTERNAL_SERVER_ERROR };
+          return {
+            message: err.message,
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+          };
         }
-      }
-
+      },
     }),
     TypeOrmModule.forRootAsync(typeormConfigAsyc),
     OpportunityModule,
@@ -48,10 +46,6 @@ import { TrainingModule } from './training/training.module';
     AuthModule,
     InstallmentsModule,
     TrainingModule,
- 
-   
-    
-
   ],
 })
-export class AppModule { }
+export class AppModule {}

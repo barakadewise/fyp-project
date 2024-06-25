@@ -6,20 +6,21 @@ import { ResponseDto } from 'shared/response-dto';
 
 @Resolver(() => Account)
 export class AccountsResolver {
-  constructor(private readonly accountsService: AccountsService) { }
+  constructor(private readonly accountsService: AccountsService) {}
   @Mutation(() => Account)
-  async createAccount(@Args('createAccountInput') createAccountInput: CreateAccountInput) {
-    return await this.accountsService.createAccount(createAccountInput)
-
+  async createAccount(
+    @Args('createAccountInput') createAccountInput: CreateAccountInput,
+  ) {
+    return await this.accountsService.createAccount(createAccountInput);
   }
 
   @Mutation(() => ResponseDto)
   async removeAccount(@Args('accountId') accountId: number) {
-    return await this.accountsService.removeAccount(accountId)
+    return await this.accountsService.removeAccount(accountId);
   }
 
-  @Query(()=>[Account])
+  @Query(() => [Account])
   async findAllAccount() {
-    return await this.accountsService.findAllAccount()
+    return await this.accountsService.findAllAccount();
   }
 }

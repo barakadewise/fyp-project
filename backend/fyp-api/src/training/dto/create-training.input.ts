@@ -1,22 +1,29 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { IsNumber, IsString } from 'class-validator';
 
 @InputType()
 export class CreateTrainingInput {
   @Field()
-  session: string
+  @IsString()
+  session: string;
 
   @Field()
-  duration: string
+  @IsString()
+  duration: string;
 
   @Field()
-  description: string
+  @IsString()
+  description: string;
 
   @Field()
-  startDate:string
+  @IsString()
+  startDate: string;
 
   @Field()
-  endDate:string
+  @IsString()
+  endDate: string;
 
   @Field()
-  noOfparticipants: number
+  @IsNumber()
+  noOfparticipants: number;
 }

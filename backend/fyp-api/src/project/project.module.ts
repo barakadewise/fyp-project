@@ -7,6 +7,6 @@ import { Partner } from 'src/partners/entity/partner.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Project, Partner])],
-  providers: [ProjectResolver, ProjectService]
+  providers: [ProjectResolver, ProjectService],
 })
-export class ProjectModule { }
+export class ProjectModule {}

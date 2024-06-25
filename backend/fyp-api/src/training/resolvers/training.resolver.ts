@@ -7,15 +7,18 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { CurrentUser } from 'decorators/current-user-decorator';
 import { use } from 'passport';
-
+import { ResponseDto } from 'shared/response-dto';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Training)
 export class TrainingResolver {
-  constructor(private readonly trainingService: TrainingService) { }
+  constructor(private readonly trainingService: TrainingService) {}
 
   @Mutation(() => Training)
-  async createTraining(@Args('createTrainingInput') createTrainingInput: CreateTrainingInput, @CurrentUser() user: any) {
+  async createTraining(
+    @Args('createTrainingInput') createTrainingInput: CreateTrainingInput,
+    @CurrentUser() user: any,
+  ) {
     return await this.trainingService.create(createTrainingInput, user);
   }
 
@@ -29,19 +32,22 @@ export class TrainingResolver {
     return this.trainingService.findOneTraining(id);
   }
 
-  @Mutation(() => Training)
-  async updateTraining(@Args('updateTrainingInput') updateTrainingInput: UpdateTrainingInput) {
-    return this.trainingService.update(updateTrainingInput.id, updateTrainingInput);
+  @Mutation(() => ResponseDto)
+  async updateTraining(
+    @Args('updateTrainingInput') updateTrainingInput: UpdateTrainingInput,
+    @Args('id') id: number,
+  ) {
+    return this.trainingService.update(id, updateTrainingInput);
   }
 
-  @Mutation(() => Training)
+  @Mutation(() => ResponseDto)
   async removeTraining(@Args('id') id: number) {
     return await this.trainingService.removeTriaining(id);
   }
 
-  @Query(()=>[Training])
+  @Query(() => [Training])
   async getTeamsTraining(@CurrentUser() user: any) {
-    const userId = user.sub
-    return await this.trainingService.getTeamsTraining(userId)
+    const userId = user.sub;
+    return await this.trainingService.getTeamsTraining(userId);
   }
 }

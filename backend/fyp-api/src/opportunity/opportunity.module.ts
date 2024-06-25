@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Opportunity } from './entity/opportunity.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Opportunity])],
-  providers: [OpportunityResolver, OpportunityService]
+  imports: [TypeOrmModule.forFeature([Opportunity])],
+  providers: [OpportunityResolver, OpportunityService],
 })
 export class OpportunityModule {}
