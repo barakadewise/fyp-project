@@ -459,6 +459,7 @@ def viewYouth(request):
       fname
       mname
       lname
+      email
       phone
       location
       address
@@ -473,14 +474,13 @@ def viewYouth(request):
             print('data error ',response_data['errors'])
         return render(request,'viewYouth.html',{'youths':response_data['data']['findAllYouth']})
     except Exception as e:
-        print('Failed to query')
         messages.error(request,'Network Problems!')
+        
     return  render(request,'viewYouth.html')
 
 #delete youth by id
 def deleteYouthById(request):
     if request.method =="POST":
-      
       id =int( request.POST.get('id'))
     
       muatation='''
@@ -496,17 +496,14 @@ def deleteYouthById(request):
           response = api_service.performMuttion(muatation,{'id':id} )
           if 'errors' in response:
                messages.error(request,'Failed to delete user!')
-               return JsonResponse({'status': 'error'}, status=400)
-          
+               return redirect('viewYouth')
             
           else:
               messages.success(request,response['data'][' deleteYouthById']['message'])
-              print(response,"Data received.... ")
-              return JsonResponse({'status': 'success'}, status=200)
+              return redirect('viewYouth')
             
       except Exception as e:
-           print(e)
-    
+           print("Exception:",e)
     return redirect('viewYouth')
 
 #Edit youth by Id function 
@@ -544,23 +541,23 @@ def editYouthById(request):
            },
            "youthId":youthId
        }
+       print(request.path)
        updateYouth = api_service.performMuttion(mutation,variables)
-    
 
        if 'errors' in updateYouth:
            messages.error(request,updateYouth['errors'][0]['message'])
            print(updateYouth['errors'])
-           return JsonResponse({'status': status.ERROR.value})
+           return redirect('viewYouth')
 
        if 'data' in updateYouth:
            messages.success(request,updateYouth['data']['updateYouth']['message'])
            print(updateYouth)
-           return JsonResponse({'status': status.SUCCESS.value})
+           return redirect('viewYouth')
        
        else:
            messages.error(request,"Internal server error")
            print(updateYouth)
-           return JsonResponse({'status':status.ERROR.value})
+           return redirect('viewYouth')
        
     return redirect('viewYouth')
    

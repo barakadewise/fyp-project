@@ -13,13 +13,32 @@ def getToken(request):
     return None
 
 def getTeamDashboard(request):
-    return render(request,'team-dashboard.html')
+    querySession='''
+     query {
+      findAllTraining {
+      id
+      }
+    }
+    '''
+    queryYouth='''
+         query{
+         findAllYouth{
+          id
+        }
+    '''
+    getSession = api_service.performQuery(querySession,api_service.getCsrfToken(request),getToken(request))
+    getYouth= api_service.performQuery(queryYouth,api_service.getCsrfToken(request))
 
-def viewYouth(request):
-    return render(request,'team-veiwYouth.html')
+    context={
+        "youth":len(getYouth),
+        "session":len(getSession)
+    }
+    return render(request,'team-dashboard.html',context)
+
 
 def viewSession(request):
     print(request.session['User']['token'])
+    
     query= '''
     query {
     getTeamsTraining {
@@ -32,7 +51,6 @@ def viewSession(request):
     noOfparticipants
      }
     }
-
     '''
 
     response = api_service.performQuery(query,api_service.getCsrfToken(request),getToken(request))
@@ -46,7 +64,6 @@ def createTrainingSession(request):
            id
             }
         }
-
        '''
     if request.method == "POST":
         session = request.POST.get('session')
@@ -153,4 +170,36 @@ def editSession(request):
             print("exception throw",response['errors'])
             messages.error(request,"Something Went Wrong!")
             return redirect('teamSession')
-    # return redirect('teamSession')
+        
+    return redirect('teamSession')
+
+def viewYouth(request):
+       query ='''
+        query {
+        findAllYouth {
+        id
+        fname
+        mname
+        lname
+        phone
+        location
+        address
+        skills
+          }
+        }
+       '''
+       try:
+           response = api_service.performQuery(query,api_service.getCsrfToken(request))
+           if 'errors' in response:
+               print("Eroor encounterd..",response['errors'])
+        
+           return render(request,'team-veiwYouth.html',{'youths':response['data']['findAllYouth']})
+       
+       except Exception as e:
+           print("Exception occured:",e)
+           return render(request,'team-veiwYouth.html')
+          
+        
+
+
+       

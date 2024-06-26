@@ -8,4 +8,5 @@ urlpatterns=[
  path('createSession',views.createTrainingSession,name="createTrainingSession"),
  path('deleteSession',views.deleteTrainingSession,name="deleteSessionById"),
  path("editSession",views.editSession,name="editSession"),
+ 
 ]
