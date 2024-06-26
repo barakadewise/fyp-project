@@ -102,8 +102,6 @@ type Account {
   role: String
   lastlogin: DateTime
   team: Teams
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 type Partner {

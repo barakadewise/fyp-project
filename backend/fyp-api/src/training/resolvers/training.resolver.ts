@@ -6,7 +6,6 @@ import { TrainingService } from '../services/training.service';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { CurrentUser } from 'decorators/current-user-decorator';
-import { use } from 'passport';
 import { ResponseDto } from 'shared/response-dto';
 
 @UseGuards(GqlAuthGuard)

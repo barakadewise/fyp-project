@@ -51,10 +51,8 @@ export class Account {
   youth: Youth;
 
   @CreateDateColumn({ nullable: true })
-  @Field({ nullable: true })
   createdAt: Date;
 
   @UpdateDateColumn({ nullable: true })
-  @Field({ nullable: true })
   updatedAt: Date;
 }
