@@ -34,15 +34,17 @@ export class TrainingService {
     const newTraining = this.trainingRepository.create({
       ...createTrainingInput,
     });
+    
+   
     newTraining.teamsId = team.id;
     return await this.trainingRepository.save(newTraining);
   }
 
-  async exist(id: number): Promise<Boolean> {
-    if (await this.trainingRepository.findOne({ where: { id: id } }))
-      return true;
-    return false;
-  }
+  // async exist(id: number): Promise<Boolean> {
+  //   if (await this.trainingRepository.findOne({ where: { id: id } }))
+  //     return true;
+  //   return false;
+  // }
 
   async findAllTraining() {
     return await this.trainingRepository.find();
