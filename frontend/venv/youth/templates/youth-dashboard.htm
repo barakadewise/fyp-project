@@ -1,34 +1,34 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Partner | Dashboard {% endblock %}</title>
+<title>{% block title %} Youth| Dashboard {% endblock %}</title>
 
 {% block content %}
 
 <style>
-  #card {
-   cursor: pointer;
-   transition: all 200ms ease;
- }
- #card:hover {
-   box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
-   border-radius: 0.2rem;
- }
- body.light-mode {
-   background-color: #ffffff;
-   color: #000000;
- }
- body.dark-mode {
-   background-color: #121212;
-   color: #ffffff;
- }
- .navbar-light-mode {
-   background-color: #f8f9fa;
-   color: #000000;
- }
- .navbar-dark-mode {
-   background-color: #343a40;
-   color: #ffffff;
- }
-</style>
+    #card {
+     cursor: pointer;
+     transition: all 200ms ease;
+   }
+   #card:hover {
+     box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
+     border-radius: 0.2rem;
+   }
+   body.light-mode {
+     background-color: #ffffff;
+     color: #000000;
+   }
+   body.dark-mode {
+     background-color: #121212;
+     color: #ffffff;
+   }
+   .navbar-light-mode {
+     background-color: #f8f9fa;
+     color: #000000;
+   }
+   .navbar-dark-mode {
+     background-color: #343a40;
+     color: #ffffff;
+   }
+  </style>
 
 
 <div class="wrapper">
@@ -38,7 +38,7 @@
       <li class="nav-item">
           <a class="nav-link"
            data-widget="pushmenu" 
-           href="#" role="button">
+           href="" role="button">
            <i class="fas fa-bars"></i>
           </a>
         </li>
@@ -68,7 +68,7 @@
         alt="User Image"
         style="opacity: 0.8"
       />
-      <span class="brand-text font-weight-light">Partner</span>
+      <span class="brand-text font-weight-light">Youth</span>
     </a>
 
     <!-- Sidebar -->
@@ -81,7 +81,6 @@
           role="menu"
           data-accordion="false"
         >
-        
           <li class="nav-item has-treeview menu-open">
             <a href="" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -93,9 +92,8 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a
-                  href=""
-                  class="nav-link active"
-                >
+                  href="{% url 'youthDashboard' %}"
+                  class="nav-link active">
                   <i
                     class="fa-regular fa-eye"
                     style="margin: 0 4px 0 0px"
@@ -103,27 +101,25 @@
                   <p>Overview</p>
                 </a>
               </li>
-            
-         
               <li class="nav-item">
-                <a href="{% url 'partnerViewProject' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-diagram-project"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
+                <a href="{% url 'youthViewProjects' %}" class="nav-link">
+                  <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
                   <p>Projects</p>
                 </a>
               </li>
+           
               <li class="nav-item">
-                <a href="{% url 'partnerViewOpportunities' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-seedling"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Opportunities</p>
+                <a href="{% url 'youthViewSessions' %}" class="nav-link">
+                  <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
+                  <p>Session</p>
                 </a>
               </li>
-            
+              <li class="nav-item">
+                <a href="{% url 'youthViewSessions' %}" class="nav-link">
+                  <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
+                  <p>Applications</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="{% url 'logout' %}" class="nav-link">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -169,28 +165,10 @@
           <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
-            
-              <div class="row justify-content-center">
-                <div class="col-md-5 " id="card">
-                  <div class="info-box">
-                    <span class="info-box-icon bg-info elevation-1"
-                      ><i class="fa-solid fa-seedling"></i
-                    ></span>
-                    <div class="info-box-content">
-                      <span class="info-box-text">Opportunities</span>
-                      <span class="info-box-number">{{ opportunitiesCount }}</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                  </div>
-                  <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-               
-                <!-- /.col -->
-
+              <div class="row justify-content-center">      
                 <!-- fix for small devices only -->
                 <div class="clearfix hidden-md-up"></div>           
-                <div class="col-md-5 " id="card">
+                <div class="col-md-4" id="card">
                   <div class="info-box mb-3">
                     <span
                       class="info-box-icon elevation-1"
@@ -200,20 +178,28 @@
 
                     <div class="info-box-content">
                       <span class="info-box-text">Projects</span>
-                      <span class="info-box-number">{{ projects }}</span>
+                      <span class="info-box-number">44</span>
                     </div>
-                    <!-- /.info-box-content -->
                   </div>
                   <!-- /.info-box -->
                 </div>
-
-                <!-- /.col -->
+                <div class="col-md-4" id="card">
+                    <div class="info-box">
+                      <span class="info-box-icon bg-info elevation-1"
+                        ><i class="fa-solid fa-seedling"></i
+                      ></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Sessions</span>
+                        <span class="info-box-number">76</span>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
-            <!-- /.card-body -->
+            <!--card-body -->
           </div>
-          <!-- /.card -->
-          <h3 class="text-muted py-1">Recently Projects</h3>
+          <!-- /.card --> 
+          <h3 class="text-muted py-1">Recommended projects for you </h3>
           <div class="row justify-content-center">
             <p class="text-muted">Comming soon!</p>
           </div>
@@ -271,10 +257,7 @@
     All rights reserved.
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
 
-  </aside>
 </div>
 
     
@@ -311,6 +294,5 @@ messages.forEach(function(message) {
 
 </script>
   {% endblock %}
-
 
 

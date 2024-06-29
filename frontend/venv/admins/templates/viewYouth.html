@@ -306,39 +306,17 @@
       <strong>Copyright &copy; Dar es salaam regional commission.</strong>
       All rights reserved.
     </footer>
-
-   
   </div>
   
-  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-
-  {% if messages %}
   <script>
-    var messages = [];
-  </script>
-  {% for message in messages %}
-  <script>
-    messages.push({
-      "message": "{{ message.message }}",
-      "tag": "{{ message.tags }}"
-    });
-  </script>
-  {% endfor %}
-  {% endif %}
-
-
-  <script>
-   
-    $(function() {
-      $("#example1").DataTable({
-        responsive: true,
-        autoWidth: false,
-        
-      });
+  $(function() {
+    // $("#example1").DataTable({
+    //       responsive: true,
+    //       autoWidth: false,
+    //     });
   
-
       // Handle edit button click
-      $(".edit-btn").click(function() {
+    $(".edit-btn").click(function() {
         var id = $(this).data("id");
         var fname = $(this).data("fname");
         var mname = $(this).data("mname");
@@ -347,9 +325,9 @@
         var location = $(this).data("location");
         var address = $(this).data("address");
         var skills = $(this).data("skills");
-        console.log("Somthing here,,,, ")
+      
 
-          console.log({skills,location,phone})
+        console.log({skills,location,phone})
         $("#edit-id").val(id);
         $("#edit-fname").val(fname);
         $("#edit-mname").val(mname);
@@ -360,8 +338,7 @@
         $("#edit-skills").val(skills);
      });
 
-     
-      $("#saveEdit").click(function() {
+    $("#saveEdit").click(function() {
         var formData = $("#editYouthForm").serialize();
         $.ajax({
           url: "{% url 'editYouthById' %}", 
@@ -372,14 +349,13 @@
             window.location.reload();
           },
           error: function(xhr, status, error) {
-            
             window.location.reload()
           }
         });
       });
 
       // Handle delete button click
-      $(".delete-btn").click(function() {
+    $(".delete-btn").click(function() {
         var rowData = $(this).closest("tr").find("td:first").text();
         var id = rowData.trim();
         console.log("deleteing:",id)
@@ -387,7 +363,7 @@
         $("#confirmDelete").data("id", id);
       });
 
-      $("#confirmDelete").click(function() {
+    $("#confirmDelete").click(function() {
         var id = $(this).data("id");
         $.ajax({
           url: "{% url 'deleteYouthById' %}",
@@ -406,8 +382,20 @@
         });
       });
     });
-    
   </script>
+    {% if messages %}
+    <script>
+      var messages = [];
+    </script>
+    {% for message in messages %}
+    <script>
+      messages.push({
+        "message": "{{ message.message }}",
+        "tag": "{{ message.tags }}"
+      });
+    </script>
+    {% endfor %}
+    {% endif %}
     <script>
       $(function() {
         messages.forEach(function(message) {

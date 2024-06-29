@@ -56,32 +56,29 @@ def loginPage(request):
                     'role': role,
                     'userId': userId
                 }
-                request.session['User'] = userKey
 
+                request.session['User'] = userKey
                 if role == roles.ADMIN.value:
                     messages.success(request,"Successfully loggedin")
                     return redirect('adminPanel')
+                
                 elif role == roles.PARTNER.value:
                     messages.success(request,"Successfully loggedin")
                     return redirect('partnerDashboard')
                     
                 elif role == roles.STAFF.value:
                     messages.success(request,"Successfully loggedin")
-                    print("Loooged in as Team")
+                    print("Logged in as Team")
                     return redirect('staffDashboard')
+                
                 elif role == roles.TEAM.value:
                     messages.success(request,"Successfully loggedin")
                     return redirect('teamDashboard')
-                elif role == roles.YOUTH.value:
-                    messages.success(request,"Successfully loggedin")
-                    return redirect('youthDashboard')
-                else:
-                    messages.error(request, 'Invalid Credentials Please Check!')
-                    return render(request, 'login.html')
                 
-            else:
-                messages.error(request, "Invalid User credentials")     
-
+                else:
+                    messages.success(request,"Successfully loggedin")
+                    print("Youth logged in successfully!")
+                    return redirect('youthDashboard')
         else:
             messages.error(request, 'Something went wrong!')
             return render(request, 'login.html')
@@ -102,7 +99,6 @@ def signupPage(request):
                     id
                     email
                     role
-                    
                 }
             }
         """
@@ -208,7 +204,6 @@ def completeProfile(request,account_id):
         elif 'data' in response:
             print(response,'successfully')
             messages.success(request,"Successfuly updated")
-            #redirect the user to the login page 
             return redirect('login')
         else:
             print("Netwwork issues")

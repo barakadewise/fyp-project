@@ -104,11 +104,14 @@ def getAdminPanel(request):
                 'allopportunities':countOpportunities,
                 'accounts':accounts['data']['findAllAccount']
                 }
+        print("Admin dashboard data")
         print(countStaff,countYouth,countPartners)
         return render(request,'dashboard.html',context)
     
     except Exception as e: 
+        # print(allAStaff,allYouth,allProjects,allTeams,allPartner,allOpportunities,accounts)
         print('something went wrong',e)
+        messages.error(request,"Somthing Went wrong!")
     return render(request,'dashboard.html',)
 
 #function to create admin
@@ -496,15 +499,16 @@ def deleteYouthById(request):
           response = api_service.performMuttion(muatation,{'id':id} )
           if 'errors' in response:
                messages.error(request,'Failed to delete user!')
-               return redirect('viewYouth')
+               return JsonResponse({'status':status.ERROR.value})
             
           else:
               messages.success(request,response['data'][' deleteYouthById']['message'])
-              return redirect('viewYouth')
+              return JsonResponse({'status':status.SUCCESS.value})
             
       except Exception as e:
            print("Exception:",e)
-    return redirect('viewYouth')
+           return redirect('viewYouth')
+  
 
 #Edit youth by Id function 
 def editYouthById(request):
@@ -541,25 +545,20 @@ def editYouthById(request):
            },
            "youthId":youthId
        }
-       print(request.path)
+    
        updateYouth = api_service.performMuttion(mutation,variables)
 
        if 'errors' in updateYouth:
            messages.error(request,updateYouth['errors'][0]['message'])
            print(updateYouth['errors'])
-           return redirect('viewYouth')
+           return JsonResponse({'status':status.ERROR.value})
 
        if 'data' in updateYouth:
            messages.success(request,updateYouth['data']['updateYouth']['message'])
            print(updateYouth)
-           return redirect('viewYouth')
+           return JsonResponse({'status':status.SUCCESS.value})  
        
-       else:
-           messages.error(request,"Internal server error")
-           print(updateYouth)
-           return redirect('viewYouth')
-       
-    return redirect('viewYouth')
+ 
    
 
 def editPartner(request):
@@ -605,7 +604,7 @@ def editPartner(request):
        if 'data' in upadatePartner:
            messages.success(request,upadatePartner['data']['updatePartner']['message'])
            print(upadatePartner['data'])
-           return JsonResponse({'status': status.SUCCESS.value}, status= upadatePartner['data']['updatePartner']['statusCode'])
+           return JsonResponse({'status': status.SUCCESS.value}, status=200)
        
        else:
            messages.error(request,"Internal server error")
@@ -1096,3 +1095,7 @@ def viewInstallments(request):
              'installments':installments['data']['findAllInstallments']
              }
     return render(request,'viewinstallmenst.html',context)
+
+
+def projectDetails(request):
+    print("Requested project details")
