@@ -23,6 +23,7 @@ urlpatterns=[
     path('editYouthById',views.editYouthById,name="editYouthById"),
     path('editPartnerById',views.editPartner,name="editPartnerById"),
     path('editTeamById',views.editTeam,name="editTeamById"),
+    path('training-sessions',views.viewSession,name="viewSessions"),
+    path('admin-edit-session',views.adminEditSession,name='adminEditSession'),
 
-    
 ]

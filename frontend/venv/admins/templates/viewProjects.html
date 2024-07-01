@@ -258,7 +258,7 @@
             </div>
             <div class="form-group">
               <label for="editProjectFunded">Funded</label>
-              <input type="text" class="form-control" id="editProjectFunded" required>
+              <input type="text" class="form-control" id="editProjectFunded" readonly>
             </div>
             <button type="submit" class="btn btn-primary">Save changes</button>
           </form>
@@ -310,17 +310,21 @@
 
 <script>
 
-$(function(){
-  messages.forEach(function(message) {
-    if (message.tag === "success") {
-      toastr.success(message.message);
-    } else if (message.tag=== "error") {
-      toastr.error(message.message);
-    } else {
-      toastr.info(message.message);
-    }
-  });
-});
+$(function (){
+        
+    $("#example1").DataTable({
+          responsive: true,
+          autoWidth: false,
+        });
+        $("#example2").DataTable({
+          paging: true,
+          lengthChange: false,
+          searching: true,
+          ordering: true,
+          info: true,
+          autoWidth: false,
+          responsive: true,
+    });
   // Handle edit button click
 $('.edit-btn').click(function() {
     var projectId = $(this).data('id');
@@ -343,5 +347,39 @@ $('.edit-btn').click(function() {
     $('#editProjectPartnerName').val(partnerName);
     $('#editProjectFunded').val(funded);
   });
+
+  $("#saveEdit").click(function() {
+        var formData = $("#editProjectForm").serialize();
+        $.ajax({
+          url: "{% url 'adminEditSession' %}", 
+          type: "POST",
+          data: formData,
+          success: function() {
+            $("#editModal").modal("hide");
+            window.location.reload();
+          },
+          error: function(xhr, status, error) {
+            
+            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ;
+            toastr.error(errorMsg);
+            window.location.reload()
+          }
+        });
+      });
+
+  });
+</script>
+<script>
+  $(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message);
+    } else {
+      toastr.info(message.message);
+    }
+  });
+});
 </script>
 {% endblock %}

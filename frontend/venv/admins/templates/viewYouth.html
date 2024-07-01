@@ -309,13 +309,22 @@
   </div>
   
   <script>
-  $(function() {
-    // $("#example1").DataTable({
-    //       responsive: true,
-    //       autoWidth: false,
-    //     });
-  
-      // Handle edit button click
+  $(function (){
+        
+        $("#example1").DataTable({
+              responsive: true,
+              autoWidth: false,
+            });
+            $("#example2").DataTable({
+              paging: true,
+              lengthChange: false,
+              searching: true,
+              ordering: true,
+              info: true,
+              autoWidth: false,
+              responsive: true,
+        });
+      
     $(".edit-btn").click(function() {
         var id = $(this).data("id");
         var fname = $(this).data("fname");

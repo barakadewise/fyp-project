@@ -390,20 +390,7 @@
     {% endfor %}
   {% endif %}
   
-  <script>
-  $(function(){
-    messages.forEach(function(message) {
-      if (message.tag === "success") {
-        toastr.success(message.message);
-      } else if (message.tag === "error") {
-        toastr.error(message.message); 
-      } else {
-        
-        toastr.info(message.message);
-      }
-    });
-  });
-  </script>
+
     <script>
       $(function (){
         
@@ -458,10 +445,8 @@
       });
     
         $(".delete-btn").click(function () {
-        
           var rowData = $(this).closest("tr").find("td:first").text();
           var id = rowData.trim();
-           
           console.log('Editing user with id',id)
   
           $("#confirmDelete").data("id", id);
@@ -478,9 +463,7 @@
               csrfmiddlewaretoken: "{{ csrf_token }}",
             },
             success: function (response) {
-              
-                   window.location.reload();
-                
+              window.location.reload(); 
             },
             error: function (xhr, status, error) {
               var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
@@ -494,6 +477,20 @@
         });
       });
     </script>
+      <script>
+        $(function(){
+          messages.forEach(function(message) {
+            if (message.tag === "success") {
+              toastr.success(message.message);
+            } else if (message.tag === "error") {
+              toastr.error(message.message); 
+            } else {
+              
+              toastr.info(message.message);
+            }
+          });
+        });
+        </script>
   
 
   {% endblock %}

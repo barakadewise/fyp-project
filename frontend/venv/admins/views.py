@@ -1099,3 +1099,77 @@ def viewInstallments(request):
 
 def projectDetails(request):
     print("Requested project details")
+
+
+
+#training-sessions view
+def viewSession(request):
+        
+    query= '''
+    query {
+    findAllTraining{
+    id
+    session
+    description
+    startDate
+    duration
+    endDate
+    noOfparticipants
+     }
+    }
+    '''
+
+    response = api_service.performQuery(query,api_service.getCsrfToken(request),api_service.getToken(request))
+    print(response)
+    return render (request,'training-sessions.html',{"sessions":response['data']['findAllTraining']})    
+
+def adminEditSession(request):
+    #define the mutation 
+    mutation ='''
+    mutation UpdateTraining($input: UpdateTrainingInput!,$id:Float!) {
+        updateTraining(updateTrainingInput: $input,id:$id) {
+            message,
+            statusCode
+            }
+        }
+
+       '''
+    if  request.method == "POST":
+        id =request.POST.get('editSessionId')
+        session = request.POST.get('editSessionName')
+        duration = request.POST.get('editSessionDuration')
+        startDate = request.POST.get('editStartDate')
+        endDate = request.POST.get('editEndDate')
+        description = request.POST.get('editSessionDescription')
+        noOfParticipants = request.POST.get('editNumberOfParticipants')
+        
+        variables= {
+        "input": {
+        "session": session,
+        "description": description,
+        "duration": duration,
+        "startDate":startDate,
+        "endDate":endDate,
+        "noOfparticipants": int(noOfParticipants)
+         },
+         "id":int(id)
+        }
+
+
+        try:
+            response = api_service.performMuttion(mutation,variables,api_service.getToken(request))
+            print(response)
+            if 'errors' in response:
+                print("errors:",response['errors'])
+                messages.error(request,response['errors'][0])
+                return redirect('viewSessions')
+            else:
+              messages.success(request,"Successfully Updated!")
+            return redirect('viewSessions')
+            
+        except Exception as e:
+            print("something went wrong!",e)
+            messages.success(request,"Successfully Updated!")
+            return redirect('viewSessions')
+        
+    return redirect('viewSessions')   

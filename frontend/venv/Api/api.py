@@ -49,4 +49,10 @@ class ApiService:
     def getCsrfToken(self,request):
         return get_token(request)
     
+    #get token from the session
+    def getToken(self,request):
+        token = request.session['User']['token']
+        if not token:
+            return None
+        return token
  
