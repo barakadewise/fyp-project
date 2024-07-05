@@ -95,4 +95,12 @@ export class AccountsService {
     }
     throw new NotFoundException();
   }
+
+  async getRecentlyCreated() {
+    const limit = 5;
+    return await this.accountsRepository.find({
+      order: { createdAt: 'DESC' },
+      take: limit,
+    });
+  }
 }

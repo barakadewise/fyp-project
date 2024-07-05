@@ -6,6 +6,8 @@ import { ResponseDto } from 'shared/response-dto';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { UpdateProjectDto } from '../dto/update-project-dto';
+import { query } from 'express';
+import { ProjectData } from '../dto/projectData-dto';
 
 @Resolver()
 export class ProjectResolver {
@@ -43,5 +45,10 @@ export class ProjectResolver {
       projectId,
       updateProjectDto,
     );
+  }
+
+  @Mutation(() => ProjectData)
+  async getProjectReportData(@Args('projectId') projectId: number) {
+    return await this.projectService.getProjectReportData(projectId);
   }
 }

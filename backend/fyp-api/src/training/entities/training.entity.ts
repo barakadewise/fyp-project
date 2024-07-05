@@ -4,9 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -47,7 +45,6 @@ export class Training {
   teamsId: number;
 
   @ManyToOne(() => Teams, (team) => team.training)
-  @JoinColumn()
   team: Teams;
 
   @CreateDateColumn()

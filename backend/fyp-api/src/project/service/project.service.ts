@@ -12,6 +12,8 @@ import { Partner } from 'src/partners/entity/partner.entity';
 import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
 import { UpdateProjectDto } from '../dto/update-project-dto';
+import { Installment } from 'src/installments/entities/installment.entity';
+import { ProjectData } from '../dto/projectData-dto';
 
 @Injectable()
 export class ProjectService {
@@ -20,6 +22,8 @@ export class ProjectService {
     private readonly projectRepository: Repository<Project>,
     @InjectRepository(Partner)
     private readonly partnerRepository: Repository<Partner>,
+    @InjectRepository(Installment)
+    private readonly installmentRepository: Repository<Installment>,
   ) {}
 
   async createProject(
@@ -75,6 +79,31 @@ export class ProjectService {
     return {
       message: MesssageEnum.UPDATE,
       statusCode: HttpStatus.OK,
+    };
+  }
+
+  //function to generate ProjectData
+  async getProjectReportData(id: number): Promise<ProjectData> {
+    const project = await this.projectRepository.findOne({ where: { id: id } });
+    if (!project) throw new BadRequestException('Project Not Not Found!.');
+
+    const installments: Installment[] = [];
+
+    const projectInstallments = await this.installmentRepository.find({
+      where: { projectName: project.name },
+    });
+    projectInstallments.map((data) => {
+      installments.push({...data});
+    });
+    console.log({ project, installments });
+    return {
+      projectName: project.name,
+      ProjectDiscription: project.discription,
+      projectDuration: project.duration,
+      projectCost: project.cost,
+      projectStatus: project.status,
+      projectPartner: project.partnerName,
+      installments: installments,
     };
   }
 }

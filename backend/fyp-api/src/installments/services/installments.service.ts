@@ -55,25 +55,6 @@ export class InstallmentsService {
     if (!partner)
       throw new BadRequestException('Invalid Request: Partner not found');
 
-    // check if the request is directly from the patner
-    // if (user.role == Roles.PARTNER) {
-    //   const partnerDetails = await this.partnerRepository.findOne({ where: { accountId: user.sub } })
-    //   const projectDetails=await this.projectRepository.findOne({where:{name:createInstallmentInput.project_name}})
-    //   newInstallment.projectName = createInstallmentInput.project_name;
-    //   newInstallment.projectCost = projectDetails.cost;
-    //   newInstallment.remainAmount = projectDetails.cost
-    //   newInstallment.partnerId = partnerDetails.id
-    //   newInstallment.status = InstallmentsStatus.PENDING;
-
-    //   project.partnerName = partnerDetails.name;
-    //   project.partnerId = partnerDetails.id
-    //   project.funded = true;
-
-    //   await this.projectRepository.save(project);
-    //   return await this.installmentsRepository.save(newInstallment);
-
-    // }
-
     //if not partner proceed to creating installments for funded project
     newInstallment.projectName = project.name;
     newInstallment.projectCost = project.cost;

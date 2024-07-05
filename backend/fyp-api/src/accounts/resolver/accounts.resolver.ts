@@ -23,4 +23,9 @@ export class AccountsResolver {
   async findAllAccount() {
     return await this.accountsService.findAllAccount();
   }
+
+  @Query(() => [Account])
+  async curentlyCreatedUser() {
+    return await this.accountsService.getRecentlyCreated();
+  }
 }

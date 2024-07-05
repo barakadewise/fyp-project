@@ -135,6 +135,16 @@ type Project {
   updatedAt: DateTime
 }
 
+type ProjectData {
+  projectName: String!
+  ProjectDiscription: String!
+  projectDuration: String!
+  projectCost: Float!
+  projectStatus: String!
+  projectPartner: String!
+  installments: [Installment!]!
+}
+
 type AuthResults {
   message: String
   id: Float
@@ -151,6 +161,7 @@ type Query {
   findAllYouth: [Youth!]!
   findAllTeams: [Teams!]!
   findAllAccount: [Account!]!
+  curentlyCreatedUser: [Account!]!
   findAllStaffs: [Staff!]!
   findAllInstallments: [Installment!]!
   findOneInsatallment(id: Float!): Installment!
@@ -167,6 +178,7 @@ type Mutation {
   createProject(createProjectInput: ProjectDto!, partner: String): Project!
   removeProject(id: Float!): ResponseDto!
   updateProject(projectId: Float!, updateProjectDto: UpdateProjectDto!): ResponseDto!
+  getProjectReportData(projectId: Float!): ProjectData!
   createPartner(createPartnerInput: PartnerDto!, accountId: Float!): Partner!
   removePartner(id: Float!): ResponseDto!
   updatePartner(updatePartnerDto: UpdatePartnerDto!, partnerId: Float!): ResponseDto!
