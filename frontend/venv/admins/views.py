@@ -1,9 +1,20 @@
 
+
 from django.shortcuts import render,redirect
+from reportlab.lib.utils import ImageReader
 from Api.api import ApiService
 from django.contrib import messages
 from shared.roles_enum import Roles, Status
 from django.http import JsonResponse
+from django.http import HttpResponse
+from django.http import HttpResponse
+
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import cm
+from io import BytesIO
+
+
 
 #Api instance
 api_service = ApiService()
@@ -1190,6 +1201,7 @@ def adminEditSession(request):
 
 
 
+
 def getProjectReportPdf(request, id):
     reportDatamutation = '''
     mutation($id:Float!){
@@ -1210,20 +1222,16 @@ def getProjectReportPdf(request, id):
     '''
     # Example function to perform GraphQL mutation
     response = api_service.performMuttion(reportDatamutation, {'id': id})
-    data = response.json()['data']['getProjectReportData']
+    data = response['data']['getProjectReportData']
     
     projectName = data['projectName']
     projectDuration = data['projectDuration']
     projectCost = data['projectCost']
     installments = data['installments']
     
-    # Paths to logo and QR code images
-    logo_path = 'path/to/logo.png'
-    qrcode_path = 'path/to/qrcode.png'
-    
-    # Create PDF
-    pdf_path = f'project_report_{id}.pdf'
-    c = canvas.Canvas(pdf_path, pagesize=A4)
+
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
     
     # Set title
@@ -1232,13 +1240,17 @@ def getProjectReportPdf(request, id):
     c.setFont("Helvetica", 12)
     c.drawCentredString(width / 2.0, height - 2.5 * cm, "PROJECT REPORT")
     
-    # Date
-    c.setFont("Helvetica", 10)
-    c.drawString(width - 6 * cm, height - 3.5 * cm, "Date:")
-    
-    # Logo and QR code
-    c.drawImage(logo_path, 1 * cm, height - 4 * cm, width=2 * cm, height=2 * cm)
-    c.drawImage(qrcode_path, width - 3 * cm, height - 4 * cm, width=2 * cm, height=2 * cm)
+    # Date and QR code
+    # c.setFont("Helvetica", 10)
+    # c.drawString(width - 6 * cm, height - 3.5 * cm, "Date:")
+    # c.rect(width - 5 * cm, height - 4 * cm, 2 * cm, 2 * cm)
+    # c.drawString(1 * cm, height - 3.5 * cm, "Logo:")
+    # c.rect(1 * cm, height - 4 * cm, 2 * cm, 2 * cm)
+
+      # Load and draw the logo
+    logo_path = 'static/dist/img/dsm_logo.png'  # Adjust path based on your project structure
+    logo = ImageReader(logo_path)
+    c.drawImage(logo, 1 * cm, height - 4 * cm, width=2 * cm, height=2 * cm)
     
     # Project details
     c.setFont("Helvetica-Bold", 12)
@@ -1281,8 +1293,12 @@ def getProjectReportPdf(request, id):
     c.drawCentredString(width / 2.0, y_position, "End of Report")
     
     c.save()
-    return pdf_path
+  
+    
+    # Serve the PDF as a response
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="project_report_{id}.pdf"'
+    messages.success(request,"Generated successfully")
+    return response
 
-# Usage example
-# response = getProjectReportPdf(request, 123)
-# print(response)

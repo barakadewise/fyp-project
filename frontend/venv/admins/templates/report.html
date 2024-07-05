@@ -1,0 +1,46 @@
+<!-- templates/project_report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .details { margin-bottom: 20px; }
+        .installments { margin-bottom: 20px; }
+        .logo { float: left; width: 100px; height: 100px; }
+        .qrcode { float: right; width: 100px; height: 100px; }
+        .clearfix { clear: both; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/static/dist/img/dsm_logo.png" class="logo">
+        <h1>DAR ES SALAAM REGIONAL COMMISSION</h1>
+        <h2>PROJECT REPORT</h2>
+        <img src="/static/dist/img//dsm_logo.png" class="qrcode">
+        <div class="clearfix"></div>
+    </div>
+    <div class="details">
+        <h3>Details</h3>
+        <p>Project Name: {{ project_name }}</p>
+        <p>Project Duration: {{ project_duration }}</p>
+        <p>Project Cost: {{ project_cost }}</p>
+    </div>
+    <div class="installments">
+        <h3>Project Installments</h3>
+        {% for installment in installments %}
+            <p>Phase No: {{ installment.installment_phase }}</p>
+            <p>Status: {{ installment.status }}</p>
+            <p>Paid: {{ installment.paid }}</p>
+            <p>Remaining Amount: {{ installment.remaining_amount }}</p>
+            <p>Payment Ref: {{ installment.payment_Ref }}</p>
+            <p>Total Installments: {{ installment.total_installments }}</p>
+        {% endfor %}
+    </div>
+    <div class="footer">
+        <p>End of Report</p>
+    </div>
+</body>
+</html>

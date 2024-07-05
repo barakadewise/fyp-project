@@ -25,5 +25,6 @@ urlpatterns=[
     path('editTeamById',views.editTeam,name="editTeamById"),
     path('training-sessions',views.viewSession,name="viewSessions"),
     path('admin-edit-session',views.adminEditSession,name='adminEditSession'),
+    path('project-report/<int:id>/', views.getProjectReportPdf, name='getProjectReportPdf')
 
 ]
