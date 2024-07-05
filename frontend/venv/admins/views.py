@@ -68,17 +68,26 @@ def getAdminPanel(request):
        }
 
      '''
-    queryAllAccounts='''
-       query{
-       findAllAccount{
-       id,
-       email,
-       lastlogin,
-       role,
-       createdAt
-       }
-       }
+    currentlyCreatedUser='''
+      query{
+    curentlyCreatedUser{
+    id,
+    email,
+    role,
+    createdAt,
+  
+     }
+    }
+
      '''
+    
+    queryTrainingSession='''
+    query {
+    findAllTraining{
+    id
+    }
+    }
+   '''
     try:
         allAStaff =api_service.performQuery(queryStaff,csrf_token)
         allYouth =api_service.performQuery(queryYouth,csrf_token)
@@ -86,9 +95,12 @@ def getAdminPanel(request):
         allTeams =api_service.performQuery(queryTeams,csrf_token)
         allPartner =api_service.performQuery(queryPartners,csrf_token)
         allOpportunities =api_service.performQuery(queryOpportunities,csrf_token)
-        accounts=api_service.performQuery(queryAllAccounts,api_service.getCsrfToken(request))
+        currentUser=api_service.performQuery(currentlyCreatedUser,api_service.getCsrfToken(request))
+        trainingSession = api_service.performQuery(queryTrainingSession,csrf_token,api_service.getToken(request))
         
         #convert the data to list and count the data
+        countTraining =len(trainingSession['data']['findAllTraining'])
+    
         countStaff =len(allAStaff.get('data',{}).get('findAllStaffs',[]))
         countYouth =len(allYouth.get('data',{}).get('findAllYouth', []))
         countProjects =len(allProjects.get('data',{}).get('findAllProjects',[]))
@@ -102,14 +114,15 @@ def getAdminPanel(request):
                 'allteams':countTeams,
                 'allpartner':countPartners,
                 'allopportunities':countOpportunities,
-                'accounts':accounts['data']['findAllAccount']
+                'currentUser':currentUser['data']['curentlyCreatedUser'],
+                'training':countTraining
                 }
         print("Admin dashboard data")
-        print(countStaff,countYouth,countPartners)
+        print(context)
         return render(request,'dashboard.html',context)
     
     except Exception as e: 
-        # print(allAStaff,allYouth,allProjects,allTeams,allPartner,allOpportunities,accounts)
+
         print('something went wrong',e)
         messages.error(request,"Somthing Went wrong!")
     return render(request,'dashboard.html',)
@@ -1172,4 +1185,104 @@ def adminEditSession(request):
             messages.success(request,"Successfully Updated!")
             return redirect('viewSessions')
         
-    return redirect('viewSessions')   
+    return redirect('viewSessions')
+
+
+
+
+def getProjectReportPdf(request, id):
+    reportDatamutation = '''
+    mutation($id:Float!){
+    getProjectReportData(projectId: $id) {
+        projectName
+        projectDuration
+        projectCost
+        installments {
+            id
+            total_installments
+            status
+            payment_Ref
+            installment_phase
+            paid
+        }
+      }
+    }
+    '''
+    # Example function to perform GraphQL mutation
+    response = api_service.performMuttion(reportDatamutation, {'id': id})
+    data = response.json()['data']['getProjectReportData']
+    
+    projectName = data['projectName']
+    projectDuration = data['projectDuration']
+    projectCost = data['projectCost']
+    installments = data['installments']
+    
+    # Paths to logo and QR code images
+    logo_path = 'path/to/logo.png'
+    qrcode_path = 'path/to/qrcode.png'
+    
+    # Create PDF
+    pdf_path = f'project_report_{id}.pdf'
+    c = canvas.Canvas(pdf_path, pagesize=A4)
+    width, height = A4
+    
+    # Set title
+    c.setFont("Helvetica-Bold", 16)
+    c.drawCentredString(width / 2.0, height - 2 * cm, "DAR ES SALAAM REGIONAL COMMISSION")
+    c.setFont("Helvetica", 12)
+    c.drawCentredString(width / 2.0, height - 2.5 * cm, "PROJECT REPORT")
+    
+    # Date
+    c.setFont("Helvetica", 10)
+    c.drawString(width - 6 * cm, height - 3.5 * cm, "Date:")
+    
+    # Logo and QR code
+    c.drawImage(logo_path, 1 * cm, height - 4 * cm, width=2 * cm, height=2 * cm)
+    c.drawImage(qrcode_path, width - 3 * cm, height - 4 * cm, width=2 * cm, height=2 * cm)
+    
+    # Project details
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(1 * cm, height - 6 * cm, "Details")
+    
+    c.setFont("Helvetica", 10)
+    details = [
+        f"Project Name: {projectName}",
+        f"Project Duration: {projectDuration}",
+        f"Project Cost: {projectCost}"
+    ]
+    
+    y_position = height - 7 * cm
+    for detail in details:
+        c.drawString(1 * cm, y_position, detail)
+        y_position -= 0.5 * cm
+    
+    # Project installments
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(1 * cm, y_position, "Project Installments")
+    y_position -= 1 * cm
+    
+    c.setFont("Helvetica", 10)
+    for installment in installments:
+        installment_details = [
+            f"Phase No: {installment['installment_phase']}",
+            f"Status: {installment['status']}",
+            f"Paid: {installment['paid']}",
+            f"Remaining Amount: {installment['total_installments'] - installment['paid']}",
+            f"Payment Ref: {installment['payment_Ref']}",
+            f"Total Installments: {installment['total_installments']}"
+        ]
+        
+        for detail in installment_details:
+            c.drawString(1 * cm, y_position, detail)
+            y_position -= 0.5 * cm
+        y_position -= 1 * cm
+    
+    c.setFont("Helvetica-Bold", 12)
+    c.drawCentredString(width / 2.0, y_position, "End of Report")
+    
+    c.save()
+    return pdf_path
+
+# Usage example
+# response = getProjectReportPdf(request, 123)
+# print(response)

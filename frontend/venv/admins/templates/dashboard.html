@@ -296,10 +296,24 @@
                     </div>
                     <!-- /.info-box-content -->
                   </div>
-                  <!-- /.info-box -->
                 </div>
 
                 <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3" id="card">
+                  <div class="info-box mb-3">
+                    <span
+                      class="info-box-icon elevation-1"
+                      style="background-color: lightgray"
+                      ><i class="fa-solid fa-diagram-project"></i>
+                    </span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-text">Training Program</span>
+                      <span class="info-box-number">{{ training }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
               </div>
               
               
@@ -307,8 +321,8 @@
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
-          <h3 class="text-muted py-1">Recently added users</h3>
-          <div class="row mt-3 mx-1 py-2" style="background-color: white;">
+         
+          <!-- <div class="row mt-3 mx-1 py-2" style="background-color: white;">
             <table id="example1" class="table table-bordered table-striped mx-2">
               <thead>
                 <tr>
@@ -353,11 +367,49 @@
               <tfoot></tfoot>
             </table>
           
-          </div>
+          </div> -->
+         
         </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
+      <h3 class="text-muted py-1">Recently added users</h3>
+      <div class="row ml-2">
+  
+       <div class="col mt-2 mr-2">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>createdAt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in currentUser %}
+            <tr>
+              <td >
+                {{ user.id }}
+              </td>
+              <td>
+             {{ user.email }}
+              </td>
+              <td>
+                {{ user.role }}
+              </td>
+              <td>
+                {{ user.createdAt }}
+              </td>
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+       </div>
+       
+      </div>
     </section>
     <!-- /.content -->
   </div>
