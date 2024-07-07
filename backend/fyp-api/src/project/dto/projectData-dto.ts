@@ -13,7 +13,7 @@ export class ProjectData {
   projectCost: number;
   @Field()
   projectStatus: string;
-  @Field()
+  @Field({nullable:true})
   projectPartner: string;
   @Field(() => [Installment])
   installments: Installment[];

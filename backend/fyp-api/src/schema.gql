@@ -141,7 +141,7 @@ type ProjectData {
   projectDuration: String!
   projectCost: Float!
   projectStatus: String!
-  projectPartner: String!
+  projectPartner: String
   installments: [Installment!]!
 }
 
