@@ -1200,8 +1200,7 @@ def adminEditSession(request):
 
 
 
-
-
+#generate project report
 def getProjectReportPdf(request, id):
     reportDatamutation = '''
     mutation($id:Float!){
@@ -1209,6 +1208,8 @@ def getProjectReportPdf(request, id):
         projectName
         projectDuration
         projectCost
+        projectPartner
+        ProjectDiscription
         installments {
             id
             total_installments
@@ -1216,89 +1217,120 @@ def getProjectReportPdf(request, id):
             payment_Ref
             installment_phase
             paid
+            remainAmount
         }
       }
     }
     '''
-    # Example function to perform GraphQL mutation
+    # Function to perform GraphQL mutation
     response = api_service.performMuttion(reportDatamutation, {'id': id})
     data = response['data']['getProjectReportData']
     
     projectName = data['projectName']
     projectDuration = data['projectDuration']
     projectCost = data['projectCost']
+    projectPartner = data['projectPartner']
+    ProjectDiscription = data['ProjectDiscription']
     installments = data['installments']
-    
+
+    def format_number(number):
+        return f"{number:,}"
+
+    def add_page_header(c, width, height, is_first_page=False):
+        if is_first_page:
+            c.setFont("Times-Bold", 16)
+            c.drawCentredString(width / 2.0, height - 2 * cm, "DAR ES SALAAM REGIONAL COMMISSION")
+            c.setFont("Times-Bold", 16)
+            c.drawCentredString(width / 2.0, height - 3 * cm, "PROJECT REPORT")
+            logo_path = 'static/dist/img/dsm_logo.png'
+            logo = ImageReader(logo_path)
+            c.drawImage(logo, 1 * cm, height - 5 * cm, width=3 * cm, height=3 * cm, mask='auto')
+
+    def add_page_footer(c, width, height, page_number):
+        c.setFont("Times-Roman", 10)
+        c.drawCentredString(width / 2.0, 1 * cm, f"Page {page_number}")
 
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
-    
-    # Set title
-    c.setFont("Helvetica-Bold", 16)
-    c.drawCentredString(width / 2.0, height - 2 * cm, "DAR ES SALAAM REGIONAL COMMISSION")
-    c.setFont("Helvetica", 12)
-    c.drawCentredString(width / 2.0, height - 2.5 * cm, "PROJECT REPORT")
-    
-    # Date and QR code
-    # c.setFont("Helvetica", 10)
-    # c.drawString(width - 6 * cm, height - 3.5 * cm, "Date:")
-    # c.rect(width - 5 * cm, height - 4 * cm, 2 * cm, 2 * cm)
-    # c.drawString(1 * cm, height - 3.5 * cm, "Logo:")
-    # c.rect(1 * cm, height - 4 * cm, 2 * cm, 2 * cm)
+    page_number = 1
 
-      # Load and draw the logo
-    logo_path = 'static/dist/img/dsm_logo.png'  # Adjust path based on your project structure
-    logo = ImageReader(logo_path)
-    c.drawImage(logo, 1 * cm, height - 4 * cm, width=2 * cm, height=2 * cm)
-    
+    # Set initial page header
+    add_page_header(c, width, height, is_first_page=True)
+    y_position = height - 6 * cm
+
+    def check_page_space(c, y_position, required_space, page_number):
+        if y_position < required_space:
+            add_page_footer(c, width, height, page_number)
+            c.showPage()
+            page_number += 1
+            add_page_header(c, width, height, is_first_page=False)
+            y_position = height - 2 * cm
+        return y_position, page_number
+
     # Project details
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(1 * cm, height - 6 * cm, "Details")
-    
-    c.setFont("Helvetica", 10)
+    c.setFont("Times-Bold", 14)
+    c.drawString(1 * cm, y_position, "Details")
+    c.line(1 * cm, y_position - 0.3 * cm, width - 1 * cm, y_position - 0.3 * cm)
+
+    y_position -= 1 * cm
+
+    c.setFont("Times-Roman", 12)
     details = [
         f"Project Name: {projectName}",
         f"Project Duration: {projectDuration}",
-        f"Project Cost: {projectCost}"
+        f"Project Partner: {projectPartner}",
+        f"Project Discription: {ProjectDiscription}",
+        f"Project Cost: {format_number(projectCost)}/=Tzs"
     ]
-    
-    y_position = height - 7 * cm
+
     for detail in details:
+        y_position, page_number = check_page_space(c, y_position, 2 * cm, page_number)
         c.drawString(1 * cm, y_position, detail)
         y_position -= 0.5 * cm
-    
+
     # Project installments
-    c.setFont("Helvetica-Bold", 12)
+    y_position -= 0.5 * cm
+
+    c.setFont("Times-Bold", 14)
     c.drawString(1 * cm, y_position, "Project Installments")
+    c.line(1 * cm, y_position - 0.3 * cm, width - 1 * cm, y_position - 0.3 * cm)
+
     y_position -= 1 * cm
-    
-    c.setFont("Helvetica", 10)
-    for installment in installments:
-        installment_details = [
-            f"Phase No: {installment['installment_phase']}",
-            f"Status: {installment['status']}",
-            f"Paid: {installment['paid']}",
-            f"Remaining Amount: {installment['total_installments'] - installment['paid']}",
-            f"Payment Ref: {installment['payment_Ref']}",
-            f"Total Installments: {installment['total_installments']}"
-        ]
-        
-        for detail in installment_details:
-            c.drawString(1 * cm, y_position, detail)
-            y_position -= 0.5 * cm
+
+    c.setFont("Times-Roman", 12)
+    if not installments:
+        y_position, page_number = check_page_space(c, y_position, 2 * cm, page_number)
+        c.drawString(1 * cm, y_position, "No installments made for this project")
         y_position -= 1 * cm
-    
-    c.setFont("Helvetica-Bold", 12)
+        
+    else:
+        for installment in installments:
+            installment_details = [
+                f"Phase No: {installment['installment_phase']}",
+                f"Status: {installment['status']}",
+                f"Paid: {format_number(installment['paid'])}/=Tzs",
+                f"Remaining Amount: {format_number(installment['remainAmount'])}/=Tzs",
+                f"Payment Ref: {installment['payment_Ref']}",
+                f"Total Installments: {format_number(installment['total_installments'])}"
+            ]
+
+            for detail in installment_details:
+                y_position, page_number = check_page_space(c, y_position, 2 * cm, page_number)
+                c.drawString(1 * cm, y_position, detail)
+                y_position -= 0.5 * cm
+            y_position -= 1 * cm
+
+    y_position, page_number = check_page_space(c, y_position, 2 * cm, page_number)
+
+    c.setFont("Times-Bold", 14)
     c.drawCentredString(width / 2.0, y_position, "End of Report")
-    
+
+    add_page_footer(c, width, height, page_number)
     c.save()
-  
-    
+
     # Serve the PDF as a response
     buffer.seek(0)
     response = HttpResponse(buffer, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="project_report_{id}.pdf"'
-    messages.success(request,"Generated successfully")
     return response
-
