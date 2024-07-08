@@ -1121,8 +1121,54 @@ def viewInstallments(request):
     return render(request,'viewinstallmenst.html',context)
 
 
-def projectDetails(request):
-    print("Requested project details")
+def editProjectDetails(request):
+    
+    if request.method == "POST":
+        project_id = request.POST.get('editProjectId')
+        name = request.POST.get('editProjectName')
+        cost = request.POST.get('editProjectCost')
+        duration = request.POST.get('editProjectDuration')
+        description = request.POST.get('editProjectDescription')
+        status = request.POST.get('editProjectStatus')
+      
+        funded = request.POST.get('editProjectFunded')
+
+        
+        mutation='''
+       mutation UpdateProject($projectId: Float!, $input: UpdateProjectDto!) {
+       updateProject(
+       projectId: $projectId
+         updateProjectDto: $input
+        ) {
+        statusCode
+        message
+       }
+       }
+
+        '''
+        variables={
+            "input":{
+                "name":name,
+                "cost":float(cost),
+                "duration":duration,
+                "discription":description,
+                "status":status,
+                "funded":bool(funded)
+            },
+            "projectId":int(project_id)
+
+        }
+        response=api_service.performMuttion(mutation,variables)
+
+        if 'errors' in response:
+            messages.error(request,response['errors'][0])
+            return JsonResponse({status:400})
+        
+        messages.success(request,"Successfully Updated")
+        return JsonResponse({status:200})
+       
+    else:
+        return redirect('viewProjects')
 
 
 

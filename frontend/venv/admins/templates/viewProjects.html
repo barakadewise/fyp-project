@@ -235,38 +235,44 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="editProjectForm">
-            <input type="hidden" id="editProjectId">
+          <form id="editProjectForm" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="editProjectId" name="editProjectId">
             <div class="form-group">
-              <label for="editProjectName">Name</label>
-              <input type="text" class="form-control" id="editProjectName" required>
+                <label for="editProjectName">Name</label>
+                <input type="text" class="form-control" id="editProjectName" name="editProjectName" required>
             </div>
             <div class="form-group">
-              <label for="editProjectCost">Cost</label>
-              <input type="text" class="form-control" id="editProjectCost" required>
+                <label for="editProjectCost">Cost</label>
+                <input type="text" class="form-control" id="editProjectCost" name="editProjectCost" required>
             </div>
             <div class="form-group">
-              <label for="editProjectDuration">Duration</label>
-              <input type="text" class="form-control" id="editProjectDuration" required>
+                <label for="editProjectDuration">Duration</label>
+                <input type="text" class="form-control" id="editProjectDuration" name="editProjectDuration" required>
             </div>
             <div class="form-group">
-              <label for="editProjectDescription">Description</label>
-              <textarea class="form-control" id="editProjectDescription" required></textarea>
+                <label for="editProjectDescription">Description</label>
+                <textarea class="form-control" id="editProjectDescription" name="editProjectDescription" required></textarea>
             </div>
             <div class="form-group">
-              <label for="editProjectStatus">Status</label>
-              <input type="text" class="form-control" id="editProjectStatus" required>
+                <label for="editProjectStatus">Status</label>
+                <select id="editProjectStatus" name="editProjectStatus" class="form-control" required>
+                    <option value="Started">Started</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Paused">Paused</option>
+                    <option value="Ongoing">Ongoing</option>
+                </select>
             </div>
             <div class="form-group">
-              <label for="editProjectPartnerName">Partner Name</label>
-              <input type="text" class="form-control" id="editProjectPartnerName" required>
+                <label for="editProjectPartnerName">Partner Name</label>
+                <input type="text" class="form-control" id="editProjectPartnerName" name="editProjectPartnerName" readonly>
             </div>
             <div class="form-group">
-              <label for="editProjectFunded">Funded</label>
-              <input type="text" class="form-control" id="editProjectFunded" readonly>
+                <label for="editProjectFunded">Funded</label>
+                <input type="text" class="form-control" id="editProjectFunded" name="editProjectFunded" readonly>
             </div>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </form>
+            <button type="submit" class="btn btn-primary" id="saveEdit">Save changes</button>
+        </form>        
         </div>
       </div>
     </div>
@@ -330,6 +336,7 @@ $(function (){
           autoWidth: false,
           responsive: true,
     });
+
   // Handle edit button click
 $('.edit-btn').click(function() {
     var projectId = $(this).data('id');
@@ -341,9 +348,9 @@ $('.edit-btn').click(function() {
     var partnerName = $(this).data('partnername');  
     var funded = $(this).data('funded');
 
-    console.log("Project detaile:",{name,cost,duration,funded})
-    // Populate the data into the edit modal
+    console.log("Project detaile:",{name,cost,duration,funded,status})
     
+    $('#editProjectId').val(projectId)
     $('#editProjectName').val(name);
     $('#editProjectCost').val(cost);
     $('#editProjectDuration').val(duration);
@@ -355,18 +362,17 @@ $('.edit-btn').click(function() {
 
   $("#saveEdit").click(function() {
         var formData = $("#editProjectForm").serialize();
+        console.log(formData)
         $.ajax({
-          url: "{% url 'adminEditSession' %}", 
+          url: "{% url 'editProject' %}", 
           type: "POST",
           data: formData,
           success: function() {
-            $("#editModal").modal("hide");
+            console.log("Successffully updated ")
             window.location.reload();
           },
           error: function(xhr, status, error) {
-            
-            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ;
-            toastr.error(errorMsg);
+            console.log("Errro while updating..")
             window.location.reload()
           }
         });
