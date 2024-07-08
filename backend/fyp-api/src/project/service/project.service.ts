@@ -14,6 +14,7 @@ import { MesssageEnum } from 'shared/message-enum';
 import { UpdateProjectDto } from '../dto/update-project-dto';
 import { Installment } from 'src/installments/entities/installment.entity';
 import { ProjectData } from '../dto/projectData-dto';
+import { ProjectStatus } from '../enums/project-enum';
 
 
 @Injectable()
@@ -75,14 +76,17 @@ export class ProjectService {
     });
     if (!project) throw new NotFoundException('Project Not Found!..');
 
-  
-
-    //update the project if found!
+    if(Object.values(ProjectStatus).includes(updateProjectDto.status as  ProjectStatus)){
+      
     await this.projectRepository.update(projectId, { ...updateProjectDto });
     return {
       message: MesssageEnum.UPDATE,
       statusCode: HttpStatus.OK,
     };
+    }
+    throw new  BadRequestException("Invalid Project status")
+
+   
   }
 
   //function to generate ProjectData

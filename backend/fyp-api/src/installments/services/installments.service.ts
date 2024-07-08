@@ -42,9 +42,15 @@ export class InstallmentsService {
     const newInstallment = this.installmentsRepository.create({
       ...createInstallmentInput,
     });
+
+    // if the request is from partner user user.sub to fetch the partner id from the
+    //partner table if request mad by admin then      createInstallmentInput.partnerId  
+    //wil be aplied 
+    const partner_id=await this.partnerRepository.findOne({where:{accountId:user.sub}})
+
     const partnerId =
       createInstallmentInput.partnerId ||
-      (user.role == Roles.PARTNER ? user.sub : null);
+      (user.role == Roles.PARTNER ? partner_id.id:null);
 
     if (!partnerId) throw new BadRequestException('Partner id required!');
 
