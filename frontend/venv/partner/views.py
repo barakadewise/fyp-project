@@ -138,6 +138,20 @@ def fundProject(request):
     if request.method=='POST':
         project_name=request.POST.get('projectName')
         installments=request.POST.get('installments')
+        projectId=request.POST.get('projectId')
         
-        messages.info(request,'Request initiated!')
+        varibales ={
+            "projectId":int(projectId),
+            "createInstallmentInput":{
+                "total_installments":int(installments)
+            }
+        }
+        response =api_service.performMuttion(mutation,varibales,api_service.getToken(request))
+        if 'errors' in response:
+            print(response['errors'])
+            messages.error(request,'Something went wrong')
+
+        else:
+           messages.info(request,'Request initiated!')
+           pass
         return redirect('partnerViewProject')

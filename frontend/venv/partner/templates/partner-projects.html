@@ -234,6 +234,7 @@
       <div class="modal-body">
         <form id="fundProjectForm" action="{% url 'fundproject' %}" method="post">
           {% csrf_token %}
+          <input type="hidden" id="projectId" name="projectId" >
           <div class="form-group">
             <label for="projectName">Project Name</label>
             <input type="text" class="form-control" id="projectName" name="projectName" readonly>
@@ -285,11 +286,13 @@
 
   });
   $(".edit-btn").click(function(){
-    var id = $(this).data("id");
+        var id = $(this).data("id");
         var name = $(this).data("name");
         var cost = $(this).data("cost");
-        console.log({name,cost})
+        
+        console.log({name,cost,id})
 
+    $("#projectId").val(id)
     $("#projectName").val(name);
     $("#projectCost").val(cost);
   });
