@@ -131,8 +131,12 @@ export class InstallmentsService {
       const remainInstallmentAmount = await this.installmentsRepository.findOne(
         { where: { id: installmentId } },
       );
+   
       remainInstallmentAmount.remainAmount == 0
-        ? (remainInstallmentAmount.status = InstallmentsStatus.COMPLETED)
+        ? (
+          remainInstallmentAmount.status = InstallmentsStatus.COMPLETED
+          
+        )
         : (remainInstallmentAmount.status = InstallmentsStatus.PARTIALYPAID);
       await this.installmentsRepository.save(remainInstallmentAmount);
 
@@ -142,7 +146,6 @@ export class InstallmentsService {
       };
     }
 
-    console.log('log this portion if no payment');
     await this.installmentsRepository.update(installmentId, {
       ...updateInstallmentInput,
     });

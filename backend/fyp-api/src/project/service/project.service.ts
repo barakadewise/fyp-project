@@ -15,6 +15,7 @@ import { UpdateProjectDto } from '../dto/update-project-dto';
 import { Installment } from 'src/installments/entities/installment.entity';
 import { ProjectData } from '../dto/projectData-dto';
 
+
 @Injectable()
 export class ProjectService {
   constructor(
@@ -73,6 +74,8 @@ export class ProjectService {
       where: { id: projectId },
     });
     if (!project) throw new NotFoundException('Project Not Found!..');
+
+  
 
     //update the project if found!
     await this.projectRepository.update(projectId, { ...updateProjectDto });
