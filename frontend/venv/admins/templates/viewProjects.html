@@ -174,7 +174,7 @@
                 <tbody>
                   {% for project in projects %}
                   <tr>
-                    <td>{{ project.id }}</td>
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ project.name }}</td>
                     <td>{{ project.cost }}</td>
                     <td>{{ project.duration }}</td>
@@ -184,7 +184,6 @@
                     <td>{{ project.funded }}</td>
                     <td class="justify-content-center">
                       <a href="" class="btn btn-success btn-sm edit-btn"
-                     
                       data-id="{{ project.id }}"
                       data-name="{{ project.name }}"
                       data-cost="{{ project.cost }}"
@@ -198,9 +197,10 @@
                         
                         <i class="fas fa-pen"></i> Edit
                       </a>
-                      <a href="#" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteModal">
+                      <a href="#" class="btn btn-danger btn-sm delete-btn" data-id="{{ project.id }}" data-toggle="modal" data-target="#deleteModal">
                         <i class="fas fa-trash"></i> Delete
                       </a>
+                      
                       <button class="btn btn-info btn-sm view-btn"><i class="fas fa-eye"></i> view project</button>
                       <button class="btn btn-danger btn-sm view-btn">
                         <a href="{% url 'getProjectReportPdf' project.id %}" class="text-white">
@@ -348,7 +348,6 @@ $('.edit-btn').click(function() {
     var partnerName = $(this).data('partnername');  
     var funded = $(this).data('funded');
 
-    console.log("Project detaile:",{name,cost,duration,funded,status})
     
     $('#editProjectId').val(projectId)
     $('#editProjectName').val(name);
@@ -379,31 +378,30 @@ $('.edit-btn').click(function() {
       });
 
   });
-  $(".delete-btn").click(function () {
-        $("#confirmDelete").data("id", id);
-      });
+  $('.delete-btn').click(function() {
+        var projectId = $(this).data('id');
+        $("#confirmDelete").data("id", projectId);
+    });
 
-      $("#confirmDelete").click(function () {
+    $("#confirmDelete").click(function() {
         var id = $(this).data("id");
         $.ajax({
-          url: "{% url 'deleteOpportunityById' %}",
-          type: "POST",
-          data: {
-            id: id,
-            csrfmiddlewaretoken: "{{ csrf_token }}",
-          },
-          success: function (response) {
-            window.location.reload();
-          },
-          error: function (xhr, status, error) {
-            var errorMsg = xhr.responseJSON && xhr.responseJSON.message;
-                toastr.error(errorMsg);
+            url: "{% url 'deleteProjectById' %}",
+            type: "POST",
+            data: {
+                id: id,
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            success: function(response) {
                 window.location.reload();
-          },
+            },
+            error: function(xhr, status, error) {
+                window.location.reload();
+            }
         });
 
         $("#deleteModal").modal("hide");
-      });
+    });
 </script>
 <script>
   $(function(){

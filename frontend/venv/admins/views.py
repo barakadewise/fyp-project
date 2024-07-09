@@ -733,9 +733,11 @@ def createProject(request):
         cost=float(request.POST.get('cost'))
         duration=request.POST.get('duration')
         discription=request.POST.get('discription')
-        status=request.POST.get('status')
-        funded=bool(request.POST.get('inlineRadioOptions'))
+        funded=request.POST.get('funded')
         partner=request.POST.get('partner')
+
+        #convert the str (funded) to boleaan
+        isFunded= True if funded=='true' else False
        
         mutation = '''
             mutation CreateProject($input: ProjectDto!,$partner: String) {
@@ -745,24 +747,27 @@ def createProject(request):
               }
             }
           '''
+
+        
         variables = {
           "input": {
           "name": name,
            "cost": cost,
            "duration": duration,
           "discription": discription,
-          "status": status,
-           "funded": funded
+           "funded": isFunded
          },
          "partner":partner
         }
+
+        print(variables)
      
         response=api_service.performMuttion(mutation,variables)
         if 'errors' in response:
             print('Failed to create record')
             messages.error(request,'Failed to create record!')
             print(response)
-            # return redirect('createProje')
+           
 
         else:
             messages.success(request,'Successffully Created!')
@@ -770,8 +775,37 @@ def createProject(request):
              
     return render(request,'createProject.html',{'partners':partnersResponse['data']['findAllPartners']})
 
+
+#delete projject by Id
+def deleteProjectById(request):
+
+    if request.method =="POST":
+        projectId = request.POST.get('id')
+        
+        mutation='''
+        mutation ($id:Float!){
+         removeProject(id: $id) {
+         message
+         statusCode
+        }
+       }
+ 
+      '''
+        response=api_service.performMuttion(mutation,{"id":int(projectId)})
+        if 'errors' in response:
+            print(response['errors'])
+            messages.error(request,"Failed to delete record")
+            return JsonResponse({status:400})
+        
+        messages.success(request,"Successfully Deleted")
+        return JsonResponse({status:400})
+
+
+    return redirect('viewProjects')
+
 #function to view all availble ooprtunities
 def viewOpportunities(request):
+    print(api_service.getToken(request),request.session['User']['role'])
     query ='''  
         query {
         findAllOpportunities {

@@ -261,29 +261,29 @@
                               </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <label for="funded">Status</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa-solid fa-repeat"></i><span>
                                     </div>
                                     <select id="status" name="status" class="form-control" required>
-                                        <option value="Started">started</option>
-                                        <option value="Complete">Complete</option>
-                                        <option value="Paused">Paused</option>
-                                        <option value="Ongoin">Ongoing</option>
-                                       
+                                      <option value="">Select Status</option>
+                                      <option value="Started">Started</option>
+                                      <option value="Complete">Complete</option>
+                                      <option value="Paused">Paused</option>
+                                      <option value="Ongoing">Ongoing</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
                                 <label for="funded">Funded</label><br>
                                 <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="false">
+                                  <input class="form-check-input" type="radio" name="funded" id="inlineRadio1" value="false">
                                   <label class="form-check-label" for="inlineRadio1">False</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="true">
+                                  <input class="form-check-input" type="radio" name="funded" id="inlineRadio2" value="true">
                                   <label class="form-check-label" for="inlineRadio2">True</label>
                                 </div><br>
                                 <label for="funded" id="partnerLabel">Partner</label>
@@ -415,25 +415,45 @@ $(function(){
 
   <script>
    
-    function togglePartnerDropdown() {
-      var isFundedTrue = document.getElementById("inlineRadio2").checked;
-      var partnerDropdown = document.getElementById("partner");
-      var partnerLabel=document.getElementById("partnerLabel")
+   function togglePartnerDropdown() {
+    var isFundedTrue = document.getElementById("inlineRadio2").checked;
+    var partnerDropdown = document.getElementById("partner");
+    var partnerLabel = document.getElementById("partnerLabel");
 
-      if (isFundedTrue) {
-        partnerDropdown.style.display = "block";
-        partnerLabel.style.display="block"
-      } else {
-        partnerDropdown.style.display = "none";
-        partnerLabel.style.display="none"
+    if (isFundedTrue) {
+      partnerDropdown.style.display = "block";
+      partnerDropdown.disabled = false;
+      partnerLabel.style.display = "block";
+    } else {
+      partnerDropdown.style.display = "none";
+      partnerDropdown.disabled = true;
+      partnerLabel.style.display = "none";
+    }
+  }
+
+  document.getElementById("inlineRadio1").addEventListener("change", togglePartnerDropdown);
+  document.getElementById("inlineRadio2").addEventListener("change", togglePartnerDropdown);
+
+  togglePartnerDropdown();
+  document.getElementById("form").addEventListener("submit", function(event) {
+    var isValid = true;
+
+  
+    document.querySelectorAll("#form [required]").forEach(function(input) {
+      if (!input.value) {
+        isValid = false;
       }
+    });
+
+   
+    if (!document.getElementById("inlineRadio1").checked && !document.getElementById("inlineRadio2").checked) {
+      isValid = false;
     }
 
-    // Add event listeners to the radio buttons
-    document.getElementById("inlineRadio1").addEventListener("change", togglePartnerDropdown);
-    document.getElementById("inlineRadio2").addEventListener("change", togglePartnerDropdown);
-
-    togglePartnerDropdown();
+    if (!isValid) {
+      event.preventDefault();
+      alert("Please fill in all fields and select a funded option.");
+    }});
   </script>
   
   {% endblock %}
