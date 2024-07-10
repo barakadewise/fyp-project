@@ -7,7 +7,6 @@ from django.contrib import messages
 from shared.roles_enum import Roles, Status
 from django.http import JsonResponse
 from django.http import HttpResponse
-from django.http import HttpResponse
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -99,6 +98,7 @@ def getAdminPanel(request):
     }
     }
    '''
+    print(request.session['User']['token'])
     try:
         allAStaff =api_service.performQuery(queryStaff,csrf_token)
         allYouth =api_service.performQuery(queryYouth,csrf_token)
@@ -1069,18 +1069,14 @@ def deleteTeamById(request):
 def viewInstallments(request):
     
     mutation ='''
-    mutation CreateInstallment($createInstallmentInput: CreateInstallmentInput!, $projectId: Float!) {
-    createInstallment(createInstallmentInput: $createInstallmentInput, projectId: $projectId) {
+   mutation CreateInstallment(
+     $createInstallmentInput: CreateInstallmentInputByAdmin!$projectId: Float!) {
+      createInstallmentByAdmin(
+      createInstallmentInput: $createInstallmentInput ,projectId: $projectId) {
     id
-    total_installments
-    projectCost
-    payment_Ref
-    paid
-    status
-    remainAmount
-    createdAt
-    }
-   }
+     }
+     }
+
     '''
      # all projects
     queryProjects='''

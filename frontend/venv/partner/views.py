@@ -122,16 +122,10 @@ def viewOpportunities(request):
 
 def fundProject(request):
     mutation ='''
-    mutation CreateInstallment($createInstallmentInput: CreateInstallmentInput!, $projectId: Float!) {
-    createInstallment(createInstallmentInput: $createInstallmentInput, projectId: $projectId) {
+    mutation CreateInstallment(
+    $createInstallmentInput: CreateInstallmentInputByPartner!, $projectId: Float!) {
+    createInstallmentByPartner(createInstallmentInput: $createInstallmentInput,projectId: $projectId) {
     id
-    total_installments
-    projectCost
-    payment_Ref
-    paid
-    status
-    remainAmount
-    createdAt
     }
    }
     '''
