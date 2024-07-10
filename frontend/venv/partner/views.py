@@ -67,7 +67,6 @@ def viewProjects(request):
              partnerInstallments {
                 id
                 projectName
-                partnerId
                 payment_Ref
                 paid
                 projectCost,
@@ -92,12 +91,25 @@ def viewProjects(request):
         messages.error(request,installmentsRes['errors'])
         return render(request, 'partner-projects.html')
         
-    
-    context={
-        'projects': response['data']['findAllProjects'],
-        'installments':installmentsRes['data']['partnerInstallments']
+    else:   
+      installments=[]
+      for i in installmentsRes['data']['partnerInstallments']:
+
+        installment ={
+            "payment_Ref":i['payment_Ref'],
+            "projectName":i['projectName'],
+            "paid":f"{i['paid']:,}/=Tzs",
+            "projectCost":f"{i['projectCost']:,}/=Tzs",
+            "status":i['status'],
+            "remainAmount":f"{i['remainAmount']:,}/=Tzs",
+            "total_installments":i['total_installments']
         }
-   
+      installments.append(installment)
+      context={
+        'projects': response['data']['findAllProjects'],
+        'installments':installments
+        }
+
     return render(request, 'partner-projects.html',context)
 
 
