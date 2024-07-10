@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -49,11 +50,12 @@ export class Installment {
   total_installments: number;
 
   @Column({ nullable: true })
-  @Field({ nullable: true })
+  @Field({ nullable: false })
   partnerId: number;
 
   @ManyToOne(() => Project, (project) => project.installments)
   @Field(() => Project, { nullable: true })
+  @JoinColumn()
   project: Project;
 
   @CreateDateColumn({ nullable: true })

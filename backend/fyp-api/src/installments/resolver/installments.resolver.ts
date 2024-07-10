@@ -1,5 +1,4 @@
 import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
-import { CreateInstallmentInput } from '../dto/create-installment.input';
 import { UpdateInstallmentInput } from '../dto/update-installment.input';
 import { Installment } from '../entities/installment.entity';
 import { InstallmentsService } from '../services/installments.service';
@@ -7,6 +6,8 @@ import { ResponseDto } from 'shared/response-dto';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { CurrentUser } from 'decorators/current-user-decorator';
+import { CreateInstallmentInputByPartner } from '../dto/partner-create-installment';
+import { CreateInstallmentInputByAdmin } from '../dto/admin-installment.input';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Installment)
@@ -14,9 +15,9 @@ export class InstallmentsResolver {
   constructor(private readonly installmentsService: InstallmentsService) {}
 
   @Mutation(() => Installment)
-  async createInstallment(
+  async createInstallmentByPartner(
     @Args('createInstallmentInput')
-    createInstallmentInput: CreateInstallmentInput,
+    createInstallmentInput: CreateInstallmentInputByPartner,
     @Args('projectId') projectId: number,
     @CurrentUser() user: any,
   ) {
@@ -24,6 +25,19 @@ export class InstallmentsResolver {
       createInstallmentInput,
       projectId,
       user,
+    );
+  }
+  @Mutation(() => Installment)
+  async createInstallmentByAdmin(
+    @Args('createInstallmentInput')
+    createInstallmentInput: CreateInstallmentInputByAdmin,
+    @Args('projectId') projectId: number,
+    
+  ) {
+    return this.installmentsService.addInstallmentByAdmin(
+      createInstallmentInput,
+      projectId,
+     
     );
   }
 

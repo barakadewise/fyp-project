@@ -35,7 +35,7 @@ type Installment {
   remainAmount: Float
   status: String
   total_installments: Float
-  partnerId: Float
+  partnerId: Float!
   project: Project
   createdAt: DateTime
   updatedAt: DateTime
@@ -192,7 +192,8 @@ type Mutation {
   removeAccount(accountId: Float!): ResponseDto!
   createStaff(createStaffInput: StaffInputDto!, accountId: Float!): Staff!
   login(loginInput: LoginUserDto!): AuthResults!
-  createInstallment(createInstallmentInput: CreateInstallmentInput!, projectId: Float!): Installment!
+  createInstallmentByPartner(createInstallmentInput: CreateInstallmentInputByPartner!, projectId: Float!): Installment!
+  createInstallmentByAdmin(createInstallmentInput: CreateInstallmentInputByAdmin!, projectId: Float!): Installment!
   updateInstallment(updateInstallmentInput: UpdateInstallmentInput!, InstallmentId: Float!): ResponseDto!
   removeInstallment(id: Float!): Installment!
   createTraining(createTrainingInput: CreateTrainingInput!): Training!
@@ -217,7 +218,6 @@ input ProjectDto {
   cost: Float!
   duration: String!
   discription: String!
-  status: String!
   funded: Boolean!
 }
 
@@ -226,8 +226,8 @@ input UpdateProjectDto {
   cost: Float
   duration: String
   discription: String
-  status: String
   funded: Boolean
+  status: String!
 }
 
 input PartnerDto {
@@ -304,9 +304,13 @@ input LoginUserDto {
   password: String!
 }
 
-input CreateInstallmentInput {
-  total_installments: Float
-  partnerId: Float
+input CreateInstallmentInputByPartner {
+  total_installments: Float!
+}
+
+input CreateInstallmentInputByAdmin {
+  total_installments: Float!
+  partnerId: Float!
 }
 
 input UpdateInstallmentInput {

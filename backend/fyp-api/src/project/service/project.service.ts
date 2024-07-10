@@ -40,10 +40,14 @@ export class ProjectService {
       if (partnerData) {
         newProject.partnerId = partnerData.id;
         newProject.partnerName = partner;
+        newProject.status=ProjectStatus.STARTED
         return await this.projectRepository.save(newProject);
       }
       throw new BadRequestException('Invalid partner details');
     }
+
+    //if not funded project status is pending
+    newProject.status=ProjectStatus.PENDING
     return await this.projectRepository.save(newProject);
   }
 

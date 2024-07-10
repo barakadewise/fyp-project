@@ -14,8 +14,8 @@ export class ProjectDto {
   @Field()
   discription: string;
 
-  @Field()
-  status: string;
+  // @Field()
+  // status: string;
 
   @Field()
   funded: boolean;
