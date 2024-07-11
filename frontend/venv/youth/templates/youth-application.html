@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %}
-<title>{% block title %} Youth| Dashboard {% endblock %}</title>
+<title>{% block title %} Youth| Applicantions {% endblock %}</title>
 
 {% block content %}
 
@@ -34,10 +34,7 @@
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <div class="col-6">
-      <!-- <p class="text-muted" style="font-size: 16px; font-weight: 400; color: #343a40;">Hello  Welcome Back!</p> -->
-        <p class="text-muted" style="font-size: 16px; color: #343a40; font-weight: 400;">You have Successffully loggedin as Baraka</p>      
-    </div>
+   
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
           <a class="nav-link"
@@ -97,7 +94,7 @@
               <li class="nav-item">
                 <a
                   href="{% url 'youthDashboard' %}"
-                  class="nav-link active">
+                  class="nav-link ">
                   <i
                     class="fa-regular fa-eye"
                     style="margin: 0 4px 0 0px"
@@ -119,7 +116,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'youthApplication' %}" class="nav-link">
+                <a href="{% url 'youthApplication' %}" class="nav-link active">
                   <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
                   <p>Applications</p>
                 </a>
@@ -149,12 +146,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Overview</h1>
+            <h1>View Status</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Overview</li>
+              <li class="breadcrumb-item active">Application status</li>
             </ol>
           </div>
         </div>
@@ -167,10 +164,14 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <!-- /.card-header -->
+            <div class="card-header">
+                <div class="float-left">
+                <p class="text-info" style="font-weight: 400; font-size: 16px;">Currently there is no application status availbe for You!</p>
+                </div>
+              </div>
             <div class="card-body">
-              <div class="row justify-content-center">      
-                <!-- fix for small devices only -->
+              <!-- <div class="row justify-content-center">      
+               
                 <div class="clearfix hidden-md-up"></div>           
                 <div class="col-md-4" id="card">
                   <div class="info-box mb-3">
@@ -185,7 +186,7 @@
                       <span class="info-box-number">{{ projects }}</span>
                     </div>
                   </div>
-                  <!-- /.info-box -->
+                 
                 </div>
                 <div class="col-md-4" id="card">
                     <div class="info-box">
@@ -198,7 +199,8 @@
                       </div>
                     </div>
                   </div>
-              </div>
+              </div> -->
+             
             </div>
             <!--card-body -->
           </div>
@@ -210,46 +212,8 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- Delete Modal -->
-  <div
-    class="modal fade"
-    id="deleteModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="deleteModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to delete this event?</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-danger" id="confirmDelete">
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
+
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block"><b>2023</b></div>
     <strong>Copyright &copy; Dar es salaam regional commission.</strong>

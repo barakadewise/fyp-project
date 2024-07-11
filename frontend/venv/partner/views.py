@@ -92,10 +92,12 @@ def viewProjects(request):
         return render(request, 'partner-projects.html')
         
     else:   
+      data =installmentsRes['data']['partnerInstallments']
       installments=[]
-      for i in installmentsRes['data']['partnerInstallments']:
-
-        installment ={
+      if data:
+            for i in data:
+             
+             installment ={
             "payment_Ref":i['payment_Ref'],
             "projectName":i['projectName'],
             "paid":f"{i['paid']:,}/=Tzs",
@@ -103,13 +105,15 @@ def viewProjects(request):
             "status":i['status'],
             "remainAmount":f"{i['remainAmount']:,}/=Tzs",
             "total_installments":i['total_installments']
-        }
-      installments.append(installment)
+             }
+  
+            installments.append(installment)
+
       context={
         'projects': response['data']['findAllProjects'],
         'installments':installments
         }
-
+    print(context)
     return render(request, 'partner-projects.html',context)
 
 

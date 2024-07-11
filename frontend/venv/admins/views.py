@@ -300,7 +300,7 @@ def createPartner(request):
         accountResponse = api_service.performMuttion(accountMutation, accountVariables)
         if 'errors' in accountResponse:
             messages.error(request,accountResponse['errors'][0]['message'][0])
-            print(accountResponse,"Got this errors")
+            print(accountResponse,"Erro encounterd")
 
         elif 'data' in accountResponse:
             accountId = accountResponse['data']['createAccount']['id']
@@ -318,12 +318,13 @@ def createPartner(request):
                     "accountId": accountId
                 }
             
-             # Perform partner creation
+             # Perform mutation to add partner details
             partnerResponse = api_service.performMuttion(partnerMutation, partnerVariables)
             if 'errors' in partnerResponse:
                 messages.error(request, partnerResponse['errors'][0]['message']) 
 
                 #perform query to remove the user account pending for new registration
+                #If any error occurs while creating pather deatils
                 removeAccount='''
                         mutation($accountId:Float!){
                          removeAccount(accountId:$accountId){

@@ -13,7 +13,30 @@ def getToken(request):
     
 
 def youthDashboard(request):
-    return render(request,'youth-dashboard.htm')
+     querySession='''
+     query {
+      findAllTraining {
+      id
+      }
+    }
+    '''
+     queryProjects='''
+         query {
+         findAllProjects {
+          id
+           }
+          }
+
+       '''
+  
+     getSession = api_service.performQuery(querySession,api_service.getCsrfToken(request),getToken(request))
+     getProjects= api_service.performQuery(queryProjects,api_service.getCsrfToken(request))
+
+     context={
+        "projects":len(getProjects),
+        "sessions":len(getSession)
+    }
+     return render(request,'youth-dashboard.htm',context)
 
 def youthViewSession(request):
     #perfomr query 
@@ -40,6 +63,6 @@ def youthViewProjects(request):
     return render(request,'youth-projects.html')
 
 
-def youthForProject(request):
-    pass
+def youthApplication(request):
+    return render(request,'youth-application.html')
 
