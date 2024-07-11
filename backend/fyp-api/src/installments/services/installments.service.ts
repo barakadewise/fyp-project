@@ -58,11 +58,9 @@ export class InstallmentsService {
       project.status=ProjectStatus.STARTED
       project.funded = true;
      
-      // console.log(newInstallment)
+      console.log(newInstallment)
       await this.projectRepository.save(project);
       return await this.installmentsRepository.save(newInstallment);
-  
-  
   }
 
   async addInstallmentByAdmin(createInstallmentInput:CreateInstallmentInputByAdmin, projectId: number,){

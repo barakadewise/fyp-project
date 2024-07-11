@@ -53,7 +53,7 @@ export class Installment {
   @Field({ nullable: false })
   partnerId: number;
 
-  @ManyToOne(() => Project, (project) => project.installments)
+  @ManyToOne(() => Project, (project) => project.installments,{onDelete:'CASCADE'})
   @Field(() => Project, { nullable: true })
   @JoinColumn()
   project: Project;

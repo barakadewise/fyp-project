@@ -48,7 +48,7 @@ export class Project {
   @Column({ nullable: true })
   partnerName: string;
 
-  @OneToMany(() => Installment, (installment) => installment.project)
+  @OneToMany(() => Installment, (installment) => installment.project,)
   @Field(() => [Installment], { nullable: true })
   installments: [Installment];
 
