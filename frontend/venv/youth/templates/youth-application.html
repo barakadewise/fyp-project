@@ -165,44 +165,44 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
+              {% if applications %}
+                  {% for application in applications %}
+                  <div class="card-body">
+                      <div  class="row justify-content-center py-2 border">
+                        <div class="col-sm-4 d-flex align-items-center ">
+                          <h5 class="text-muted">Applied for </h5>
+                          <hr>
+                          <p class="text-info card-header" style="font-weight: 400; font-size: 16px;">{{ application.trainingName }}</p>
+                        </div>
+                        <div class="col-sm-4  d-flex align-items-center" >
+                          <h5 class="text-muted">Status</h5>
+                          <hr>
+                          {% if application.isAproved %}
+                          <p class="text-success card-header" style="font-weight: 400; font-size: 16px;">Aproved</p>
+                          {% else %}
+                          <p class="text-danger card-header" style="font-weight: 400; font-size: 16px;">Pending</p>
+                          {% endif %}
+
+                        </div>
+                        <div class="col-4 d-flex align-items-center">
+                          <h5 class="text-muted">Remark</h5>
+                          {% if application.isAproved %}
+                          <p class="text-success card-header" style="font-weight: 400; font-size: 16px;">Congratulation You have selected to join this training!</p>
+                          {% else %}
+                          <p class="text-info card-header" style="font-weight: 400; font-size: 16px;">Application approval on progress!</p>
+                          {% endif %}
+                        </div>
+                        
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
                 <div class="float-left">
                 <p class="text-info" style="font-weight: 400; font-size: 16px;">Currently there is no application status availbe for You!</p>
                 </div>
+                {% endif %}
               </div>
             <div class="card-body">
-              <!-- <div class="row justify-content-center">      
-               
-                <div class="clearfix hidden-md-up"></div>           
-                <div class="col-md-4" id="card">
-                  <div class="info-box mb-3">
-                    <span
-                      class="info-box-icon elevation-1"
-                      style="background-color: lightgray"
-                      ><i class="fa-solid fa-diagram-project"></i>
-                    </span>
-
-                    <div class="info-box-content">
-                      <span class="info-box-text">Projects</span>
-                      <span class="info-box-number">{{ projects }}</span>
-                    </div>
-                  </div>
-                 
-                </div>
-                <div class="col-md-4" id="card">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info elevation-1"
-                        ><i class="fa-solid fa-seedling"></i
-                      ></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Sessions</span>
-                        <span class="info-box-number">{{ sessions }}</span>
-                      </div>
-                    </div>
-                  </div>
-              </div> -->
-             
-            </div>
-            <!--card-body -->
           </div>
           <!-- /.card --> 
         </div>
@@ -212,8 +212,6 @@
     </section>
     <!-- /.content -->
   </div>
-  
-
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block"><b>2023</b></div>
     <strong>Copyright &copy; Dar es salaam regional commission.</strong>

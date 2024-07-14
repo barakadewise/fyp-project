@@ -31,11 +31,14 @@ def youthDashboard(request):
   
      getSession = api_service.performQuery(querySession,api_service.getCsrfToken(request),getToken(request))
      getProjects= api_service.performQuery(queryProjects,api_service.getCsrfToken(request))
-
+     
+     total_session =getSession['data']['findAllTraining']
+     total_projects=getProjects['data']['findAllProjects']
      context={
-        "projects":len(getProjects),
-        "sessions":len(getSession)
+        "projects":len(total_projects),
+        "sessions":len(total_session)
     }
+   
      return render(request,'youth-dashboard.htm',context)
 
 def youthViewSession(request):
@@ -55,8 +58,9 @@ def youthViewSession(request):
     '''
 
     response = api_service.performQuery(query,api_service.getCsrfToken(request),getToken(request))
+    print(response)
     return render(request,'youth-sessions.html',{"sessions":response['data']['findAllTraining']})
-# return render(request,'team-session.html', )
+
 
 
 def youthViewProjects(request):
@@ -64,5 +68,33 @@ def youthViewProjects(request):
 
 
 def youthApplication(request):
-    return render(request,'youth-application.html')
+
+    #fetch the application 
+    query ='''
+      query {
+    getCurrentYouthAplication {
+    id
+     isAproved
+    youthId
+    trainingId
+    youthName
+    trainingName
+    }
+    }
+
+    '''
+   
+    application = api_service.performQuery(query,api_service.getCsrfToken(request),api_service.getToken(request))
+    data = application['data']['getCurrentYouthAplication']
+    context={
+        "applications":[]
+      }
+    if data:
+        context={
+        "applications":[i for i in  data ]
+      }
+
+    
+    print(context)
+    return render(request,'youth-application.html',context)
 
