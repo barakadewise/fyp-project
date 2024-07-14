@@ -1,10 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Account } from 'src/accounts/entities/account.entity';
+import { TrainingParticipants } from 'src/training/entities/training-participants';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -64,6 +66,9 @@ export class Youth {
   @OneToOne(() => Account, (account) => account.partner)
   @JoinColumn()
   account: Account;
+  
+  @OneToMany(()=>TrainingParticipants,(particiapnts)=>particiapnts.youth)
+  participants:[TrainingParticipants]
 
   @Field()
   @CreateDateColumn()

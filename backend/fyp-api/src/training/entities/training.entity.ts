@@ -5,9 +5,11 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TrainingParticipants } from './training-participants';
 
 @ObjectType()
 @Entity('trainings')
@@ -43,6 +45,9 @@ export class Training {
   @Field({ nullable: true })
   @Column({ nullable: true })
   teamsId: number;
+
+  @OneToMany(()=>TrainingParticipants,(particiapnts)=>particiapnts.training)
+  participants:[TrainingParticipants]
 
   @ManyToOne(() => Teams, (team) => team.training)
   team: Teams;

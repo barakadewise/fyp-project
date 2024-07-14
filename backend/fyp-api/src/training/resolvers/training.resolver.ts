@@ -3,15 +3,21 @@ import { Training } from '../entities/training.entity';
 import { CreateTrainingInput } from '../dto/create-training.input';
 import { UpdateTrainingInput } from '../dto/update-training.input';
 import { TrainingService } from '../services/training.service';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
 import { CurrentUser } from 'decorators/current-user-decorator';
 import { ResponseDto } from 'shared/response-dto';
+import { TrainingApplicationDto } from '../dto/training-application.input';
+import { TrainingParticipants } from '../entities/training-participants';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Training)
 export class TrainingResolver {
-  constructor(private readonly trainingService: TrainingService) {}
+  constructor(
+    private readonly trainingService: TrainingService,
+
+
+  ) { }
 
   @Mutation(() => Training)
   async createTraining(
@@ -49,4 +55,20 @@ export class TrainingResolver {
     const userId = user.sub;
     return await this.trainingService.getTeamsTraining(userId);
   }
+  @Mutation(() => TrainingParticipants)
+  async trainingApplication(@Args('createTrainingInput') input: TrainingApplicationDto, @Args('userId') userId: number) {
+    return await this.trainingService.trainingApplication(input, userId)
+  }
+
+  @Query(() => [TrainingParticipants])
+  async getAlltrainingAplicants() {
+    return await this.trainingService.fetchAllTrainingAplications()
+  }
+
+  @Query(() => [TrainingParticipants])
+  async getCurrentYouthAplication(@CurrentUser() user: any) {
+    const userId = user.sub;
+    return await this.trainingService.getCurrentYouthApplication(userId)
+  }
+
 }

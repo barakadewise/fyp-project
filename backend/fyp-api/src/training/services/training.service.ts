@@ -2,7 +2,9 @@ import {
   BadRequestException,
   HttpStatus,
   Injectable,
+  Logger,
   NotFoundException,
+  Options,
 } from '@nestjs/common';
 import { CreateTrainingInput } from '../dto/create-training.input';
 import { UpdateTrainingInput } from '../dto/update-training.input';
@@ -12,14 +14,25 @@ import { Training } from '../entities/training.entity';
 import { ResponseDto } from 'shared/response-dto';
 import { MesssageEnum } from 'shared/message-enum';
 import { Teams } from 'src/teams/entity/team.entity';
+import { TrainingApplicationDto } from '../dto/training-application.input';
+import { Youth } from 'src/youth/entity/youth.entity';
+import { TrainingParticipants } from '../entities/training-participants';
 
 @Injectable()
 export class TrainingService {
+  private readonly loggerService = new Logger()
   constructor(
     @InjectRepository(Training)
     private readonly trainingRepository: Repository<Training>,
     @InjectRepository(Teams) private readonly teamRepository: Repository<Teams>,
-  ) {}
+    @InjectRepository(Youth) private readonly youthRespository: Repository<Youth>,
+    @InjectRepository(TrainingParticipants) private readonly trainingParticipantsRespository: Repository<TrainingParticipants>,
+  ) {
+    this.loggerService.debug("Running Training serveices...")
+  }
+
+
+
   async create(createTrainingInput: CreateTrainingInput, user: any) {
     const training = await this.trainingRepository.exists({
       where: { session: createTrainingInput.session },
@@ -87,4 +100,33 @@ export class TrainingService {
     if (!team) throw new BadRequestException('User Not found');
     return await this.trainingRepository.find({ where: { teamsId: team.id } });
   }
+
+  async trainingApplication(input: TrainingApplicationDto, userId: number) {
+    const training = await this.trainingRepository.findOne({ where: { id: input.trainingId } })
+    const youth = await this.youthRespository.findOne({ where: { accountId: userId } })
+    const newAplication = this.trainingParticipantsRespository.create({ ...input })
+    if (!training) throw new NotFoundException("Training Not found!");
+    if (!youth) throw new NotFoundException("Youth not found");
+
+    //update and save
+    newAplication.trainingId = training.id
+    newAplication.trainingName = training.session
+    newAplication.youthId = youth.id
+    newAplication.youthName = `${youth.fname + ' ' + youth.lname}`
+
+    return await this.trainingParticipantsRespository.save(newAplication)
+
+  }
+
+  async fetchAllTrainingAplications() {
+    return await this.trainingParticipantsRespository.find()
+  }
+
+  async getCurrentYouthApplication(userId: number) {
+    const youth = await this.youthRespository.findOne({ where: { accountId: userId } })
+    if (!youth) throw new NotFoundException("Youth not found")
+    return await this.trainingParticipantsRespository.find({ where: { youthId: youth.id} })
+
+  }
+
 }
