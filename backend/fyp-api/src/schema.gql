@@ -210,7 +210,7 @@ type Mutation {
   createTraining(createTrainingInput: CreateTrainingInput!): Training!
   updateTraining(updateTrainingInput: UpdateTrainingInput!, id: Float!): ResponseDto!
   removeTraining(id: Float!): ResponseDto!
-  trainingApplication(createTrainingInput: TrainingApplicationDto!, userId: Float!): TrainingParticipants!
+  trainingApplication(createTrainingInput: TrainingApplicationDto!): TrainingParticipants!
 }
 
 input OpportunityDto {

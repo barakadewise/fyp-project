@@ -4,7 +4,7 @@ import {
   Injectable,
   Logger,
   NotFoundException,
-  Options,
+
 } from '@nestjs/common';
 import { CreateTrainingInput } from '../dto/create-training.input';
 import { UpdateTrainingInput } from '../dto/update-training.input';
@@ -105,16 +105,28 @@ export class TrainingService {
     const training = await this.trainingRepository.findOne({ where: { id: input.trainingId } })
     const youth = await this.youthRespository.findOne({ where: { accountId: userId } })
     const newAplication = this.trainingParticipantsRespository.create({ ...input })
-    if (!training) throw new NotFoundException("Training Not found!");
-    if (!youth) throw new NotFoundException("Youth not found");
 
-    //update and save
-    newAplication.trainingId = training.id
-    newAplication.trainingName = training.session
-    newAplication.youthId = youth.id
-    newAplication.youthName = `${youth.fname + ' ' + youth.lname}`
+    try {
 
-    return await this.trainingParticipantsRespository.save(newAplication)
+      if (!training) throw new NotFoundException("Training Not found!");
+      if (!youth) throw new NotFoundException("Youth not found");
+
+      //check if the apllication already exist 
+      const exist = await this.trainingParticipantsRespository.findOne({ where: { youthId: youth.id } })
+      if (exist) throw new BadRequestException("You can only Apply Once for Session!")
+
+      //update and save
+      newAplication.trainingId = training.id
+      newAplication.trainingName = training.session
+      newAplication.youthId = youth.id
+      newAplication.youthName = `${youth.fname + ' ' + youth.lname}`
+
+      return await this.trainingParticipantsRespository.save(newAplication)
+
+    } catch (err) {
+      this.loggerService.error(err)
+      throw err
+    }
 
   }
 
@@ -125,8 +137,17 @@ export class TrainingService {
   async getCurrentYouthApplication(userId: number) {
     const youth = await this.youthRespository.findOne({ where: { accountId: userId } })
     if (!youth) throw new NotFoundException("Youth not found")
-    return await this.trainingParticipantsRespository.find({ where: { youthId: youth.id} })
+    return await this.trainingParticipantsRespository.find({ where: { youthId: youth.id } })
 
   }
 
+  async deleteTrainingParticipant(id: number): Promise<ResponseDto> {
+    const trainingParticipant = await this.trainingParticipantsRespository.findOne({ where: { id: id } })
+    if (!trainingParticipant) throw new NotFoundException("Participant Not found")
+    await this.trainingParticipantsRespository.remove(trainingParticipant)
+    return {
+      message: MesssageEnum.DELETE,
+      statusCode: HttpStatus.OK
+    }
+  }
 }

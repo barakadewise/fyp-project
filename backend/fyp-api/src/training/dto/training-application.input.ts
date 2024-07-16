@@ -1,8 +1,9 @@
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType()
-export class TrainingApplicationDto{
+export class TrainingApplicationDto {
+    
     @Field()
-    trainingId:number
+    trainingId: number
 
 }

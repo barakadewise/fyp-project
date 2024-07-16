@@ -56,7 +56,8 @@ export class TrainingResolver {
     return await this.trainingService.getTeamsTraining(userId);
   }
   @Mutation(() => TrainingParticipants)
-  async trainingApplication(@Args('createTrainingInput') input: TrainingApplicationDto, @Args('userId') userId: number) {
+  async trainingApplication(@Args('createTrainingInput') input: TrainingApplicationDto, @CurrentUser() user: any) {
+    const userId = user.sub
     return await this.trainingService.trainingApplication(input, userId)
   }
 

@@ -10,9 +10,9 @@ export class TrainingParticipants {
     @Field()
     id: number
 
-    @Column({default:false})
+    @Column({ default: false })
     @Field()
-    isAproved:boolean
+    isAproved: boolean
 
     @Field({ nullable: true })
     @Column({ nullable: true })
