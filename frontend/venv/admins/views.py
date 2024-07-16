@@ -1275,7 +1275,9 @@ def adminEditSession(request):
         
     return redirect('viewSessions')
 
-
+def seslectAplicantsForTraining(request):
+    
+    return render(request,'training-applicants.html')
 
 #generate project report
 def getProjectReportPdf(request, id):

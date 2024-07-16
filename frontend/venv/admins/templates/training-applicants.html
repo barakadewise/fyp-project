@@ -178,8 +178,8 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Session</th>
+                    <th>Name</th>
+                    <th>hhh</th>
                     <th>Duration</th>
                     <th>StartDate</th>
                     <th>EndDate</th>
@@ -189,10 +189,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for session in sessions %}
+              
                   <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ session.session}}</td>
+                    <td>2</td>
+                    <td>{{session.session}}</td>
                     <td>{{session.duration}}</td>
                     <td>{{session.startDate}}</td>
                     <td>{{session.endDate}}</td>
@@ -208,7 +208,7 @@
                       </a>
                     </td>
                   </tr>
-                  {% endfor %}
+                  
                 </tbody>
                 <tfoot></tfoot>
               </table>

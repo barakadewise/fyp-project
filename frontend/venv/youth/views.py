@@ -1,9 +1,12 @@
-from django.shortcuts import render
-
+from django.shortcuts import render,redirect
+from django.contrib import messages
+from django.http import JsonResponse,HttpResponse
 from Api.api import ApiService
 
 #Api instance
-api_service = ApiService() 
+api_service = ApiService()
+
+ 
 def getToken(request):
     token = request.session['User']['token']
     print(token)
@@ -31,7 +34,7 @@ def youthDashboard(request):
   
      getSession = api_service.performQuery(querySession,api_service.getCsrfToken(request),getToken(request))
      getProjects= api_service.performQuery(queryProjects,api_service.getCsrfToken(request))
-     
+
      total_session =getSession['data']['findAllTraining']
      total_projects=getProjects['data']['findAllProjects']
      context={
@@ -94,7 +97,26 @@ def youthApplication(request):
         "applications":[i for i in  data ]
       }
 
-    
     print(context)
     return render(request,'youth-application.html',context)
 
+def applyTraining(request,id):
+    print("The id received is :",id)
+    mutation ='''
+    mutation($trainingId:Float!){
+    trainingApplication(createTrainingInput: { trainingId:$trainingId }) {
+    id
+      }
+    }
+    '''
+    #graphql query 
+    aplication =api_service.performMuttion(mutation,{"trainingId":int(id)},api_service.getToken(request))
+    if 'errors' in aplication:
+        err =aplication['errors'][0]['message']
+        print(aplication)
+        messages.error(request,err)
+        return redirect('youthViewSessions')
+        
+    messages.success(request,"Application Made Successfully!")
+    return redirect('youthApplication')
+    
