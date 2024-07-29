@@ -63,9 +63,9 @@ export class InstallmentsResolver {
     );
   }
 
-  @Mutation(() => Installment)
+  @Mutation(() => ResponseDto)
   async removeInstallment(@Args('id') id: number) {
-    return this.installmentsService.removeInstallment(id);
+    return await  this.installmentsService.removeInstallment(id);
   }
 
   @Query(() => [Installment])

@@ -206,7 +206,7 @@ type Mutation {
   createInstallmentByPartner(createInstallmentInput: CreateInstallmentInputByPartner!, projectId: Float!): Installment!
   createInstallmentByAdmin(createInstallmentInput: CreateInstallmentInputByAdmin!, projectId: Float!): Installment!
   updateInstallment(updateInstallmentInput: UpdateInstallmentInput!, InstallmentId: Float!): ResponseDto!
-  removeInstallment(id: Float!): Installment!
+  removeInstallment(id: Float!): ResponseDto!
   createTraining(createTrainingInput: CreateTrainingInput!): Training!
   updateTraining(updateTrainingInput: UpdateTrainingInput!, id: Float!): ResponseDto!
   removeTraining(id: Float!): ResponseDto!
