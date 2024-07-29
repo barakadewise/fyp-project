@@ -8,6 +8,7 @@ from shared.roles_enum import Roles, Status
 from django.http import JsonResponse
 from django.http import HttpResponse
 
+#report lib 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
@@ -1150,18 +1151,40 @@ def viewInstallments(request):
              'installments':installments['data']['findAllInstallments']
              }
     return render(request,'viewinstallmenst.html',context)
+   
+def deleteInstallment(request):
+    print(request.session['User'])
+    if request.method =="POST":
+        installmentId= request.POST.get('id')
+      
+      #grapqhl mutation
+        mutation='''
+        mutation($id:Float!) {
+        removeInstallment(id: $id) {
+         message
+         statusCode
+         }
+         }
+        '''
+
+        response = api_service.performMuttion(mutation,{"id":int(installmentId)},api_service.getToken(request))
+        if 'errors' in response:
+            print(f"Error occured while deleting id:",installmentId)
+            print(response['errors'])
+            return HttpResponse(messages.error(request,"Failed to delete installment!"))
+            
+        return HttpResponse(messages.success(request,"Successfully deleted!"))
+        
 
 
 def editProjectDetails(request):
-    
-    if request.method == "POST":
+    if request.method=="POST":
         project_id = request.POST.get('editProjectId')
         name = request.POST.get('editProjectName')
         cost = request.POST.get('editProjectCost')
         duration = request.POST.get('editProjectDuration')
         description = request.POST.get('editProjectDescription')
         status = request.POST.get('editProjectStatus')
-      
         funded = request.POST.get('editProjectFunded')
 
         

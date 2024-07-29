@@ -15,6 +15,7 @@ urlpatterns=[
     path('deleteOpportunityById"',views.deleteOpporrtunityById,name="deleteOpportunityById"),
     path('deleteTeamById',views.deleteTeamById,name='deleteTeamById'),
     path('deleteProjectById',views.deleteProjectById,name="deleteProjectById"),
+    path('deleteInstallmentById',views.deleteInstallment,name="deleteInstallmentById"),
     path('viewProjects',views.viewProjects,name='viewProjects'),
     path('createProject',views.createProject,name='createProject'),
     path('viewOpportunities',views.viewOpportunities,name='viewOpportunities'),

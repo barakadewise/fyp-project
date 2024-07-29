@@ -324,7 +324,6 @@
       </div>
   
       
-
     <!-- Delete Modal -->
     <div
       class="modal fade"
@@ -333,7 +332,7 @@
       role="dialog"
       aria-labelledby="deleteModalLabel"
       aria-hidden="true"
-    >
+       >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -372,9 +371,6 @@
       <strong>Copyright &copy; Dar es salaam regional commission.</strong>
       All rights reserved.
     </footer>
-
-  
-    <!-- /.control-sidebar -->
   </div>
 
   <script>
@@ -394,24 +390,23 @@
         autoWidth: false,
         responsive: true,
       });
+
       // Handle delete button click
       $(".delete-btn").click(function () {
-      console.log("hello 1")
+  
         var rowData = $(this).closest("tr").find("td:first").text();
         var id = rowData.trim();
-
         $("#confirmDelete").data("id", id);
       });
 
       $("#confirmDelete").click(function () {
         var id = $(this).data("id");
-
         console.log("Deleting obeject with ID: " + id);
 
         $.ajax({
-          url: "{% url 'deleteOpportunityById' %}",
+          url: "{% url 'deleteInstallmentById' %}",
           type: "POST",
-          data: {
+          data: { 
             id: id,
             csrfmiddlewaretoken: "{{ csrf_token }}",
           },
@@ -419,8 +414,7 @@
             window.location.reload();
           },
           error: function (xhr, status, error) {
-            var errorMsg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "Failed to delete user!";
-                toastr.error(errorMsg);
+               
                 window.location.reload();
           },
         });
