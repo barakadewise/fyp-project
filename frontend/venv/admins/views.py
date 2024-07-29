@@ -227,6 +227,27 @@ def createStaff(request):
           
     return render(request,'createStaff.html')
 
+#viewTeam sessions
+# def viewTeamSession(request):
+#     query= '''
+#     query {
+#     getTeamsTraining {
+#     id
+#     session
+#     description
+#     startDate
+#     duration
+#     endDate
+#     noOfparticipants
+#      }
+#     }
+#     '''
+
+#     response = api_service.performQuery(query,api_service.getCsrfToken(request),api_service.getToken(request))
+#     return render(request,'team-session.html', {"sessions":response['data']['getTeamsTraining']})
+def trainingSessionAplicants(request):
+    return render(request,'training-applicants.html')
+
 #function to view all admins available
 def viewStaff(request):
     csrf_token = api_service.getCsrfToken(request)
@@ -1299,8 +1320,27 @@ def adminEditSession(request):
     return redirect('viewSessions')
 
 def seslectAplicantsForTraining(request):
-    
-    return render(request,'training-applicants.html')
+    #graphql query
+    query ='''
+     query {
+     getAlltrainingAplicants {
+    id
+    isAproved
+    youthName
+    trainingId
+    trainingName
+    youthId
+      }
+    }
+
+    '''
+    response = api_service.performQuery(query,api_service.getCsrfToken(request),api_service.getToken(request))
+
+    context={
+        "applicants":response['data']['getAlltrainingAplicants']
+    }
+   
+    return render(request,'training-applicants.html',context)
 
 #generate project report
 def getProjectReportPdf(request, id):

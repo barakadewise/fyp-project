@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %}
 
-<title>{% block title %} View | Session {% endblock %}</title>
+<title>{% block title %} Select |Applicants {% endblock %}</title>
 
 {% block content %}
 
@@ -53,17 +53,18 @@
       </li>
     </ul>
   </nav>
+
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{% url 'youthDashboard' %}" class="brand-link">
+    <a href="" class="brand-link">
       <img
         src="{% static 'dist/img/user.png' %}"
         class="brand-image img-circle elevation-3"
         alt="User Image"
         style="opacity: 0.8"
       />
-      <span class="brand-text font-weight-light">Youth</span>
+      <span class="brand-text font-weight-light">Admin</span>
     </a>
 
     <!-- Sidebar -->
@@ -77,7 +78,7 @@
           data-accordion="false"
         >
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -86,48 +87,113 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'youthDashboard' %}" class="nav-link">
-                  <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
+                <a
+                  href=""
+                  class="nav-link "
+                >
+                  <i
+                    class="fa-regular fa-eye"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
                   <p>Overview</p>
                 </a>
               </li>
-
               <li class="nav-item">
-                <a href="" class="nav-link active">
+                <a href="{% url 'viewPartners' %}" class="nav-link">
                   <i
-                    class="fa-solid fa-diagram-project"
+                    class="fa-solid fa-users"
                     style="margin: 0 4px 0 0px"
                   ></i>
-                  <p>Session</p>
+                  <p>Partners</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'youthApplication' %}" class="nav-link">
+                <a href="{% url 'viewStaffs' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-user-tie"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Staffs</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewYouth' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-restroom"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Youth</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewProjects' %}" class="nav-link">
                   <i
                     class="fa-solid fa-diagram-project"
                     style="margin: 0 4px 0 0px"
                   ></i>
-                  <p>Applications</p>
+                  <p>Projects</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewOpportunities' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-seedling"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Opportunities</p>
+                </a>
+              </li>
+          
+              <li class="nav-item">
+                <a href="{% url 'viewSessions' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-seedling"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Tarining-sessions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewSessions' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-seedling"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Session aplication</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link active">
+                  <i
+                    class="fa-solid fa-seedling"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Aplicants selection</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewInstallments' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-seedling"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Installments</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewTeams' %}" class="nav-link">
+                  <i
+                    class="fa-brands fa-teamspeak"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Teams</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'logout' %}" class="nav-link">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-box-arrow-right"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                   </svg>
                   <p>logout</p>
                 </a>
@@ -136,9 +202,9 @@
           </li>
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
+   
     </div>
-    <!-- /.sidebar -->
+    
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
@@ -148,12 +214,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Sessions</h1>
+            <h1>Session APlications</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="">Home</a></li>
-              <li class="breadcrumb-item active">Session</li>
+              <li class="breadcrumb-item active">Session Applications</li>
             </ol>
           </div>
         </div>
@@ -169,50 +235,53 @@
             <div class="card-header">
               <div class="float-left">
                 <p class="text-info" style="font-weight: 300; font-size: 16px">
-                  To apply for Session click apply button
+                  Select to confirm applications
                 </p>
               </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>hhh</th>
-                    <th>Duration</th>
-                    <th>StartDate</th>
-                    <th>EndDate</th>
-                    <th>Description(s)</th>
-                    <th>Number of Partcipants</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-              
-                  <tr>
-                    <td>2</td>
-                    <td>{{session.session}}</td>
-                    <td>{{session.duration}}</td>
-                    <td>{{session.startDate}}</td>
-                    <td>{{session.endDate}}</td>
-                    <td>{{session.description}}</td>
-                    <td>{{session.noOfparticipants }}</td>
-
-                    <td class="justify-content-center">
-                      <a
-                        href="{% url 'applyTraining' session.id %}"
-                        class="btn btn-info btn-sm"
-                        data-id="{{ session.id }}"
-                        ><i class="fas fa-edit"></i> Apply
-                      </a>
-                    </td>
-                  </tr>
-                  
-                </tbody>
-                <tfoot></tfoot>
+                  <thead>
+                      <tr>
+                          <th>Sn</th>
+                          <th>Youth Name</th>
+                          <th>Applied for</th>
+                          <th>Approval status</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if applicants %}
+                          {% for applicant in applicants %}
+                              <tr>
+                                  <td>{{ forloop.counter }}</td>
+                                  <td>{{ applicant.youthName }}</td>
+                                  <td>{{ applicant.trainingName }}</td>
+                                  <td>
+                                      {% if applicant.isApproved %}
+                                          <button class="btn btn-success btn-sm" type="button">Approved</button>
+                                      {% else %}
+                                          <button class="btn btn-danger btn-sm" type="button">Pending</button>
+                                      {% endif %}
+                                  </td>
+                                  <td class="justify-content-center">
+                                      <a href="" class="btn btn-success btn-sm" data-id="{{ applicant.id }}">
+                                          <i class="fas fa-edit"></i> Confirm
+                                      </a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% else %}
+                          <tr>
+                              <td colspan="5">No applicants found.</td>
+                          </tr>
+                      {% endif %}
+                  </tbody>
+                  <tfoot></tfoot>
               </table>
-            </div>
+          </div>
+          
             <!-- /.card-body -->
           </div>
           <!-- /.card -->

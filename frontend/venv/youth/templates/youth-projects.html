@@ -1,0 +1,268 @@
+{% extends 'base.html' %} {% load static %}
+
+<title>{% block title %} View | Projects {% endblock %}</title>
+
+{% block content %}
+
+<style>
+  #card {
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+  #card:hover {
+    box-shadow: 0 4px 8px rgba(81, 81, 81, 0.3);
+    border-radius: 0.2rem;
+  }
+  body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  .navbar-light-mode {
+    background-color: #f8f9fa;
+    color: #000000;
+  }
+  .navbar-dark-mode {
+    background-color: #343a40;
+    color: #ffffff;
+  }
+</style>
+
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+          <i class="fas fa-bars"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="#"
+          role="button"
+          id="dark-mode-toggle"
+          onclick="toggleDarkMode()"
+        >
+          <i class="fa-solid fa-moon"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'youthDashboard' %}" class="brand-link">
+      <img
+        src="{% static 'dist/img/user.png' %}"
+        class="brand-image img-circle elevation-3"
+        alt="User Image"
+        style="opacity: 0.8"
+      />
+      <span class="brand-text font-weight-light">Youth</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul
+          class="nav nav-pills nav-sidebar flex-column"
+          data-widget="treeview"
+          role="menu"
+          data-accordion="false"
+        >
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'youthDashboard' %}" class="nav-link">
+                  <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
+                  <p>Overview</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link active">
+                  <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
+                  <p>Projects</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{% url 'youthViewSessions' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-diagram-project"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Session</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'youthApplication' %}" class="nav-link">
+                  <i
+                    class="fa-solid fa-diagram-project"
+                    style="margin: 0 4px 0 0px"
+                  ></i>
+                  <p>Applications</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-box-arrow-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+                    />
+                  </svg>
+                  <p>logout</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Projects</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="">Home</a></li>
+              <li class="breadcrumb-item active">Projects</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="float-left">
+                <p class="text-info" style="font-weight: 300; font-size: 16px">
+                  Few Ongoing Projects
+                </p>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Cost</th>
+                      <th>Duration</th>
+                      <th>Description(s)</th>
+                      <th>Status</th>
+                      <th>Funded</th>
+                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for project in projects %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ project.name }}</td>
+                      <td>{{ project.cost }}</td>
+                      <td>{{ project.duration }}</td>
+                      <td>{{ project.discription }}</td>
+                      <td>{{ project.status }}</td>
+                      <td>{{ project.funded }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot></tfoot>
+                </table>
+              </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block"><b>2023</b></div>
+    <strong>Copyright &copy; Dar es salaam regional commission.</strong>
+    All rights reserved.
+  </footer>
+</div>
+
+<script>
+  $(function(){
+   $('.btn-sm').click(function(){
+     var id =$(this).data('id')
+   console.log("Applying forthe project:",id)
+   })
+  })
+ </script>
+
+{% if messages %}
+<script>
+  var messages = [];
+</script>
+{% for message in messages %}
+<script>
+  messages.push({
+    message: "{{ message.message }}",
+    tag: "{{ message.tags }}",
+  });
+</script>
+{% endfor %} {% endif %}
+
+<script>
+  $(function () {
+    messages.forEach(function (message) {
+      if (message.tag === "success") {
+        toastr.success(message.message);
+      } else if (message.tag === "error") {
+        toastr.error(message.message);
+      } else {
+        toastr.info(message.message);
+      }
+    });
+  });
+</script>
+
+
+{% endblock %}

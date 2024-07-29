@@ -28,6 +28,7 @@ urlpatterns=[
     path('training-sessions',views.viewSession,name="viewSessions"),
     path('admin-edit-session',views.adminEditSession,name='adminEditSession'),
     path('project-report/<int:id>/', views.getProjectReportPdf, name='getProjectReportPdf'),
-    path('editProject',views.editProjectDetails,name="editProject")
-
+    path('editProject',views.editProjectDetails,name="editProject"),
+    path('training-session-aplicant',views.trainingSessionAplicants,name='trainingSessionAplicant'),
+    path('selectTrainingAplicants',views.seslectAplicantsForTraining,name="selectTrainingAplicant")
 ]

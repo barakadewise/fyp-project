@@ -61,13 +61,33 @@ def youthViewSession(request):
     '''
 
     response = api_service.performQuery(query,api_service.getCsrfToken(request),getToken(request))
-    print(response)
     return render(request,'youth-sessions.html',{"sessions":response['data']['findAllTraining']})
 
 
 
 def youthViewProjects(request):
-    return render(request,'youth-projects.html')
+    #graphql endpoint 
+       #graphql query
+    query='''
+    query {
+    findAllProjects {
+    id
+    name
+    status
+    funded
+    discription
+    cost
+    duration
+    partnerName
+     }
+     }
+       '''
+    response = api_service.performQuery(query,api_service.getCsrfToken(request))
+    context={
+        "projects":response['data']['findAllProjects']
+    }
+   
+    return render(request,'youth-projects.html',context)
 
 
 def youthApplication(request):
@@ -101,7 +121,7 @@ def youthApplication(request):
     return render(request,'youth-application.html',context)
 
 def applyTraining(request,id):
-    print("The id received is :",id)
+
     mutation ='''
     mutation($trainingId:Float!){
     trainingApplication(createTrainingInput: { trainingId:$trainingId }) {

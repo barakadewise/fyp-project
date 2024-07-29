@@ -59,28 +59,18 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="" class="brand-link">
-      <img
-        src="{% static 'dist/img/user.png' %}"
-        class="brand-image img-circle elevation-3"
-        alt="User Image"
-        style="opacity: 0.8"
-      />
-      <span class="brand-text font-weight-light">Admin</span>
+    <a href="{% url 'teamDashboard' %}" class="brand-link">
+      <img src="{% static 'dist/img/user.png' %}" class="brand-image img-circle elevation-3" alt="User Image" style="opacity: 0.8"/>
+      <span class="brand-text font-weight-light">Team</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul
-          class="nav nav-pills nav-sidebar flex-column"
-          data-widget="treeview"
-          role="menu"
-          data-accordion="false"
-        >
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item has-treeview menu-open">
-            <a href="" class="nav-link active">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -88,106 +78,24 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a
-                  href="{% url 'adminPanel' %}"
-                  class="nav-link "
-                >
-                  <i
-                    class="fa-regular fa-eye"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Overview</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewPartners' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-users"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Partners</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewStaffs' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-user-tie"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Staffs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewYouth' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-restroom"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
+                <li class="nav-item">
+                    <a
+                      href="{% url 'teamDashboard' %}"
+                      class="nav-link">
+                      <i class="fa-regular fa-eye" style="margin: 0 4px 0 0px"></i>
+                      <p>Overview</p>
+                    </a>
+                  </li>
+                <li class="nav-item">
+                <a href="{% url 'teamViewYouth' %}" class="nav-link ">
+                  <i class="fa-solid fa-restroom" style="margin: 0 4px 0 0px"></i>
                   <p>Youth</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'viewProjects' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-diagram-project"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewOpportunities' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-seedling"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Opportunities</p>
-                </a>
-              </li>
-              <!-- <li class="nav-item">
-                <a href="{% url 'viewSessions' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-seedling"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Tarining-sessions</p>
-                </a>
-              </li> -->
-              <li class="nav-item">
-                <a href="{% url 'viewInstallments' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-seedling"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Installments</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewSessions' %}" class="nav-link active">
-                  <i
-                    class="fa-solid fa-seedling"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Tarining-sessions</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewInstallments' %}" class="nav-link">
-                  <i
-                    class="fa-solid fa-seedling"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Installments</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'viewTeams' %}" class="nav-link">
-                  <i
-                    class="fa-brands fa-teamspeak"
-                    style="margin: 0 4px 0 0px"
-                  ></i>
-                  <p>Teams</p>
+                <a href="{% url 'teamSession' %}" class="nav-link active">
+                  <i class="fa-solid fa-diagram-project" style="margin: 0 4px 0 0px"></i>
+                  <p>Session</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -207,6 +115,7 @@
     </div>
     <!-- /.sidebar -->
   </aside>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -366,7 +275,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="editSessionForm"  action="{% url 'adminEditSession' %}" method="POST">
+          <form id="editSessionForm"  action="{% url 'editSession' %}" method="POST">
             {% csrf_token %}
             <input type="hidden" id="editSessionId" name="editSessionId">
             <div class="form-group">
@@ -445,21 +354,18 @@
 
 <script>
 
-$(function (){
-        
-    $("#example1").DataTable({
-          responsive: true,
-          autoWidth: false,
-        });
-        $("#example2").DataTable({
-          paging: true,
-          lengthChange: false,
-          searching: true,
-          ordering: true,
-          info: true,
-          autoWidth: false,
-          responsive: true,
-    });
+$(function(){
+  messages.forEach(function(message) {
+    if (message.tag === "success") {
+      toastr.success(message.message);
+    } else if (message.tag=== "error") {
+      toastr.error(message.message);
+    } else {
+      toastr.info(message.message);
+    }
+  });
+});
+
   // Handle edit button click
   $('.edit-btn').click(function() {
    var sessionId = $(this).data('id');
@@ -469,7 +375,6 @@ $(function (){
    var duration = $(this).data('duration');
    var description = $(this).data('description');
    var numberOfParticipants = $(this).data('numberofparticipants');
-
    console.log({sessionId, sessionName, startDate, endDate, numberOfParticipants});
 
    $('#editSessionId').val(sessionId);
@@ -482,12 +387,13 @@ $(function (){
 });
 
     $("#saveEdit").click(function() {
-        var formData = $("#editSessionForm").serialize();
+        var formData = $("#editYouthForm").serialize();
         $.ajax({
-          url: "{% url 'adminEditSession' %}", 
+          url: "{% url 'editYouthById' %}", 
+        
           type: "POST",
           data: formData,
-          success: function() {
+          success: function(response) {
             $("#editModal").modal("hide");
             window.location.reload();
           },
@@ -527,20 +433,5 @@ $(function (){
           },
         });
       });
-      });
-</script>
-
-<script>
-    $(function(){
-    messages.forEach(function(message) {
-    if (message.tag === "success") {
-      toastr.success(message.message);
-    } else if (message.tag=== "error") {
-      toastr.error(message.message);
-    } else {
-      toastr.info(message.message);
-    }
-  });
-    })
 </script>
 {% endblock %}
