@@ -30,5 +30,7 @@ urlpatterns=[
     path('project-report/<int:id>/', views.getProjectReportPdf, name='getProjectReportPdf'),
     path('editProject',views.editProjectDetails,name="editProject"),
     path('training-session-aplicant',views.trainingSessionAplicants,name='trainingSessionAplicant'),
-    path('selectTrainingAplicants',views.seslectAplicantsForTraining,name="selectTrainingAplicant")
+    path('selectTrainingAplicants',views.seslectAplicantsForTraining,name="selectTrainingAplicant"),
+    path('confirmTrainingAplicant/<int:aplicantId>',views.confirmTrainingApplicant,name='confirmTrainingAplicant'),
+    path('cancelTrainingConfirmation/<int:aplicantId>',views.cancelTrainingConfirmation,name='cancelTrainingConfirmation')
 ]

@@ -259,16 +259,31 @@
                                   <td>{{ applicant.youthName }}</td>
                                   <td>{{ applicant.trainingName }}</td>
                                   <td>
-                                      {% if applicant.isApproved %}
-                                          <button class="btn btn-success btn-sm" type="button">Approved</button>
+                                      {% if applicant.isAproved %}
+                                          <span  class="badge-pill badge-success" type="button">Approved</span >
                                       {% else %}
-                                          <button class="btn btn-danger btn-sm" type="button">Pending</button>
+                                          <span class="badge-pill badge-danger" type="button">Pending</span>
                                       {% endif %}
                                   </td>
                                   <td class="justify-content-center">
-                                      <a href="" class="btn btn-success btn-sm" data-id="{{ applicant.id }}">
-                                          <i class="fas fa-edit"></i> Confirm
-                                      </a>
+                                    {% if applicant.isAproved %}
+                                    <form action="{% url 'cancelTrainingConfirmation' applicant.id  %}" method="POST">
+                                      {% csrf_token %}
+                                      <button  class="btn btn-danger btn-sm">
+                                        <i class="fa fa-close"></i> Cancel
+                                      </button>
+
+                                     </form>
+                                     {% else %}
+                                <form action="{% url 'confirmTrainingAplicant' applicant.id  %}" method="POST">
+                                  {% csrf_token %}
+                                  <button  class="btn btn-success btn-sm">
+                                    <i class="fas fa-edit"></i> Confirm
+                                  </button>
+
+                                 </form>
+                                {% endif %}
+                                     
                                   </td>
                               </tr>
                           {% endfor %}

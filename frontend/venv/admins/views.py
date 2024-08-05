@@ -1342,6 +1342,51 @@ def seslectAplicantsForTraining(request):
    
     return render(request,'training-applicants.html',context)
 
+#confirnm aplicant training aplication
+def confirmTrainingApplicant(request,aplicantId):
+    mutation ='''
+       mutation ($aplicantId:Float!){
+       confirmTrainingAplicants(aplicantId: $aplicantId) {
+        message
+        statusCode
+         }
+        }
+    '''
+    if request.method =="POST":
+       
+        res = api_service.performMuttion(mutation,{"aplicantId":int(aplicantId)},api_service.getToken(request))
+        if 'errors' in res:
+            print("====ERRROR===",res)
+            messages.error(request,"Something Went wrong try Again!")
+            return redirect("selectTrainingAplicant")
+        
+        
+        messages.success(request,"Aplicant Confirmed")
+        return redirect("selectTrainingAplicant")
+    
+#confirnm aplicant training aplication
+def cancelTrainingConfirmation(request,aplicantId):
+    mutation ='''
+       mutation ($aplicantId:Float!){
+       cancelTrainingConfirmation(aplicantId: $aplicantId) {
+        message
+        statusCode
+         }
+        }
+    '''
+    if request.method =="POST":
+       
+        res = api_service.performMuttion(mutation,{"aplicantId":int(aplicantId)},api_service.getToken(request))
+        if 'errors' in res:
+            print("====ERRROR===",res)
+            messages.error(request,"Something Went wrong try Again!")
+            return redirect("selectTrainingAplicant")
+        
+        
+        messages.success(request,"Confirmation Canceled")
+        return redirect("selectTrainingAplicant")
+        
+
 #generate project report
 def getProjectReportPdf(request, id):
     reportDatamutation = '''
