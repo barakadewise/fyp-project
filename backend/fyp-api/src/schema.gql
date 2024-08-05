@@ -211,6 +211,8 @@ type Mutation {
   updateTraining(updateTrainingInput: UpdateTrainingInput!, id: Float!): ResponseDto!
   removeTraining(id: Float!): ResponseDto!
   trainingApplication(createTrainingInput: TrainingApplicationDto!): TrainingParticipants!
+  confirmTrainingAplicants(aplicantId: Float!): ResponseDto!
+  cancelTrainingConfirmation(aplicantId: Float!): ResponseDto!
 }
 
 input OpportunityDto {

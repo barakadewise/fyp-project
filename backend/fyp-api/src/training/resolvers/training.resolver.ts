@@ -72,4 +72,13 @@ export class TrainingResolver {
     return await this.trainingService.getCurrentYouthApplication(userId)
   }
 
+  @Mutation(() => ResponseDto)
+  async confirmTrainingAplicants(@Args('aplicantId') aplicantId: number): Promise<ResponseDto> {
+    return await this.trainingService.confirmTrainingApplicants(aplicantId)
+  }
+
+  @Mutation(() => ResponseDto)
+  async cancelTrainingConfirmation(@Args('aplicantId') aplicantId: number): Promise<ResponseDto> {
+    return await this.trainingService.cancelTrainingConfirmation(aplicantId)
+  }
 }

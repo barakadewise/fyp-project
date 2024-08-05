@@ -150,4 +150,28 @@ export class TrainingService {
       statusCode: HttpStatus.OK
     }
   }
+
+  async confirmTrainingApplicants(id: number): Promise<ResponseDto> {
+    const aplicant = await this.trainingParticipantsRespository.findOne({ where: { id: id } })
+    if (!aplicant) throw new NotFoundException("Aplicant Not found!")
+    aplicant.isAproved = true
+    await this.trainingParticipantsRespository.save(aplicant)
+
+    return {
+      message: "Aplicant Confirmed",
+      statusCode: HttpStatus.OK
+    }
+  }
+
+  async cancelTrainingConfirmation(id: number): Promise<ResponseDto> {
+    const aplicant = await this.trainingParticipantsRespository.findOne({ where: { id: id } })
+    if (!aplicant) throw new NotFoundException("Aplicant Not found!")
+    aplicant.isAproved = false
+    await this.trainingParticipantsRespository.save(aplicant)
+    return {
+      message: "Aplication Canceled",
+      statusCode: HttpStatus.OK
+    }
+
+  }
 }

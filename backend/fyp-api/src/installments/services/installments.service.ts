@@ -83,8 +83,7 @@ export class InstallmentsService {
     project.partnerId = createInstallmentInput.partnerId
     project.status=ProjectStatus.STARTED
     project.funded = true;
-   
-  //  console.log(newInstallment)
+
     await this.projectRepository.save(project);
     return await this.installmentsRepository.save(newInstallment);
 
